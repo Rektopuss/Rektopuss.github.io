@@ -105,8 +105,8 @@
   background-image: url("bg.gif");
   background-style: flat;
    /* Add the blur effect */
-   filter: blur(8px);
-   -webkit-filter: blur(8px);
+   filter: blur(10px);
+   -webkit-filter: blur(10px);
    transform: scale(1.1)
 }
 
@@ -272,9 +272,9 @@ data-styled.g3[id="sc-dlfnbm"] {
 /*!sc*/
 .cxwgnw {
   padding: 0;
-  margin: 0;
+  margin: auto;
   line-height: 1.5;
-  width: 100%;
+  width: 80%;
   font-weight: 500;
   font-size: 14px;
 }
