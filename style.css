@@ -93,21 +93,21 @@
 
 /*!sc*/
 .dEtzhK {
+  background: rgb(30,30,30);
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   z-index: -1;
-  background-position: center;
+  /* background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
   background-image: url("bg.gif");
   background-style: flat;
-   /* Add the blur effect */
    filter: blur(10px);
    -webkit-filter: blur(10px);
-   transform: scale(1.1)
+   transform: scale(1.1) */
 }
 
 /*!sc*/
