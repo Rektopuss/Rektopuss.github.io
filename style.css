@@ -47,6 +47,7 @@
 /*!sc*/
 .dddSHA {
   -webkit-flex-direction: column;
+
   -ms-flex-direction: column;
   flex-direction: column;
   position: relative;
@@ -274,7 +275,7 @@ data-styled.g3[id="sc-dlfnbm"] {
   padding: 0;
   margin: auto;
   line-height: 1.5;
-  width: 80%;
+  width: 100%;
   font-weight: 500;
   font-size: 14px;
 }
