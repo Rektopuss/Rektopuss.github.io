@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin – Rektopuss x Krauklīši 3x3 Hokeja Turnīrs (08.02)</title>
+  <style>
+    body{font-family:system-ui,Arial,sans-serif;margin:20px}
+    h1{margin:0 0 12px}
+    .card{border:1px solid #ddd;border-radius:10px;padding:12px;max-width:1100px}
+    .row{display:flex;flex-wrap:wrap;gap:10px;align-items:end}
+    label{display:grid;gap:4px;font-size:12px}
+    select,input{padding:8px;border:1px solid #ccc;border-radius:8px;min-width:160px}
+    input[type="number"]{min-width:110px}
+    button{padding:10px 12px;border:0;border-radius:10px;cursor:pointer}
+    button.primary{background:#111;color:#fff}
+    .msg{margin-top:10px;font-size:13px}
+    .small{font-size:12px;color:#666;margin-top:8px;line-height:1.35}
+    a{color:inherit}
+  </style>
+</head>
+<body>
+  <h1>Admin – Update Scores</h1>
+
+  <div class="card">
+    <div class="row">
+
+      <label>
+        Mode
+        <select id="mode">
+          <option value="GROUP">Group Stage</option>
+          <option value="PLAYOFF">Playoffs</option>
+        </select>
+      </label>
+
+      <label id="stageWrap" style="display:none;">
+        Stage
+        <select id="stage">
+          <option value="SF1">Semi-final 1 (A vs C)</option>
+          <option value="SF2">Semi-final 2 (B vs Wildcard)</option>
+          <option value="BRONZE">Bronze game</option>
+          <option value="GOLD">Gold game</option>
+        </select>
+      </label>
+
+      <label id="groupWrap">
+        Group
+        <select id="group"></select>
+      </label>
+
+      <label>
+        Home
+        <select id="home"></select>
+      </label>
+
+      <label>
+        Away
+        <select id="away"></select>
+      </label>
+
+      <label id="typeWrap">
+        Result type
+        <select id="type">
+          <option value="REG">Regulation</option>
+          <option value="OT">Overtime</option>
+        </select>
+      </label>
+
+      <label>
+        Home goals
+        <input id="hg" type="number" min="0" value="0" />
+      </label>
+
+      <label>
+        Away goals
+        <input id="ag" type="number" min="0" value="0" />
+      </label>
+
+      <button class="primary" id="save">Save / Update</button>
+    </div>
+
+    <div class="msg" id="msg"></div>
+    <div class="small">
+      Notes:
+      <ul style="margin:6px 0 0 18px; padding:0;">
+        <li>Group games require a <b>Result type</b> (REG/OT).</li>
+        <li>Playoff games ignore REG/OT and just take the final score.</li>
+        <li>Re-entering the same matchup (group) or stage (playoff) overwrites it.</li>
+      </ul>
+    </div>
+  </div>
+
+<script>
+  // ✅ PASTE YOUR APPS SCRIPT WEB APP URL HERE
+  const API_URL = "https://script.google.com/macros/s/AKfycby0vrGmqMUMI9xk08Vqdg1u2Fgz5F2LUXexpBo4gdxZlo4v56D0nqCSFQK62TVlyI4s/exec";
+
+  let teamsByGroup = {};
+
+  function setMsg(text, ok = true) {
+    const el = document.getElementById("msg");
+    el.textContent = text;
+    el.style.color = ok ? "#0a7a0a" : "#b00020";
+  }
+
+  async function apiGet() {
+    const res = await fetch(API_URL, { method: "GET" });
+    return res.json();
+  }
+
+  async function apiPost(payload) {
+    const res = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(payload)
+    });
+    return res.json();
+  }
+
+  function allTeamsList() {
+    const all = [];
+    for (const g of Object.keys(teamsByGroup)) {
+      for (const t of (teamsByGroup[g] || [])) all.push(t);
+    }
+    return all.sort((a,b)=>a.localeCompare(b));
+  }
+
+  function fillGroups() {
+    const groupSel = document.getElementById("group");
+    groupSel.innerHTML = "";
+    Object.keys(teamsByGroup).forEach(g => {
+      const opt = document.createElement("option");
+      opt.value = g;
+      opt.textContent = g;
+      groupSel.appendChild(opt);
+    });
+  }
+
+  function fillTeamsForGroup() {
+    const g = document.getElementById("group").value;
+    const teams = teamsByGroup[g] || [];
+    fillTeamDropdowns(teams);
+  }
+
+  function fillTeamsAll() {
+    fillTeamDropdowns(allTeamsList());
+  }
+
+  function fillTeamDropdowns(teams) {
+    const home = document.getElementById("home");
+    const away = document.getElementById("away");
+    home.innerHTML = "";
+    away.innerHTML = "";
+    teams.forEach(t => {
+      const o1 = document.createElement("option");
+      o1.value = t; o1.textContent = t;
+      home.appendChild(o1);
+
+      const o2 = document.createElement("option");
+      o2.value = t; o2.textContent = t;
+      away.appendChild(o2);
+    });
+    if (teams.length >= 2) away.value = teams[1];
+  }
+
+  function syncModeUI() {
+    const mode = document.getElementById("mode").value;
+
+    document.getElementById("stageWrap").style.display = (mode === "PLAYOFF") ? "grid" : "none";
+    document.getElementById("groupWrap").style.display = (mode === "GROUP") ? "grid" : "none";
+    document.getElementById("typeWrap").style.display  = (mode === "GROUP") ? "grid" : "none";
+
+    // When switching mode, refresh team dropdowns accordingly
+    if (mode === "PLAYOFF") fillTeamsAll();
+    else fillTeamsForGroup();
+  }
+
+  async function init() {
+    try {
+      setMsg("Loading teams...");
+      const data = await apiGet();
+      if (!data.ok) throw new Error(data.error || "Failed to load");
+      teamsByGroup = data.teamsByGroup || {};
+      fillGroups();
+      fillTeamsForGroup();
+
+      document.getElementById("group").addEventListener("change", () => {
+        if (document.getElementById("mode").value === "GROUP") fillTeamsForGroup();
+      });
+
+      document.getElementById("mode").addEventListener("change", syncModeUI);
+      syncModeUI();
+      setMsg("Ready.");
+    } catch (e) {
+      setMsg("Error: " + e.message, false);
+    }
+  }
+
+  document.getElementById("save").addEventListener("click", async () => {
+    const mode = document.getElementById("mode").value;
+
+    const home = document.getElementById("home").value;
+    const away = document.getElementById("away").value;
+    const hg   = Number(document.getElementById("hg").value);
+    const ag   = Number(document.getElementById("ag").value);
+
+    if (home === away) return setMsg("Home and away must be different.", false);
+    if (!Number.isFinite(hg) || !Number.isFinite(ag) || hg < 0 || ag < 0) return setMsg("Goals must be 0 or more.", false);
+    if (hg === ag) return setMsg("No ties allowed (enter a winner).", false);
+
+    let payload;
+
+    if (mode === "PLAYOFF") {
+      const stage = document.getElementById("stage").value;
+      payload = { stage, home, away, hg, ag };
+    } else {
+      const group = document.getElementById("group").value;
+      const type  = document.getElementById("type").value;
+      payload = { group, home, away, hg, ag, type };
+    }
+
+    try {
+      setMsg("Saving...");
+      const res = await apiPost(payload);
+      if (!res.ok) return setMsg("Save failed: " + (res.error || "Unknown error"), false);
+      setMsg(mode === "PLAYOFF" ? `Saved playoff: ${res.stage}` : `Saved game: ${res.key}`);
+    } catch (e) {
+      setMsg("Save error: " + e.message, false);
+    }
+  });
+
+  init();
+</script>
+</body>
+</html>
