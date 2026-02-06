@@ -55,7 +55,7 @@
       mix-blend-mode: overlay;
     }
 
-    .wrap{ max-width: 1200px; margin: 0 auto; position:relative; }
+    .wrap{ max-width: 2000px; margin: 0 auto; position:relative; }
 
     header{
       display:flex;
@@ -160,10 +160,13 @@
     /* ---- TABLE: scroll ---- */
     .tableScroll{
       overflow-x: auto;
+      overflow-y: visible;            /* ✅ never show vertical scrollbars */
       -webkit-overflow-scrolling: touch;
       border-radius: 12px;
       border: 1px solid var(--line2);
       background: rgba(8,12,24,.35);
+      max-height: none;               /* ✅ ensure no fixed height causes vertical scroll */
+      height: auto;
     }
 
     table.standingsTable{
@@ -341,8 +344,20 @@
       filter: drop-shadow(0 6px 16px rgba(255,214,107,.18));
     }
 
-    /* ✅ Desktop: explicitly disable sticky behavior */
+    /* ✅ Desktop: NO scrollbars inside table area (no horizontal or vertical) */
     @media (min-width: 821px){
+      .tableScroll{
+        overflow-x: hidden;  /* no horizontal scrollbar on desktop */
+        overflow-y: visible; /* no vertical scrollbar on desktop */
+        max-height: none;
+        height: auto;
+      }
+      table.standingsTable{
+        min-width: 0;        /* allow table to fit container */
+        width: 100%;
+      }
+
+      /* explicitly disable sticky behavior */
       table.standingsTable thead th{
         position: static;
         top: auto;
@@ -360,8 +375,11 @@
       }
     }
 
-    /* ✅ Mobile/tablet: enable sticky header + 2 columns */
+    /* ✅ Mobile/tablet: enable sticky header + 2 columns + horizontal scroll */
     @media (max-width: 820px){
+      .tableScroll{ overflow-x: auto; } /* horizontal scroll allowed */
+      table.standingsTable{ min-width: 620px; }
+
       table.standingsTable thead th{
         position: sticky;
         top: 0;
@@ -436,9 +454,7 @@
     </header>
 
     <div id="tables" class="grid"></div>
-
     <div id="bracket"></div>
-
     <div class="small" id="status"></div>
   </div>
 
@@ -658,9 +674,8 @@
         </h2>
 
         <div class="muted" style="margin-bottom:10px;">
-          Katras grupas uzvarētāji + 1 “wildcard” (labākā komanda pēc <b>punktiem</b>, tad <b>vārtiem</b>).
-          <br/>
-          Pusfināls 1: A grupa vs C grupa • Pusfināls 2: B grupa vs Wildcard • Uzvarētāji → Zelts • Zaudētāji → Bronza
+          Katras grupas uzvarētāji + 1 “wildcard” (labākā komanda pēc <b>punktiem</b>, tad <b>vārtiem</b>).<br/>
+          • Pusfināls 1: A grupa vs C grupa </br>• Pusfināls 2: B grupa vs Wildcard </br>• Uzvarētāji → Zelts </br>• Zaudētāji → Bronza
           <br/>
           Wildcard: <b>${WC || "TBD"}</b> <span class="pill">${wcInfo}</span>
         </div>
