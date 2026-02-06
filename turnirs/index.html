@@ -4,23 +4,26 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Rektopuss x Krauklīši 3x3 Hokeja Turnīrs (08.02)</title>
+
   <style>
     :root{
       --bg0:#070A0F;
       --bg1:#0B1020;
-      --card:#0E162B;
-      --card2:#0B1327;
       --text:#EAF0FF;
       --muted:#AAB4D6;
+
       --line:rgba(255,255,255,.10);
       --line2:rgba(255,255,255,.07);
+
       --accent:#6EE7FF;
       --accent2:#A78BFA;
-      --gold:#FFD66B;
-      --bronze:#C9A06A;
-      --danger:#FF6B8A;
+
       --shadow: 0 12px 30px rgba(0,0,0,.35);
       --radius: 16px;
+
+      /* Sticky column widths */
+      --col1: 36px;   /* # */
+      --col2: 120px;  /* Komanda */
     }
 
     *{ box-sizing:border-box; }
@@ -151,63 +154,119 @@
       border: 1px solid var(--line);
       background: rgba(0,0,0,.15);
       color: var(--muted);
+      white-space: nowrap;
     }
 
-    table{
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
-      overflow: hidden;
+    /* ---- TABLE: scroll + sticky header/columns ---- */
+    .tableScroll{
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
       border-radius: 12px;
       border: 1px solid var(--line2);
       background: rgba(8,12,24,.35);
     }
 
-    th, td{
+    table.standingsTable{
+      width: 100%;
+      border-collapse: separate;   /* important for sticky backgrounds */
+      border-spacing: 0;
+      font-size: 14px;
+      min-width: 620px;            /* enables horizontal scroll on phones */
+    }
+
+    table.standingsTable th,
+    table.standingsTable td{
       border-bottom: 1px solid var(--line2);
       padding: 8px 6px;
       text-align: center;
+      color: rgba(234,240,255,.92);
+      background: transparent;
     }
 
-    th{
-      background: rgba(255,255,255,.04);
+    table.standingsTable thead th{
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: rgba(255,255,255,.06);
       color: rgba(234,240,255,.92);
       font-weight: 600;
       font-size: 12px;
       text-transform: uppercase;
       letter-spacing: .6px;
+      backdrop-filter: blur(6px);
     }
 
-    td{ color: rgba(234,240,255,.92); }
+    table.standingsTable td.team,
+    table.standingsTable th.team{
+      text-align:left;
+      padding-left:10px;
+    }
 
-    td.team, th.team { text-align: left; padding-left:10px; }
+    /* Column widths */
+    table.standingsTable th:nth-child(1),
+    table.standingsTable td:nth-child(1){
+      width: var(--col1);
+      min-width: var(--col1);
+      max-width: var(--col1);
+    }
+    table.standingsTable th:nth-child(2),
+    table.standingsTable td:nth-child(2){
+      width: var(--col2);
+      min-width: var(--col2);
+      max-width: var(--col2);
+    }
 
-    tbody tr{
+    /* Sticky first two columns */
+    table.standingsTable th:nth-child(1),
+    table.standingsTable td:nth-child(1){
+      position: sticky;
+      left: 0;
+      z-index: 6;
+      background: rgba(12,18,36,.85);
+      backdrop-filter: blur(6px);
+    }
+    table.standingsTable th:nth-child(2),
+    table.standingsTable td:nth-child(2){
+      position: sticky;
+      left: var(--col1);
+      z-index: 6;
+      background: rgba(12,18,36,.78);
+      backdrop-filter: blur(6px);
+    }
+    /* Ensure header cells stay above body sticky cells */
+    table.standingsTable thead th:nth-child(1),
+    table.standingsTable thead th:nth-child(2){
+      z-index: 8;
+      background: rgba(18,26,50,.92);
+    }
+
+    /* Row hover + subtle highlights */
+    table.standingsTable tbody tr{
       transition: transform .12s ease, background .12s ease;
     }
-    tbody tr:hover{
+    table.standingsTable tbody tr:hover{
       background: rgba(110,231,255,.06);
       transform: translateY(-1px);
     }
-
-    /* highlight rank 1-2 */
-    tbody tr:nth-child(1) td{
-      background: linear-gradient(90deg, rgba(110,231,255,.14), rgba(167,139,250,.10));
+    table.standingsTable tbody tr:hover td:nth-child(1),
+    table.standingsTable tbody tr:hover td:nth-child(2){
+      background: rgba(18,26,50,.92);
     }
-    tbody tr:nth-child(1) td:last-child b{
+
+    /* Highlight rank 1 row */
+    table.standingsTable tbody tr:nth-child(1) td{
+      background: linear-gradient(90deg, rgba(110,231,255,.10), rgba(167,139,250,.08));
+    }
+    table.standingsTable tbody tr:nth-child(1) td:nth-child(1),
+    table.standingsTable tbody tr:nth-child(1) td:nth-child(2){
+      background: rgba(18,26,50,.92);
+    }
+    table.standingsTable tbody tr:nth-child(1) td:last-child b{
       color: var(--accent);
       text-shadow: 0 0 18px rgba(110,231,255,.35);
     }
-    tbody tr:nth-child(2) td:last-child b{
-      color: rgba(234,240,255,.95);
-    }
 
-    td b{
-      color: rgba(234,240,255,.98);
-      letter-spacing: .2px;
-    }
-
-    /* Bracket */
+    /* ---- BRACKET ---- */
     .bracket{
       border:1px solid var(--line);
       border-radius: var(--radius);
@@ -229,6 +288,15 @@
       pointer-events:none;
     }
     .bracket > *{ position:relative; }
+
+    /* Fix mobile wrapping for bracket title row */
+    .bracket h2{
+      display:flex;
+      flex-wrap: wrap;
+      align-items:center;
+      justify-content:flex-start;
+      gap:10px;
+    }
 
     .brrow { display:flex; flex-wrap:wrap; gap:14px; }
 
@@ -279,9 +347,9 @@
       gap:10px;
       padding:6px 8px;
       border-radius:10px;
+      background: rgba(255,255,255,.03);
     }
-    .line:nth-child(2){ background: rgba(255,255,255,.03); }
-    .line:nth-child(3){ background: rgba(255,255,255,.02); }
+    .line + .line{ margin-top:6px; background: rgba(255,255,255,.02); }
 
     .muted{
       color: var(--muted);
@@ -297,8 +365,9 @@
       border-radius:999px;
       font-size:12px;
       color: var(--muted);
-      margin-left:8px;
       background: rgba(0,0,0,.18);
+      white-space: nowrap; /* prevent ugly line breaks */
+      margin-left: 0;      /* better wrapping on mobile */
     }
 
     .trophy{
@@ -307,12 +376,17 @@
       filter: drop-shadow(0 6px 16px rgba(255,214,107,.18));
     }
 
+    /* Mobile tweaks */
     @media (max-width: 520px){
       body{ margin: 14px; }
-      .chip{ width:100%; justify-content:center; }
+      h1{ font-size: clamp(26px, 7vw, 38px); }
+      table.standingsTable{ font-size: 12px; min-width: 600px; }
+      table.standingsTable thead th{ font-size: 11px; }
+      table.standingsTable th, table.standingsTable td{ padding: 7px 5px; }
     }
   </style>
 </head>
+
 <body>
   <div class="wrap">
     <header>
@@ -405,26 +479,30 @@
           <span>${groupName}</span>
           <span class="groupBadge">${gamesCount}/6 spēles</span>
         </h2>
-        <table>
-          <thead>
-            <tr>
-              <th style="width:24px;">#</th>
-              <th class="team">Komanda</th>
-              <th>SP</th><th>U</th><th>UP</th><th>ZP</th><th>Z</th>
-              <th>GF</th><th>GA</th><th>GD</th><th>Punkti</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${standings.map((r,i)=>`
+
+        <div class="tableScroll">
+          <table class="standingsTable">
+            <thead>
               <tr>
-                <td>${i+1}</td>
-                <td class="team">${r.team}</td>
-                <td>${r.GP}</td><td>${r.W}</td><td>${r.OW}</td><td>${r.OL}</td><td>${r.L}</td>
-                <td>${r.GF}</td><td>${r.GA}</td><td>${r.GD}</td><td><b>${r.PTS}</b></td>
+                <th style="width:44px;">#</th>
+                <th class="team" style="width:170px;">Komanda</th>
+                <th>SP</th><th>U</th><th>UP</th><th>ZP</th><th>Z</th>
+                <th>GF</th><th>GA</th><th>GD</th><th>Punkti</th>
               </tr>
-            `).join("")}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              ${standings.map((r,i)=>`
+                <tr>
+                  <td>${i+1}</td>
+                  <td class="team">${r.team}</td>
+                  <td>${r.GP}</td><td>${r.W}</td><td>${r.OW}</td><td>${r.OL}</td><td>${r.L}</td>
+                  <td>${r.GF}</td><td>${r.GA}</td><td>${r.GD}</td><td><b>${r.PTS}</b></td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+
         <div class="small">Aizvadītās spēles grupā: ${gamesCount} (maks. 6)</div>
       `;
       container.appendChild(card);
