@@ -609,6 +609,24 @@
   .scheduleWrap .controls{ grid-template-columns:1fr 1fr; }
 }
 
+/* mobile: extra breathing room between tiles */
+@media (max-width: 520px){
+  .scheduleWrap{ --laneGutter: 18px; }
+  .scheduleWrap .bar{ padding: 12px 14px; }
+}
+
+
+
+
+@media (max-width: 520px){
+  :root{
+    --laneGutter: 22px;   /* more side padding so tiles don't kiss edges */
+  }
+  .scheduleWrap .bar{
+    padding:12px 14px;
+    border-radius:14px;
+  }
+}
 </style>
 </head>
 
@@ -646,7 +664,7 @@
   </div>
 
   <div class="card">
-    <h2>Grafiks <span class="pill">Laika josla</span></h2>
+    <h2>Spēļu Grafiks <span class="pill">Laika josla</span></h2>
     <div class="timelineScroll" id="timelineScroll">
       <div id="timeline" class="timeline"></div>
     </div>
@@ -872,7 +890,7 @@
 
         <div class="muted" style="margin-bottom:10px;">
           Katras grupas uzvarētāji + 1 “wildcard” (labākā komanda pēc <b>punktiem</b>, tad <b>vārtiem</b>).<br/>
-          • Pusfināls 1: A grupa vs C grupa </br>• Pusfināls 2: B grupa vs Wildcard </br>• Uzvarētāji → Zelts </br>• Zaudētāji → Bronza
+          • Pusfināls 1: A grupa vs C grupa </br>• Pusfināls 2: B grupa vs Wildcard </br>• Uzvarētāji → Zelts, Zaudētāji → Bronza
           <br/>
           Wildcard: <b>${WC || "TBD"}</b> <span class="pill">${wcInfo}</span>
         </div>
@@ -1060,6 +1078,7 @@ const SCHEDULE_REFRESH_MS = 30000; // update now/past highlighting + now line
 
 // ✅ NEW: enforce readable card width (decoupled from time width)
 const MIN_BAR_WIDTH = 150; // px (try 150–190)
+const BAR_GAP = 10; // px minimum gap between tiles (prevents overlap on mobile)
 
 /* ===== DATA ===== */
 const allGames = JSON.parse(document.getElementById("schedule-data").textContent);
@@ -1187,42 +1206,71 @@ function render(){
     bars.className = "bars";
     bars.style.width = (axisWidth + 2*LANE_GUTTER) + "px";
 
-    for(const g of fg){
-      const start = toMin(g.start_time);
-      const end = start + GAME_MINUTES;
+    
+// --- place games (collision-aware: keeps a minimum gap so tiles never overlap) ---
+const planned = [];
+for(const g of fg){
+  const start = toMin(g.start_time);
+  const end = start + GAME_MINUTES;
 
-      const bar = document.createElement("div");
-      bar.className = `bar ${g.group || ""}`;
+  const bar = document.createElement("div");
+  bar.className = `bar ${g.group || ""}`;
 
-      // past games
-      if(end <= nowMin) bar.classList.add("past");
+  // past games
+  if(end <= nowMin) bar.classList.add("past");
 
-      // now/next highlight
-      if(nowMin >= start && nowMin < end) bar.classList.add("now");
-      if(start === nextGameStart) bar.classList.add("next");
+  // now/next highlight
+  if(nowMin >= start && nowMin < end) bar.classList.add("now");
+  if(start === nextGameStart) bar.classList.add("next");
 
-      // time-accurate width + enforced minimum readable width
-      const timeWidth = GAME_MINUTES * pxPerMinute;
-      const w = Math.max(timeWidth, MIN_BAR_WIDTH);
-      bar.style.width = w + "px";
+  // time-accurate width + enforced minimum readable width
+  const timeWidth = GAME_MINUTES * pxPerMinute;
+  const w = Math.max(timeWidth, MIN_BAR_WIDTH);
+  bar.style.width = w + "px";
 
-      // center wide cards on their actual time slot
-      const x = LANE_GUTTER + (start - axisStart) * pxPerMinute;
-      const offset = (w - timeWidth) / 2;
-      bar.style.left = (x - offset) + "px";
+  // desired left: center wide cards on their actual time slot
+  const x = LANE_GUTTER + (start - axisStart) * pxPerMinute;
+  const offset = (w - timeWidth) / 2;
+  const desiredLeft = (x - offset);
 
-      // full names on hover / long-press
-      bar.title = `${g.team_1} vs ${g.team_2}
-${g.start_time} · ${g.group} · ${g.field}`;
+  // full names on hover / long-press
+  bar.title = `${g.team_1} vs ${g.team_2}\n${g.start_time} · ${g.group} · ${g.field}`;
 
-      bar.innerHTML = `
-        <div class="t">${g.team_1} vs ${g.team_2}</div>
-        <div class="s">${g.start_time} · ${g.group}</div>
-      `;
-      bars.appendChild(bar);
-    }
+  bar.innerHTML = `
+    <div class="t">${g.team_1} vs ${g.team_2}</div>
+    <div class="s">${g.start_time} · ${g.group}</div>
+  `;
 
-    laneInner.appendChild(bars);
+  planned.push({ desiredLeft, w, bar });
+}
+
+// Sort by desired position, then push forward to guarantee spacing
+planned.sort((a,b)=>a.desiredLeft - b.desiredLeft);
+
+let cursor = LANE_GUTTER; // left boundary
+let maxRight = LANE_GUTTER;
+
+for(const item of planned){
+  // clamp to left boundary first
+  let left = Math.max(item.desiredLeft, cursor);
+
+  // apply
+  item.bar.style.left = left + "px";
+  bars.appendChild(item.bar);
+
+  const right = left + item.w;
+  cursor = right + BAR_GAP;     // next tile must start after this
+  if(right > maxRight) maxRight = right;
+}
+
+// If we had to push tiles, extend the lane width so the last one isn't clipped
+const needed = maxRight + LANE_GUTTER;
+const current = axisWidth + 2*LANE_GUTTER;
+const finalW = Math.max(current, needed);
+bars.style.width = finalW + "px";
+laneInner.style.width = (finalW + 2*LANE_GUTTER) + "px";
+
+laneInner.appendChild(bars);
     laneOuter.appendChild(laneInner);
     timeline.appendChild(laneOuter);
   }
