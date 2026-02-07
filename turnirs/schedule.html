@@ -1,0 +1,1258 @@
+<!doctype html>
+<html lang="lv">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rektopuss x Krauklīši 3x3 Hokeja Turnīrs (08.02)</title>
+
+  <style>
+    :root{
+      --bg0:#070A0F;
+      --bg1:#0B1020;
+      --text:#EAF0FF;
+      --muted:#AAB4D6;
+
+      --line:rgba(255,255,255,.10);
+      --line2:rgba(255,255,255,.07);
+
+      --accent:#6EE7FF;
+      --accent2:#A78BFA;
+
+      --shadow: 0 12px 30px rgba(0,0,0,.35);
+      --radius: 16px;
+
+      /* Sticky column widths (used on mobile only) */
+      --col1: 22px;   /* # */
+      --col2: 120px;  /* Komanda */
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      font-family: system-ui, -apple-system, Segoe UI, Arial, sans-serif;
+      margin: 20px;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 800px at 20% 0%, rgba(110,231,255,.12), transparent 60%),
+        radial-gradient(900px 700px at 95% 10%, rgba(167,139,250,.14), transparent 55%),
+        radial-gradient(900px 600px at 50% 110%, rgba(255,214,107,.10), transparent 50%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      min-height: 100vh;
+    }
+
+    /* subtle hockey rink lines + faceoff circles */
+    body::before{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      opacity:.10;
+      background:
+        radial-gradient(circle at 18% 35%, transparent 0 70px, rgba(255,255,255,.35) 71px 72px, transparent 73px),
+        radial-gradient(circle at 82% 35%, transparent 0 70px, rgba(255,255,255,.35) 71px 72px, transparent 73px),
+        radial-gradient(circle at 50% 68%, transparent 0 85px, rgba(255,255,255,.35) 86px 87px, transparent 88px),
+        linear-gradient(90deg, transparent 0 12%, rgba(255,255,255,.22) 12% 12.3%, transparent 12.3% 87.7%, rgba(255,255,255,.22) 87.7% 88%, transparent 88% 100%),
+        linear-gradient(0deg, transparent 0 18%, rgba(255,255,255,.16) 18% 18.2%, transparent 18.2% 82%, rgba(255,255,255,.16) 82% 82.2%, transparent 82.2% 100%),
+        repeating-linear-gradient(135deg, rgba(255,255,255,.10) 0 2px, transparent 2px 10px);
+      mix-blend-mode: overlay;
+    }
+
+    .wrap{ max-width: 2000px; margin: 0 auto; position:relative; }
+
+    header{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      margin-bottom: 10px;
+    }
+
+    h1{
+      margin: 0;
+      font-size: clamp(30px, 3.8vw, 46px);
+      letter-spacing: .3px;
+      line-height: 1.05;
+      text-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+
+    .meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(14,22,43,.55);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 24px rgba(0,0,0,.18);
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .chip .dot{
+      width:8px; height:8px; border-radius:999px;
+      background: radial-gradient(circle at 30% 30%, #fff, var(--accent));
+      box-shadow: 0 0 12px rgba(110,231,255,.6);
+    }
+
+    .small { font-size: 12px; color: var(--muted); margin-top: 6px; }
+    #status{ margin-top: 14px; text-align:center; }
+
+    .grid{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    .card{
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 12px;
+      background: linear-gradient(180deg, rgba(14,22,43,.82), rgba(10,16,33,.72));
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(600px 220px at 20% 0%, rgba(110,231,255,.18), transparent 60%),
+        radial-gradient(500px 220px at 90% 20%, rgba(167,139,250,.18), transparent 60%);
+      opacity:.6;
+      pointer-events:none;
+      filter: blur(0.2px);
+    }
+
+    .card > *{ position:relative; }
+
+    h2{
+      margin: 0 0 8px;
+      font-size: 16px;
+      letter-spacing: .3px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .groupBadge{
+      font-size:12px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,.15);
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    /* ---- TABLE: scroll ---- */
+    .tableScroll{
+      overflow-x: auto;
+      overflow-y: visible;            /* ✅ never show vertical scrollbars */
+      -webkit-overflow-scrolling: touch;
+      border-radius: 12px;
+      border: 1px solid var(--line2);
+      background: rgba(8,12,24,.35);
+      max-height: none;               /* ✅ ensure no fixed height causes vertical scroll */
+      height: auto;
+    }
+
+    table.standingsTable{
+      width: 100%;
+      border-collapse: separate;   /* important for sticky backgrounds */
+      border-spacing: 0;
+      font-size: 12px;
+      min-width: 620px;            /* enables horizontal scroll on phones */
+    }
+
+    table.standingsTable th,
+    table.standingsTable td{
+      border-bottom: 1px solid var(--line2);
+      padding: 8px 6px;
+      text-align: center;
+      color: rgba(234,240,255,.92);
+      background: transparent;
+    }
+
+    table.standingsTable thead th{
+      background: rgba(255,255,255,.06);
+      color: rgba(234,240,255,.92);
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      backdrop-filter: blur(6px);
+    }
+
+    table.standingsTable td.team,
+    table.standingsTable th.team{
+      text-align:left;
+      padding-left:10px;
+    }
+
+    /* Column widths (needed so sticky aligns on mobile) */
+    table.standingsTable th:nth-child(1),
+    table.standingsTable td:nth-child(1){
+      width: var(--col1);
+      min-width: var(--col1);
+      max-width: var(--col1);
+    }
+    table.standingsTable th:nth-child(2),
+    table.standingsTable td:nth-child(2){
+      width: var(--col2);
+      min-width: var(--col2);
+      max-width: var(--col2);
+    }
+
+    /* Row hover + subtle highlights */
+    table.standingsTable tbody tr{
+      transition: transform .12s ease, background .12s ease;
+    }
+    table.standingsTable tbody tr:hover{
+      background: rgba(110,231,255,.06);
+      transform: translateY(-1px);
+    }
+
+    /* Highlight rank 1 row */
+    table.standingsTable tbody tr:nth-child(1) td{
+      background: linear-gradient(90deg, rgba(110,231,255,.10), rgba(167,139,250,.08));
+    }
+    table.standingsTable tbody tr:nth-child(1) td:last-child b{
+      color: var(--accent);
+      text-shadow: 0 0 18px rgba(110,231,255,.35);
+    }
+
+    /* ---- BRACKET ---- */
+    .bracket{
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      padding:12px;
+      margin-top:18px;
+      background: linear-gradient(180deg, rgba(14,22,43,.78), rgba(10,16,33,.68));
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow:hidden;
+    }
+
+    .bracket::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(700px 260px at 10% 0%, rgba(255,214,107,.16), transparent 60%),
+        radial-gradient(700px 260px at 95% 10%, rgba(110,231,255,.16), transparent 60%);
+      opacity:.55;
+      pointer-events:none;
+    }
+    .bracket > *{ position:relative; }
+
+    /* Fix mobile wrapping for bracket title row */
+    .bracket h2{
+      display:flex;
+      flex-wrap: wrap;
+      align-items:center;
+      justify-content:flex-start;
+      gap:10px;
+    }
+
+    .brrow { display:flex; flex-wrap:wrap; gap:14px; }
+
+    .match{
+      border:1px solid var(--line2);
+      border-radius: 14px;
+      padding:10px;
+      min-width:280px;
+      flex: 1;
+      background: rgba(8,12,24,.35);
+      box-shadow: 0 10px 24px rgba(0,0,0,.22);
+      position: relative;
+      overflow:hidden;
+    }
+
+    .match::after{
+      content:"";
+      position:absolute; inset:-1px;
+      background: radial-gradient(420px 160px at 20% 0%, rgba(110,231,255,.12), transparent 60%);
+      opacity:.7;
+      pointer-events:none;
+    }
+    .match > *{ position:relative; }
+
+    .mtitle{
+      font-weight:700;
+      margin-bottom:8px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      letter-spacing:.2px;
+    }
+
+    .mtitle .stageTag{
+      font-size:11px;
+      padding:2px 8px;
+      border-radius:999px;
+      border:1px solid var(--line2);
+      color: var(--muted);
+      background: rgba(0,0,0,.15);
+      white-space:nowrap;
+    }
+
+    .line{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      padding:6px 8px;
+      border-radius:10px;
+      background: rgba(255,255,255,.03);
+    }
+    .line + .line{ margin-top:6px; background: rgba(255,255,255,.02); }
+
+    .muted{
+      color: var(--muted);
+      font-size:12px;
+      margin-top:8px;
+      line-height:1.35;
+    }
+
+    .pill{
+      display:inline-block;
+      padding:2px 10px;
+      border:1px solid var(--line2);
+      border-radius:999px;
+      font-size:12px;
+      color: var(--muted);
+      background: rgba(0,0,0,.18);
+      white-space: nowrap; /* prevent ugly line breaks */
+      margin-left: 0;      /* better wrapping on mobile */
+    }
+
+    .trophy{
+      display:inline-block;
+      margin-left:6px;
+      filter: drop-shadow(0 6px 16px rgba(255,214,107,.18));
+    }
+
+    /* ✅ Desktop: NO scrollbars inside table area (no horizontal or vertical) */
+    @media (min-width: 821px){
+      .tableScroll{
+        overflow-x: hidden;  /* no horizontal scrollbar on desktop */
+        overflow-y: visible; /* no vertical scrollbar on desktop */
+        max-height: none;
+        height: auto;
+      }
+      table.standingsTable{
+        min-width: 0;        /* allow table to fit container */
+        width: 100%;
+      }
+
+      /* explicitly disable sticky behavior */
+      table.standingsTable thead th{
+        position: static;
+        top: auto;
+        z-index: auto;
+      }
+      table.standingsTable th:nth-child(1),
+      table.standingsTable td:nth-child(1),
+      table.standingsTable th:nth-child(2),
+      table.standingsTable td:nth-child(2){
+        position: static;
+        left: auto;
+        z-index: auto;
+        backdrop-filter: none;
+        background: transparent;
+      }
+    }
+
+    /* ✅ Mobile/tablet: enable sticky header + 2 columns + horizontal scroll */
+    @media (max-width: 820px){
+      .tableScroll{ overflow-x: auto; } /* horizontal scroll allowed */
+      table.standingsTable{ min-width: 620px; }
+
+      table.standingsTable thead th{
+        position: sticky;
+        top: 0;
+        z-index: 5;
+      }
+
+      table.standingsTable th:nth-child(1),
+      table.standingsTable td:nth-child(1){
+        position: sticky;
+        left: 0;
+        z-index: 6;
+        background: rgba(12,18,36,.85);
+        backdrop-filter: blur(6px);
+      }
+
+      table.standingsTable th:nth-child(2),
+      table.standingsTable td:nth-child(2){
+        position: sticky;
+        left: var(--col1);
+        z-index: 6;
+        background: rgba(12,18,36,.78);
+        backdrop-filter: blur(6px);
+      }
+
+      table.standingsTable thead th:nth-child(1),
+      table.standingsTable thead th:nth-child(2){
+        z-index: 8;
+        background: rgba(18,26,50,.92);
+      }
+
+      table.standingsTable tbody tr:hover td:nth-child(1),
+      table.standingsTable tbody tr:hover td:nth-child(2){
+        background: rgba(18,26,50,.92);
+      }
+
+      table.standingsTable tbody tr:nth-child(1) td:nth-child(1),
+      table.standingsTable tbody tr:nth-child(1) td:nth-child(2){
+        background: rgba(18,26,50,.92);
+      }
+    }
+
+    /* Mobile tweaks */
+    @media (max-width: 520px){
+      body{ margin: 14px; }
+      h1{ font-size: clamp(26px, 7vw, 38px); }
+      table.standingsTable{ font-size: 12px; min-width: 600px; }
+      table.standingsTable thead th{ font-size: 11px; }
+      table.standingsTable th, table.standingsTable td{ padding: 7px 5px; }
+      table.standingsTable td.team{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  
+/* ===================== Embedded Schedule ===================== */
+:root{
+  --gA:#6EE7FF;
+  --gB:#A78BFA;
+  --gC:#FFD66B;
+  --tickWidth:80px;   /* base; JS may scale up */
+  --laneGutter:14px;
+}
+
+/* container */
+.scheduleWrap{ margin-top: 18px; }
+
+/* controls */
+.scheduleWrap .controls{
+  display:grid;
+  grid-template-columns:1fr 160px 160px 120px;
+  gap:10px;
+}
+.scheduleWrap input, .scheduleWrap select{
+  width:100%;
+  padding:10px 12px;
+  border-radius:999px;
+  border:1px solid var(--line);
+  background:rgba(14,22,43,.65);
+  color:var(--text);
+}
+.scheduleWrap input::placeholder{ color:var(--muted); }
+.scheduleWrap button{
+  width:100%;
+  border-radius:999px;
+  background:rgba(110,231,255,.15);
+  border:1px solid var(--line);
+  color:var(--text);
+  padding:10px;
+  cursor:pointer;
+}
+
+/* timeline */
+.scheduleWrap .timelineScroll{
+  overflow-x:auto;
+  overflow-y:hidden;
+  padding-bottom:8px;
+  min-width:0;
+  -webkit-overflow-scrolling: touch;
+}
+.scheduleWrap .timeline{
+  display:grid;
+  gap:14px;
+  min-width:max-content;
+}
+.scheduleWrap .fieldTitle{ font-weight:600; margin-bottom:6px; }
+
+.scheduleWrap .laneOuter{
+  border:1px solid var(--line2);
+  border-radius:14px;
+  background:rgba(8,12,24,.35);
+  overflow:hidden;
+}
+.scheduleWrap .laneInner{
+  padding: 0 var(--laneGutter);
+  min-width:max-content;
+  position:relative;
+}
+.scheduleWrap .ruler{
+  display:flex;
+  border-bottom:1px solid var(--line2);
+  width:max-content;
+}
+.scheduleWrap .tick{
+  min-width:var(--tickWidth);
+  width:var(--tickWidth);
+  font-size:11px;
+  color:var(--muted);
+  padding:6px;
+  text-align:center;
+  border-right:1px dashed var(--line2);
+}
+.scheduleWrap .tick:last-child{ border-right:none; }
+
+.scheduleWrap .bars{
+  position:relative;
+  height:124px;
+  width:max-content;
+}
+
+/* game tile */
+.scheduleWrap .bar{
+  position:absolute;
+  top:26px;
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background:rgba(12,18,36,.9);
+  box-shadow:0 10px 24px rgba(0,0,0,.35);
+  cursor:pointer;
+  overflow:hidden;
+  white-space:normal;
+  height:auto;
+  min-height:64px;
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:4px;
+  transition: transform .12s ease, opacity .12s ease, filter .12s ease;
+}
+.scheduleWrap .bar:hover{ transform: translateY(-1px); }
+
+.scheduleWrap .bar.A{ box-shadow:0 0 0 1px var(--gA), 0 10px 24px rgba(0,0,0,.35); }
+.scheduleWrap .bar.B{ box-shadow:0 0 0 1px var(--gB), 0 10px 24px rgba(0,0,0,.35); }
+.scheduleWrap .bar.C{ box-shadow:0 0 0 1px var(--gC), 0 10px 24px rgba(0,0,0,.35); }
+
+.scheduleWrap .bar .t{
+  font-weight:700;
+  font-size:13px;
+  line-height:1.15;
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+  overflow:hidden;
+  text-wrap:balance;
+}
+.scheduleWrap .bar .s{
+  font-size:12px;
+  color:var(--muted);
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* past games */
+.scheduleWrap .bar.past{
+  opacity:.45;
+  filter: grayscale(.35);
+}
+
+/* current/next */
+.scheduleWrap .bar.now{
+  outline:2px solid var(--accent);
+  box-shadow:0 0 24px rgba(110,231,255,.45);
+  opacity:1;
+  filter:none;
+}
+.scheduleWrap .bar.next{
+  outline:1px dashed var(--accent2);
+}
+
+/* now line */
+.scheduleWrap .nowLine{
+  position:absolute;
+  top:0; bottom:0;
+  width:2px;
+  background: linear-gradient(180deg, transparent, rgba(110,231,255,.95), transparent);
+  box-shadow: 0 0 18px rgba(110,231,255,.55);
+  pointer-events:none;
+}
+.scheduleWrap .nowTag{
+  position:absolute;
+  top:6px;
+  transform: translateX(-50%);
+  font-size:11px;
+  padding:2px 8px;
+  border-radius:999px;
+  border:1px solid var(--line2);
+  background: rgba(12,18,36,.88);
+  color: var(--text);
+  pointer-events:none;
+  white-space:nowrap;
+}
+
+@media (max-width: 760px){
+  .scheduleWrap .controls{ grid-template-columns:1fr 1fr; }
+}
+
+</style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Rektopuss x Krauklīši 3x3 Hokeja Turnīrs (08.02)</h1>
+        <div class="small">Punkti: Uzvara (reg.) = 3, Uzvara papildlaikā = 2, Zaudējums papildlaikā = 1, Zaudējums (reg.) = 0</div>
+      </div>
+
+      <div class="meta">
+        <div class="chip" title="Tiešsaistes rezultāti">
+          <span class="dot"></span>
+          <span>Tiešraide • rezultāti atjaunojas automātiski</span>
+        </div>
+      </div>
+    </header>
+
+    <div id="tables" class="grid"></div>
+    <div id="bracket"></div>
+    <div class="small" id="status"></div>
+  
+
+<!-- ================= SCHEDULE (embedded) ================= -->
+<div class="scheduleWrap">
+  <div class="card" hidden="true">
+    <h2>Spēļu grafiks <span class="pill">2 laukumi</span></h2>
+    <div class="controls">
+      <input id="q" placeholder="Meklēt komandu vai laiku…" />
+      <select id="field"><option value="">Visi laukumi</option></select>
+      <select id="group"><option value="">Visas grupas</option></select>
+      <button id="reset">Atiestatīt</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Grafiks <span class="pill">Laika josla</span></h2>
+    <div class="timelineScroll" id="timelineScroll">
+      <div id="timeline" class="timeline"></div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+  // ✅ PASTE YOUR APPS SCRIPT WEB APP URL HERE
+  const API_URL = "https://script.google.com/macros/s/AKfycby0vrGmqMUMI9xk08Vqdg1u2Fgz5F2LUXexpBo4gdxZlo4v56D0nqCSFQK62TVlyI4s/exec";
+
+  // refresh interval (ms)
+  const REFRESH_MS = 15000;
+
+  /*************** GROUP STANDINGS LOGIC ***************/
+  function computeStandings(groupName, teamsByGroup, games) {
+    const teams = teamsByGroup[groupName] || [];
+    const stats = {};
+    teams.forEach(t => stats[t] = { team:t, GP:0, W:0, OW:0, OL:0, L:0, GF:0, GA:0, GD:0, PTS:0 });
+
+    const groupGames = (games || []).filter(g => g.group === groupName);
+
+    for (const g of groupGames) {
+      const home = g.home, away = g.away;
+      const hg = Number(g.hg), ag = Number(g.ag);
+      const type = String(g.type || "").toUpperCase();
+
+      if (!stats[home] || !stats[away]) continue;
+      if (!Number.isFinite(hg) || !Number.isFinite(ag)) continue;
+      if (hg === ag) continue;
+
+      stats[home].GP++; stats[away].GP++;
+      stats[home].GF += hg; stats[home].GA += ag;
+      stats[away].GF += ag; stats[away].GA += hg;
+
+      const homeWin = hg > ag;
+      const winner = homeWin ? home : away;
+      const loser  = homeWin ? away : home;
+
+      if (type === "REG") {
+        stats[winner].W += 1;
+        stats[loser].L += 1;
+        stats[winner].PTS += 3;
+      } else if (type === "OT") {
+        stats[winner].OW += 1;
+        stats[loser].OL += 1;
+        stats[winner].PTS += 2;
+        stats[loser].PTS += 1;
+      }
+    }
+
+    for (const t of teams) stats[t].GD = stats[t].GF - stats[t].GA;
+
+    return Object.values(stats).sort((a,b) =>
+      (b.PTS - a.PTS) ||
+      (b.GD - a.GD) ||
+      (b.GF - a.GF) ||
+      a.team.localeCompare(b.team)
+    );
+  }
+
+  function renderTables(teamsByGroup, games) {
+    const container = document.getElementById("tables");
+    container.innerHTML = "";
+
+    for (const groupName of Object.keys(teamsByGroup)) {
+      const standings = computeStandings(groupName, teamsByGroup, games);
+      const gamesCount = (games || []).filter(g => g.group === groupName).length;
+
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <h2>
+          <span>${groupName}</span>
+          <span class="groupBadge">${gamesCount}/6 spēles</span>
+        </h2>
+
+        <div class="tableScroll">
+          <table class="standingsTable">
+            <thead>
+              <tr>
+                <th style="width:44px;">#</th>
+                <th class="team" style="width:170px;">Komanda</th>
+                <th>SP</th><th>U</th><th>UP</th><th>ZP</th><th>Z</th>
+                <th>GF</th><th>GA</th><th>GD</th><th>Punkti</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${standings.map((r,i)=>`
+                <tr>
+                  <td>${i+1}</td>
+                  <td class="team">${r.team}</td>
+                  <td>${r.GP}</td><td>${r.W}</td><td>${r.OW}</td><td>${r.OL}</td><td>${r.L}</td>
+                  <td>${r.GF}</td><td>${r.GA}</td><td>${r.GD}</td><td><b>${r.PTS}</b></td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="small">Aizvadītās spēles grupā: ${gamesCount} (maks. 6)</div>
+      `;
+      container.appendChild(card);
+    }
+  }
+
+  /*************** PLAYOFF / BRACKET LOGIC ***************/
+  function flattenTeamRows(teamsByGroup, games) {
+    const all = {};
+    for (const groupName of Object.keys(teamsByGroup)) {
+      const standings = computeStandings(groupName, teamsByGroup, games);
+      standings.forEach(r => all[r.team] = { ...r, group: groupName });
+    }
+    return all;
+  }
+
+  function pickWinnersAndWildcard(teamsByGroup, games) {
+    const winners = {};
+    const winnerTeams = new Set();
+
+    for (const groupName of Object.keys(teamsByGroup)) {
+      const standings = computeStandings(groupName, teamsByGroup, games);
+      const first = standings[0];
+      winners[groupName] = first ? first.team : null;
+      if (first) winnerTeams.add(first.team);
+    }
+
+    const allRows = Object.values(flattenTeamRows(teamsByGroup, games));
+    const candidates = allRows.filter(r => !winnerTeams.has(r.team));
+
+    candidates.sort((a,b) =>
+      (b.PTS - a.PTS) ||
+      (b.GD - a.GD) ||
+      (b.GF - a.GF) ||
+      a.team.localeCompare(b.team)
+    );
+
+    const wildcard = candidates[0]?.team || null;
+    return { winners, wildcard, wildcardRow: candidates[0] || null };
+  }
+
+  function playoffMap(playoffsArr) {
+    const m = {};
+    (playoffsArr || []).forEach(g => {
+      const stage = String(g.stage || "").toUpperCase();
+      m[stage] = g;
+    });
+    return m;
+  }
+
+  function winnerOf(game) {
+    if (!game) return null;
+    const hg = Number(game.hg), ag = Number(game.ag);
+    if (!Number.isFinite(hg) || !Number.isFinite(ag) || hg === ag) return null;
+    return hg > ag ? game.home : game.away;
+  }
+
+  function loserOf(game) {
+    if (!game) return null;
+    const hg = Number(game.hg), ag = Number(game.ag);
+    if (!Number.isFinite(hg) || !Number.isFinite(ag) || hg === ag) return null;
+    return hg > ag ? game.away : game.home;
+  }
+
+  function renderBracket(teamsByGroup, games, playoffsArr) {
+    const bracketEl = document.getElementById("bracket");
+
+    const { winners, wildcard, wildcardRow } = pickWinnersAndWildcard(teamsByGroup, games);
+
+    const A  = winners["Group A"];
+    const B  = winners["Group B"];
+    const C  = winners["Group C"];
+    const WC = wildcard;
+
+    const pm = playoffMap(playoffsArr);
+
+    const sf1Display = pm.SF1 || (A && C ? { home:A, away:C } : null);
+    const sf2Display = pm.SF2 || (B && WC ? { home:B, away:WC } : null);
+
+    const sf1W = winnerOf(pm.SF1);
+    const sf2W = winnerOf(pm.SF2);
+    const sf1L = loserOf(pm.SF1);
+    const sf2L = loserOf(pm.SF2);
+
+    const goldDisplay   = pm.GOLD   || (sf1W && sf2W ? { home: sf1W, away: sf2W } : null);
+    const bronzeDisplay = pm.BRONZE || (sf1L && sf2L ? { home: sf1L, away: sf2L } : null);
+
+    function matchHtml(title, g) {
+      if (!g) {
+        return `
+          <div class="match">
+            <div class="mtitle">${title} <span class="stageTag">gaida</span></div>
+            <div class="muted">Gaida grupu rezultātus…</div>
+          </div>
+        `;
+      }
+      const hg = Number(g.hg), ag = Number(g.ag);
+      const hasScore = Number.isFinite(hg) && Number.isFinite(ag);
+      return `
+        <div class="match">
+          <div class="mtitle">
+            <span>${title}</span>
+            <span class="stageTag">${hasScore ? "pabeigta" : "nav aizvadīta"}</span>
+          </div>
+          <div class="line"><span>${g.home}</span><span>${hasScore ? hg : "—"}</span></div>
+          <div class="line"><span>${g.away}</span><span>${hasScore ? ag : "—"}</span></div>
+          <div class="muted">${hasScore ? "Spēle pabeigta" : "Vēl nav aizvadīta"}</div>
+        </div>
+      `;
+    }
+
+    const wcInfo = wildcardRow
+      ? `${wildcardRow.PTS} punkti, GD ${wildcardRow.GD}, GF ${wildcardRow.GF} (${wildcardRow.group})`
+      : "—";
+
+    bracketEl.innerHTML = `
+      <div class="bracket">
+        <h2 style="margin:0 0 10px;">
+          Izslēgšanas spēles <span class="pill">Automātiska izloze</span>
+          <span class="trophy">🏆</span>
+        </h2>
+
+        <div class="muted" style="margin-bottom:10px;">
+          Katras grupas uzvarētāji + 1 “wildcard” (labākā komanda pēc <b>punktiem</b>, tad <b>vārtiem</b>).<br/>
+          • Pusfināls 1: A grupa vs C grupa </br>• Pusfināls 2: B grupa vs Wildcard </br>• Uzvarētāji → Zelts </br>• Zaudētāji → Bronza
+          <br/>
+          Wildcard: <b>${WC || "TBD"}</b> <span class="pill">${wcInfo}</span>
+        </div>
+
+        <div class="brrow">
+          ${matchHtml("Pusfināls 1 (A vs C)", sf1Display)}
+          ${matchHtml("Pusfināls 2 (B vs Wildcard)", sf2Display)}
+        </div>
+
+        <div class="brrow" style="margin-top:12px;">
+          ${matchHtml("Spēle par bronzu", bronzeDisplay)}
+          ${matchHtml("Fināls (zelts)", goldDisplay)}
+        </div>
+      </div>
+    `;
+  }
+
+  /*************** NETWORK / REFRESH ***************/
+  async function fetchState() {
+    const res = await fetch(API_URL, { method:"GET" });
+    return res.json();
+  }
+
+  async function tick() {
+    const status = document.getElementById("status");
+    try {
+      status.textContent = "Atjauno datus…";
+      const data = await fetchState();
+      if (!data.ok) throw new Error(data.error || "Neizdevās ielādēt");
+
+      renderTables(data.teamsByGroup || {}, data.games || []);
+      renderBracket(data.teamsByGroup || {}, data.games || [], data.playoffs || []);
+
+      status.textContent = "Pēdējais atjauninājums: " + new Date().toLocaleString();
+    } catch (e) {
+      status.textContent = "Kļūda ielādējot datus: " + e.message;
+    }
+  }
+
+  tick();
+  setInterval(tick, REFRESH_MS);
+</script>
+<script id="schedule-data" type="application/json">
+[
+  {
+    "start_time": "16:00",
+    "field": "Field 1",
+    "group": "A",
+    "team_1": "A1 team name",
+    "team_2": "A3 team name"
+  },
+  {
+    "start_time": "16:12",
+    "field": "Field 2",
+    "group": "B",
+    "team_1": "B1",
+    "team_2": "B4"
+  },
+  {
+    "start_time": "16:28",
+    "field": "Field 1",
+    "group": "A",
+    "team_1": "A2",
+    "team_2": "A4"
+  },
+  {
+    "start_time": "16:40",
+    "field": "Field 2",
+    "group": "B",
+    "team_1": "B2",
+    "team_2": "B3"
+  },
+  {
+    "start_time": "16:56",
+    "field": "Field 1",
+    "group": "C",
+    "team_1": "C2",
+    "team_2": "C4"
+  },
+  {
+    "start_time": "17:08",
+    "field": "Field 2",
+    "group": "A",
+    "team_1": "A1",
+    "team_2": "A4"
+  },
+  {
+    "start_time": "17:24",
+    "field": "Field 1",
+    "group": "C",
+    "team_1": "C1",
+    "team_2": "C3"
+  },
+  {
+    "start_time": "17:36",
+    "field": "Field 2",
+    "group": "A",
+    "team_1": "A2",
+    "team_2": "A3"
+  },
+  {
+    "start_time": "17:52",
+    "field": "Field 1",
+    "group": "B",
+    "team_1": "B3",
+    "team_2": "B4"
+  },
+  {
+    "start_time": "18:04",
+    "field": "Field 2",
+    "group": "B",
+    "team_1": "B1",
+    "team_2": "B2"
+  },
+  {
+    "start_time": "18:20",
+    "field": "Field 1",
+    "group": "C",
+    "team_1": "C1",
+    "team_2": "C2"
+  },
+  {
+    "start_time": "18:32",
+    "field": "Field 2",
+    "group": "C",
+    "team_1": "C3",
+    "team_2": "C4"
+  },
+  {
+    "start_time": "18:48",
+    "field": "Field 1",
+    "group": "A",
+    "team_1": "A1",
+    "team_2": "A2"
+  },
+  {
+    "start_time": "19:00",
+    "field": "Field 2",
+    "group": "A",
+    "team_1": "A3",
+    "team_2": "A4"
+  },
+  {
+    "start_time": "19:16",
+    "field": "Field 1",
+    "group": "B",
+    "team_1": "B2",
+    "team_2": "B4"
+  },
+  {
+    "start_time": "19:28",
+    "field": "Field 2",
+    "group": "C",
+    "team_1": "C2",
+    "team_2": "C3"
+  },
+  {
+    "start_time": "19:44",
+    "field": "Field 1",
+    "group": "B",
+    "team_1": "B1",
+    "team_2": "B3"
+  },
+  {
+    "start_time": "19:56",
+    "field": "Field 2",
+    "group": "C",
+    "team_1": "C1",
+    "team_2": "C4"
+  }
+]
+</script>
+
+<script>
+(function(){
+  const scheduleRoot = document.querySelector(".scheduleWrap");
+  if(!scheduleRoot) return;
+
+  /* ===== CONSTANTS ===== */
+const TICK_MINUTES = 15;
+const BASE_TICK_WIDTH = 80; // px
+const GAME_MINUTES = 16;
+const LANE_GUTTER = 14;
+const SCHEDULE_REFRESH_MS = 30000; // update now/past highlighting + now line
+
+// ✅ NEW: enforce readable card width (decoupled from time width)
+const MIN_BAR_WIDTH = 150; // px (try 150–190)
+
+/* ===== DATA ===== */
+const allGames = JSON.parse(document.getElementById("schedule-data").textContent);
+
+/* ===== DOM ===== */
+const q = scheduleRoot.querySelector("#q");
+const fieldSel = scheduleRoot.querySelector("#field");
+const groupSel = scheduleRoot.querySelector("#group");
+const reset = scheduleRoot.querySelector("#reset");
+const timeline = scheduleRoot.querySelector("#timeline");
+const scrollEl = scheduleRoot.querySelector("#timelineScroll");
+
+/* ===== HELPERS ===== */
+const uniq = a => [...new Set(a)].sort();
+const toMin = t => { const [h,m]=t.split(":").map(Number); return h*60+m; };
+const pad2 = n => String(n).padStart(2,"0");
+const fmt = mins => `${pad2(Math.floor(mins/60))}:${pad2(mins%60)}`;
+const floorTo = (v, step) => Math.floor(v/step)*step;
+const ceilTo  = (v, step) => Math.ceil(v/step)*step;
+const nowMinutes = () => new Date().getHours()*60 + new Date().getMinutes();
+
+/* ===== INIT FILTERS ===== */
+uniq(allGames.map(g=>g.field)).forEach(f=> fieldSel.insertAdjacentHTML("beforeend", `<option>${f}</option>`));
+uniq(allGames.map(g=>g.group)).forEach(g=> groupSel.insertAdjacentHTML("beforeend", `<option>${g}</option>`));
+
+function computeAxis(list){
+  const starts = list.map(g=>toMin(g.start_time));
+  const minStart = Math.min(...starts);
+  const maxEnd   = Math.max(...starts) + GAME_MINUTES;
+
+  const axisStart = floorTo(minStart, TICK_MINUTES);
+  const axisEnd   = ceilTo(maxEnd,   TICK_MINUTES);
+
+  const tickCount = (axisEnd - axisStart) / TICK_MINUTES;
+  return { axisStart, axisEnd, tickCount };
+}
+
+function getFiltered(){
+  let list = [...allGames];
+
+  if(fieldSel.value) list = list.filter(g=>g.field === fieldSel.value);
+  if(groupSel.value) list = list.filter(g=>g.group === groupSel.value);
+
+  if(q.value){
+    const s = q.value.toLowerCase().trim();
+    list = list.filter(g => (`${g.start_time} ${g.field} ${g.group} ${g.team_1} ${g.team_2}`).toLowerCase().includes(s));
+  }
+  return list;
+}
+
+/* ===== RENDER ===== */
+function render(){
+  const list = getFiltered();
+  timeline.innerHTML = "";
+  if(!list.length) return;
+
+  const { axisStart, axisEnd, tickCount } = computeAxis(list);
+
+  const baseAxisWidth = tickCount * BASE_TICK_WIDTH;
+  const available = scrollEl.clientWidth - (LANE_GUTTER*2) - 2;
+
+  const scale = (available > baseAxisWidth) ? (available / baseAxisWidth) : 1;
+  const tickWidth = BASE_TICK_WIDTH * scale;
+
+  document.documentElement.style.setProperty("--tickWidth", tickWidth.toFixed(2) + "px");
+
+  const pxPerMinute = tickWidth / TICK_MINUTES;
+  const axisWidth   = tickCount * tickWidth;
+
+  const nowMin = nowMinutes();
+
+  // next game globally (within filtered list)
+  let nextGameStart = Infinity;
+  for(const g of list){
+    const s = toMin(g.start_time);
+    if(s > nowMin && s < nextGameStart) nextGameStart = s;
+  }
+
+  const fields = uniq(list.map(g=>g.field));
+
+  for(const field of fields){
+    const fg = list.filter(g=>g.field === field);
+
+    const title = document.createElement("div");
+    title.className = "fieldTitle";
+    title.textContent = field.replace('Field','Laukums');
+    timeline.appendChild(title);
+
+    const laneOuter = document.createElement("div");
+    laneOuter.className = "laneOuter";
+
+    const laneInner = document.createElement("div");
+    laneInner.className = "laneInner";
+    laneInner.style.width = (axisWidth + 2*LANE_GUTTER) + "px";
+
+    // NOW line (only if within axis range)
+    if(nowMin >= axisStart && nowMin <= axisEnd){
+      const x = LANE_GUTTER + (nowMin - axisStart) * pxPerMinute;
+
+      const line = document.createElement("div");
+      line.className = "nowLine";
+      line.style.left = x + "px";
+
+      const tag = document.createElement("div");
+      tag.className = "nowTag";
+      tag.style.left = x + "px";
+      tag.textContent = "NOW " + fmt(nowMin);
+
+      laneInner.appendChild(line);
+      laneInner.appendChild(tag);
+    }
+
+    const ruler = document.createElement("div");
+    ruler.className = "ruler";
+    for(let i=0;i<=tickCount;i++){
+      const t = axisStart + i*TICK_MINUTES;
+      const tick = document.createElement("div");
+      tick.className = "tick";
+      tick.textContent = fmt(t);
+      ruler.appendChild(tick);
+    }
+    laneInner.appendChild(ruler);
+
+    const bars = document.createElement("div");
+    bars.className = "bars";
+    bars.style.width = (axisWidth + 2*LANE_GUTTER) + "px";
+
+    for(const g of fg){
+      const start = toMin(g.start_time);
+      const end = start + GAME_MINUTES;
+
+      const bar = document.createElement("div");
+      bar.className = `bar ${g.group || ""}`;
+
+      // past games
+      if(end <= nowMin) bar.classList.add("past");
+
+      // now/next highlight
+      if(nowMin >= start && nowMin < end) bar.classList.add("now");
+      if(start === nextGameStart) bar.classList.add("next");
+
+      // time-accurate width + enforced minimum readable width
+      const timeWidth = GAME_MINUTES * pxPerMinute;
+      const w = Math.max(timeWidth, MIN_BAR_WIDTH);
+      bar.style.width = w + "px";
+
+      // center wide cards on their actual time slot
+      const x = LANE_GUTTER + (start - axisStart) * pxPerMinute;
+      const offset = (w - timeWidth) / 2;
+      bar.style.left = (x - offset) + "px";
+
+      // full names on hover / long-press
+      bar.title = `${g.team_1} vs ${g.team_2}
+${g.start_time} · ${g.group} · ${g.field}`;
+
+      bar.innerHTML = `
+        <div class="t">${g.team_1} vs ${g.team_2}</div>
+        <div class="s">${g.start_time} · ${g.group}</div>
+      `;
+      bars.appendChild(bar);
+    }
+
+    laneInner.appendChild(bars);
+    laneOuter.appendChild(laneInner);
+    timeline.appendChild(laneOuter);
+  }
+
+  if(scale > 1) scrollEl.scrollLeft = 0;
+}
+
+/* ===== EVENTS ===== */
+function apply(){ render(); }
+
+let resizeTimer=null;
+window.addEventListener("resize", ()=>{
+  clearTimeout(resizeTimer);
+  resizeTimer=setTimeout(render, 80);
+});
+
+[q, fieldSel, groupSel].forEach(el => el.addEventListener("input", apply));
+reset.addEventListener("click", () => {
+  q.value = "";
+  fieldSel.value = "";
+  groupSel.value = "";
+  render();
+});
+
+/* periodic refresh for NOW line and past highlighting */
+setInterval(render, SCHEDULE_REFRESH_MS);
+
+render();
+})();
+</script>
+
+</body>
+</html>
