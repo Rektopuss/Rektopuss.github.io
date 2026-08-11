@@ -104,7 +104,7 @@
   /* background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  background-image: url("bg.gif");
+  background-image: url("../images/backgrounds/bg.gif");
   background-style: flat;
    filter: blur(10px);
    -webkit-filter: blur(10px);
@@ -509,8 +509,8 @@ data-styled.g21[id="sc-fFubgz"] {
   -ms-flex-align: center;
   align-items: center;
   background-color: currentColor;
-  -webkit-mask-image: url(brand-telegram.svg);
-  mask-image: url(brand-telegram.svg);
+  -webkit-mask-image: url("../icons/brand-telegram.svg");
+  mask-image: url("../icons/brand-telegram.svg");
   -webkit-mask-size: 100%;
   mask-size: 100%;
   width: 32px;
@@ -539,8 +539,8 @@ data-styled.g21[id="sc-fFubgz"] {
   -ms-flex-align: center;
   align-items: center;
   background-color: currentColor;
-  -webkit-mask-image: url(safety-money.svg);
-  mask-image: url(safety-money.svg);
+  -webkit-mask-image: url("../icons/safety-money.svg");
+  mask-image: url("../icons/safety-money.svg");
   -webkit-mask-size: 100%;
   mask-size: 100%;
   width: 32px;
@@ -569,8 +569,8 @@ data-styled.g21[id="sc-fFubgz"] {
   -ms-flex-align: center;
   align-items: center;
   background-color: currentColor;
-  -webkit-mask-image: url(brand-youtube.svg);
-  mask-image: url(brand-youtube.svg);
+  -webkit-mask-image: url("../icons/brand-youtube.svg");
+  mask-image: url("../icons/brand-youtube.svg");
   -webkit-mask-size: 100%;
   mask-size: 100%;
   width: 32px;
@@ -599,8 +599,8 @@ data-styled.g21[id="sc-fFubgz"] {
   -ms-flex-align: center;
   align-items: center;
   background-color: currentColor;
-  -webkit-mask-image: url(brand-twitch.svg);
-  mask-image: url(brand-twitch.svg);
+  -webkit-mask-image: url("../icons/brand-twitch.svg");
+  mask-image: url("../icons/brand-twitch.svg");
   -webkit-mask-size: 100%;
   mask-size: 100%;
   width: 32px;
@@ -629,8 +629,8 @@ data-styled.g21[id="sc-fFubgz"] {
   -ms-flex-align: center;
   align-items: center;
   background-color: currentColor;
-  -webkit-mask-image: url(brand-instagram.svg);
-  mask-image: url(brand-instagram.svg);
+  -webkit-mask-image: url("../icons/brand-instagram.svg");
+  mask-image: url("../icons/brand-instagram.svg");
   -webkit-mask-size: 100%;
   mask-size: 100%;
   width: 32px;
@@ -659,8 +659,8 @@ data-styled.g21[id="sc-fFubgz"] {
   -ms-flex-align: center;
   align-items: center;
   background-color: currentColor;
-  -webkit-mask-image: url(brand-tiktok.svg);
-  mask-image: url(brand-tiktok.svg);
+  -webkit-mask-image: url("../icons/brand-tiktok.svg");
+  mask-image: url("../icons/brand-tiktok.svg");
   -webkit-mask-size: 100%;
   mask-size: 100%;
   width: 32px;
@@ -689,8 +689,8 @@ data-styled.g21[id="sc-fFubgz"] {
   -ms-flex-align: center;
   align-items: center;
   background-color: currentColor;
-  -webkit-mask-image: url(brand-facebook.svg);
-  mask-image: url(brand-facebook.svg);
+  -webkit-mask-image: url("../icons/brand-facebook.svg");
+  mask-image: url("../icons/brand-facebook.svg");
   -webkit-mask-size: 100%;
   mask-size: 100%;
   width: 32px;
