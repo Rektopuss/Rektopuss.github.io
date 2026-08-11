@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /turnirs/admin.html
+
+Sitemap: https://rektopussmedia.com/sitemap.xml
