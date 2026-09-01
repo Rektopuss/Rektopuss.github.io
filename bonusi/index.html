@@ -34,6 +34,23 @@
     .offer-subtitle { display:block; margin-top:4px; color:#9993a1; font-size:12px; font-weight:500; line-height:1.2; }
     .offer-subtitle em { color:#a355ef; font-style:normal; font-weight:800; }
     .arrow { color:#aaa5b3; font-size:28px; font-weight:300; line-height:1; }
+    .bonus-info { margin-top:28px; padding-top:24px; border-top:1px solid var(--line); }
+    .bonus-info h2 { margin:0; font:800 25px/1 "Barlow Condensed",Impact,sans-serif; letter-spacing:.01em; text-transform:uppercase; }
+    .bonus-info-intro { margin:6px 0 0; color:#a19ba9; font-size:13px; line-height:1.55; }
+    .bonus-steps { display:grid; gap:10px; margin:16px 0; counter-reset:bonus-step; list-style:none; padding:0; }
+    .bonus-steps li { display:grid; grid-template-columns:28px minmax(0,1fr); gap:10px; align-items:center; color:#e8e4ed; font-size:13px; font-weight:600; line-height:1.4; }
+    .bonus-steps li::before { display:grid; place-items:center; width:28px; height:28px; border:1px solid rgba(207,255,0,.34); border-radius:50%; color:#d6ff16; content:counter(bonus-step); counter-increment:bonus-step; font-size:12px; font-weight:800; }
+    .bonus-highlights { display:flex; flex-wrap:wrap; gap:7px; margin:0 0 16px; }
+    .bonus-highlights span { padding:5px 8px; border:1px solid rgba(255,255,255,.09); border-radius:5px; color:#bdb7c5; font-size:11px; font-weight:700; }
+    .bonus-rules { border-top:1px solid var(--line); }
+    .bonus-rules summary { display:flex; align-items:center; justify-content:space-between; padding:15px 0; cursor:pointer; color:#f1edf5; font-size:13px; font-weight:800; list-style:none; }
+    .bonus-rules summary::-webkit-details-marker { display:none; }
+    .bonus-rules summary::after { color:#d6ff16; content:"+"; font-size:20px; font-weight:500; }
+    .bonus-rules[open] summary::after { content:"−"; }
+    .bonus-rules-content { padding:0 0 4px; color:#aaa4b1; font-size:12px; line-height:1.65; }
+    .bonus-rules-content p { margin:0 0 12px; }
+    .bonus-rules-content ul { margin:0 0 14px; padding-left:18px; }
+    .bonus-rules-content a { color:#d6ff16; }
     footer { margin-top:40px; color:#847e8d; font-size:11px; line-height:1.8; text-align:center; }
     footer a { color:inherit; }
     footer p { margin:0; }
@@ -66,6 +83,36 @@
         <span><span class="offer-title">100 € Temu atlaides kupons</span><span class="offer-subtitle">Partneru piedāvājums</span></span><span class="arrow" aria-hidden="true">›</span>
       </a>
     </nav>
+
+    <section class="bonus-info" aria-labelledby="watchmewin-info-title">
+      <h2 id="watchmewin-info-title">WatchMeWin bonuss</h2>
+      <p class="bonus-info-intro">Pirms pirmās iemaksas aktivizē piedāvājumu depozīta lapā.</p>
+      <ol class="bonus-steps">
+        <li>Reģistrējies WatchMeWin kazino.</li>
+        <li>Depozīta lapā manuāli aktivizē iepazīšanās piedāvājumu.</li>
+        <li>Veic pirmo depozītu vismaz €20 vērtībā.</li>
+      </ol>
+      <div class="bonus-highlights" aria-label="Svarīgākie bonusa nosacījumi">
+        <span>100% līdz €777</span><span>275 griezieni</span><span>40x apgrozījums</span><span>7 dienas</span><span>€5 max. likme</span><span>18+</span>
+      </div>
+      <details class="bonus-rules">
+        <summary>Pilnie bonusa noteikumi</summary>
+        <div class="bonus-rules-content">
+          <p>Piedāvājums ir pieejams jaunajiem spēlētājiem no 18 gadu vecuma, kuri ir reģistrējuši kontu WatchMeWin kazino. Lai saņemtu bonusu, tas manuāli jāaktivizē depozīta lapā pirms pirmās iemaksas. Minimālā iemaksa ir €20.</p>
+          <p>Pirmajai iemaksai tiek piešķirts 100% depozīta bonuss līdz €777 un 275 bezmaksas griezieni spēlē Big Bass Vegas Double Down Deluxe. Bonuss jāaktivizē un jāizmanto 7 dienu laikā pēc piešķiršanas.</p>
+          <ul>
+            <li>Katra bezmaksas grieziena vērtība ir €0,10.</li>
+            <li>Bezmaksas griezienu laimestiem piemēro 35x apgrozījumu 3 dienu laikā; laimestu limits ir €100.</li>
+            <li>Bonusa līdzekļiem piemēro 40x apgrozījuma prasību. Maksimālā likme bonusa laikā ir €5 par griezienu vai spēles raundu.</li>
+            <li>Pēc apgrozījuma prasību izpildes reālajā naudā var pārvērst līdz €2 000 no bonusa līdzekļiem.</li>
+            <li>Izmaksas pieprasījums pirms prasību izpildes anulē bonusu un ar to saistītos laimestus.</li>
+            <li>Viens bonuss ir atļauts vienai personai, mājsaimniecībai, IP adresei, e-pasta adresei, maksājuma metodei vai koplietotai ierīcei.</li>
+          </ul>
+          <p>WatchMeWin var anulēt bonusus vai laimestus bonusu ļaunprātīgas izmantošanas, krāpnieciskas rīcības vai noteikumu pārkāpumu gadījumā, tostarp izmantojot VPN atrašanās vietas slēpšanai. Pretrunu gadījumā noteicoša ir angļu valodas versija.</p>
+          <p><a href="https://watchmewin9.casino/lv/info/terms-conditions" target="_blank" rel="noopener noreferrer">WatchMeWin vispārīgie noteikumi</a><br><a href="https://watchmewin9.casino/lv/promo/bonuses-terms-wmw" target="_blank" rel="noopener noreferrer">WatchMeWin akciju un bonusu noteikumi</a></p>
+        </div>
+      </details>
+    </section>
 
     <footer><p>18+ | <a href="https://azartaatkariba.lv/" target="_blank" rel="noopener noreferrer">Spēlē atbildīgi.</a></p><p>© Rektopuss Media</p></footer>
   </main>
