@@ -1,0 +1,4 @@
+id,name,amount,createdAt,message,currency
+example-001,YourViewer,25.00,2026-09-06T18:00:00Z,Love the stream!,EUR
+example-002,AnotherViewer,100.00,2026-09-06T18:05:00Z,"For the setup, and the good vibes",EUR
+example-003,YourViewer,10.00,2026-09-06T18:10:00Z,One more little boost,EUR
