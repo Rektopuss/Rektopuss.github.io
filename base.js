@@ -74,7 +74,7 @@
         <header class="page-header"><span class="page-header-spacer" aria-hidden="true"></span><a class="page-title" href="${esc(rootURL.href)}">ASV TRIPS v2</a><a class="tip-link" href="${esc(publicDonateURL())}" target="_blank" rel="noopener noreferrer">Ziedot ${icon('arrow', 13)}</a></header>
         <div class="content-grid">
           <section class="goal-card" aria-labelledby="campaign-title"><h1 id="campaign-title" class="sr-only"></h1>${gauge()}<div class="goal-money"><strong id="goal-total"></strong><span>/ <span id="goal-target"></span></span></div><span id="goal-remaining" class="goal-remaining"></span></section>
-          <section class="card milestone-card"><div class="card-heading"><h2>Mērķi</h2><span class="muted small" id="milestone-count"></span></div><div class="mission-view" id="mission-view"><div class="mission-track" aria-hidden="true"></div><ol id="milestones" aria-label="Iepriekšējais, pašreizējais un nākamais mērķis"></ol><span class="mission-position" id="mission-position" aria-hidden="true"></span></div><p id="mission-empty" class="empty" hidden>Mērķi vēl nav pievienoti. Pievieno tos sadaļā “Pielāgot”.</p></section>
+          <section class="card milestone-card"><div class="card-heading"><h2>Mērķi</h2><span class="muted small" id="milestone-count"></span></div><div class="mission-view" id="mission-view"><div class="mission-track" aria-hidden="true"></div><ol id="milestones" aria-label="Iepriekšējais, pašreizējais un nākamais mērķis"></ol><span class="mission-position" id="mission-position" aria-hidden="true"></span></div><p id="mission-empty" class="empty" hidden>Mērķi vēl nav pievienoti. Pievieno tos sadaļā “Pielāgot”.</p><details class="mission-details" id="mission-details"><summary><span>Skatīt visus mērķus</span><span class="mission-summary-icon" aria-hidden="true">⌄</span></summary><ol class="all-milestones" id="all-milestones" aria-label="Visi kampaņas mērķi"></ol></details></section>
           <section class="card recent-card"><div class="card-heading"><h2>Jaunākie ziedojumi</h2><span id="stat-count" class="muted small" title="Kampaņas ziedojumi"></span></div><div id="recent-list" class="donor-list"></div></section>
           <section class="card leaders-card"><div class="card-heading"><h2>Lielākie ziedotāji</h2></div><div id="leaders-list" class="donor-list"></div></section>
         </div>
@@ -137,6 +137,12 @@
     }
     $('mission-position').hidden = !missionHasProgress || !currentGoal || data.total === currentGoal.amountCents || completedCount === s.milestones.length;
     $('mission-position').style.left = missionPosition * 100 + '%';
+    $('mission-details').hidden = s.milestones.length === 0;
+    $('all-milestones').style.setProperty('--mission-list-rows', Math.ceil(s.milestones.length / 2));
+    $('all-milestones').innerHTML = s.milestones.map((m, index) => {
+      const done = data.total >= m.amountCents, active = m === next;
+      return '<li class="all-milestone ' + (done ? 'done' : active ? 'active' : '') + '"' + (active ? ' aria-current="step"' : '') + '><span class="all-milestone-marker" aria-hidden="true">' + (done ? icon('check', 10) : index + 1) + '</span><strong>' + esc(m.label) + '</strong><span>' + esc(money(m.amountCents)) + '</span></li>';
+    }).join('');
     updateMissionTrack();
     const recentDonations = data.donations.slice(0, overlay ? 4 : 5);
     $('recent-list').innerHTML = recentDonations.map(d => overlay
@@ -215,6 +221,7 @@
   function updateOverlayURL() {
     const url = new URL('donations/overlay/', rootURL); if (location.protocol === 'file:') url.pathname += 'index.html';
     url.searchParams.set('widget', $('overlay-layout').value); if ($('preview-background').checked) url.searchParams.set('preview', '1');
+    if (new URLSearchParams(location.search).has('test')) url.searchParams.set('test', '1');
     const snapshot = { ...state, donations: state.donations.slice(0, 50) };
     // Preserve full totals and rankings: never silently truncate a shared snapshot.
     const tooMany = state.donations.length > 50;

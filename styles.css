@@ -58,6 +58,22 @@ strong { font-weight:500; }
 .milestone small { display:block; color:#808996; font-size:10px; margin-top:5px; }
 .done small { color:var(--mint); }
 .active small { color:#bdce95; }
+.mission-details { width:min(100%,860px); margin:4px auto 0; border-top:1px solid #ffffff08; }
+.mission-details[hidden] { display:none; }
+.mission-details summary { display:flex; align-items:center; justify-content:center; gap:7px; width:max-content; margin:0 auto; padding:10px 8px 2px; color:#858e9a; cursor:pointer; list-style:none; font-size:10px; }
+.mission-details summary::-webkit-details-marker { display:none; }
+.mission-details summary:hover { color:var(--text); }
+.mission-summary-icon { font-size:14px; line-height:1; transition:transform .2s ease; }
+.mission-details[open] .mission-summary-icon { transform:rotate(180deg); }
+.all-milestones { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); grid-template-rows:repeat(var(--mission-list-rows,4),auto); grid-auto-flow:column; gap:0 24px; margin:8px 0 0; padding:0; list-style:none; }
+.all-milestone { display:grid; grid-template-columns:22px minmax(0,1fr) auto; align-items:center; gap:9px; min-height:42px; padding:7px 3px; border-bottom:1px solid #ffffff08; color:var(--muted); }
+.all-milestone-marker { display:grid; place-items:center; width:17px; height:17px; border:1px solid #4a535e; border-radius:50%; color:#838d99; font:9px var(--heading); }
+.all-milestone strong { min-width:0; color:#aeb4bd; font-size:11px; overflow-wrap:anywhere; }
+.all-milestone>span:last-child { font:10px var(--heading); white-space:nowrap; }
+.all-milestone.done .all-milestone-marker { border-color:var(--mint); background:#203a33; color:var(--mint); }
+.all-milestone.done strong { color:var(--text); }
+.all-milestone.active .all-milestone-marker { border-color:var(--lime); color:var(--lime); box-shadow:0 0 0 3px #d8f2770a; }
+.all-milestone.active strong,.all-milestone.active>span:last-child { color:var(--lime); }
 .donor-row,.leader-row { display:flex; align-items:center; gap:10px; min-height:49px; padding:10px 0; border-bottom:1px solid #ffffff05; }
 .recent-card .donor-row,.leaders-card .leader-row { height:59px; }
 .donor-row:last-child,.leader-row:last-child { border-bottom:0; }
@@ -160,12 +176,13 @@ input::file-selector-button { border:0; background:#323b28; color:var(--lime); p
   .donor-info time { display:inline; margin-left:7px; }
   .rank { display:block; }
   .form-row { gap:9px; }
+  .all-milestones { grid-template-columns:1fr; grid-template-rows:none; grid-auto-flow:row; }
 }
 /* Wide, shallow OBS views: high-contrast type survives downscaling. */
 body[data-view=overlay] { width:100%; background:transparent; }
 body[data-view=overlay] .shell { width:100%; max-width:none; padding:12px; margin:0; }
 body[data-view=overlay] .page-header { display:none; }
-body[data-view=overlay] .content-grid { display:grid; grid-template-columns:minmax(0,58%) minmax(0,42%); align-items:start; gap:0; padding:2px 12px 7px; background:#101217ee; border-radius:9px; overflow:hidden; }
+body[data-view=overlay] .content-grid { display:grid; grid-template-columns:minmax(0,58%) minmax(0,42%); align-items:start; gap:0; padding:2px 12px 7px; background:#101217b8; border-radius:9px; overflow:hidden; }
 body[data-view=overlay] .leaders-card,body[data-view=overlay] .studio-bar { display:none; }
 body[data-view=overlay] .goal-card { grid-column:1; grid-row:1; justify-self:center; width:380px; padding:0 16px 1px; background:transparent; border-radius:0; }
 body[data-view=overlay] .gauge { width:290px; }
@@ -179,6 +196,7 @@ body[data-view=overlay] .milestone-card { display:block; grid-column:1/-1; grid-
 body[data-view=overlay] .milestone-card .card-heading { display:none; }
 body[data-view=overlay] .milestone-card h2 { font-size:17px; font-weight:600; }
 body[data-view=overlay] .milestone-card .small { color:#d0d5da; font-size:13px; }
+body[data-view=overlay] .mission-details { display:none; }
 body[data-view=overlay] .mission-view { max-width:none; }
 body[data-view=overlay] #milestones { grid-template-columns:repeat(2,minmax(0,1fr)); }
 body[data-view=overlay] .mission-track { mask-image:linear-gradient(to right,transparent,black 8%,black 92%,transparent); }
