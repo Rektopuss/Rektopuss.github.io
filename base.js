@@ -62,7 +62,7 @@
     document.body.dataset.widget = requestedWidget === 'latest' ? 'mission' : requestedWidget;
   }
   const icon = (name, size = 18) => {
-    const paths = { bolt: '<path d="m13 2-9 12h7l-1 8 10-12h-7l1-8Z"/>', arrow: '<path d="M7 17 17 7M7 7h10v10"/>', plus: '<path d="M12 5v14M5 12h14"/>', settings: '<path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="3"/><circle cx="15" cy="17" r="3"/>', download: '<path d="M12 3v12m-5-5 5 5 5-5M5 17v4h14v-4"/>', screen: '<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8m-4-4v4"/>', heart: '<path d="M20 5c-3-3-7-1-8 1-1-2-5-4-8-1-5 5 8 15 8 15S25 10 20 5Z"/>', check: '<path d="m5 12 4 4L19 6"/>', upload: '<path d="M12 16V3m-5 5 5-5 5 5M4 16v5h16v-5"/>', close: '<path d="m6 6 12 12M6 18 18 6"/>' };
+    const paths = { bolt: '<path d="m13 2-9 12h7l-1 8 10-12h-7l1-8Z"/>', arrow: '<path d="M7 17 17 7M7 7h10v10"/>', plus: '<path d="M12 5v14M5 12h14"/>', settings: '<path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="3"/><circle cx="15" cy="17" r="3"/>', download: '<path d="M12 3v12m-5-5 5 5 5-5M5 17v4h14v-4"/>', screen: '<rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8m-4-4v4"/>', heart: '<path d="M20 5c-3-3-7-1-8 1-1-2-5-4-8-1-5 5 8 15 8 15S25 10 20 5Z"/>', lock: '<rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/>', check: '<path d="m5 12 4 4L19 6"/>', upload: '<path d="M12 16V3m-5 5 5-5 5 5M4 16v5h16v-5"/>', close: '<path d="m6 6 12 12M6 18 18 6"/>' };
     return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (paths[name] || paths.bolt) + '</svg>';
   };
   function gauge() {
@@ -165,17 +165,17 @@
       const currentGoal = overlayGoals[centeredIndex];
       $('mission-view').hidden = !currentGoal;
       $('mission-empty').hidden = Boolean(currentGoal);
-      const visibleGoalOffsets = overlay ? [0, 1] : [-1, 0, 1];
+      const visibleStartIndex = Math.min(centeredIndex, Math.max(0, overlayGoals.length - 3));
+      const visibleGoalOffsets = [0, 1, 2].map(slot => visibleStartIndex + slot - centeredIndex);
       $('milestones').innerHTML = currentGoal ? visibleGoalOffsets.map(offset => {
         const index = centeredIndex + offset, m = overlayGoals[index];
         if (!m) return '<li class="milestone mission-placeholder" aria-hidden="true"></li>';
         const done = data.total >= m.amountCents, active = m === next;
-        return '<li class="milestone ' + (done ? 'done' : active ? 'active' : '') + (offset === 0 ? ' centered' : '') + '"' + (offset === 0 ? ' aria-current="step" data-center="true"' : '') + ' data-index="' + index + '"><span class="mission-dot" aria-hidden="true">' + (done ? icon('check', 10) : '') + '</span><div class="milestone-label"><strong>' + esc(m.label) + '</strong><span>' + esc(money(m.amountCents)) + '</span></div><small>' + (done ? 'Pabeigts' : active ? 'Nākamais · atlikuši ' + esc(money(m.amountCents - data.total)) : 'Gaidāms') + '</small></li>';
+        return '<li class="milestone ' + (done ? 'done' : active ? 'active' : '') + (offset === 0 ? ' centered' : '') + '"' + (offset === 0 ? ' aria-current="step" data-center="true"' : '') + ' data-index="' + index + '"><span class="mission-dot" aria-hidden="true">' + icon(done ? 'check' : 'lock', 18) + '</span><div class="milestone-label"><strong>' + esc(m.label) + '</strong><span>' + esc(money(m.amountCents)) + '</span></div><small>' + (done ? 'Pabeigts' : active ? 'Nākamais · atlikuši ' + esc(money(m.amountCents - data.total)) : 'Gaidāms') + '</small></li>';
       }).join('') : '';
       missionHasProgress = data.total > 0 && Boolean(currentGoal);
-      // The website centers the current checkpoint. OBS fixes it at the left quarter.
-      const currentPosition = overlay ? 0.25 : 0.5;
-      const segmentWidth = overlay ? 0.5 : 1 / 3;
+      const currentPosition = (centeredIndex - visibleStartIndex + 0.5) / 3;
+      const segmentWidth = 1 / 3;
       missionPosition = currentPosition;
       if (currentGoal && data.total < currentGoal.amountCents) {
         missionPosition = Math.max(0, currentPosition - segmentWidth) + Math.max(0, data.total / currentGoal.amountCents) * Math.min(segmentWidth, currentPosition);
