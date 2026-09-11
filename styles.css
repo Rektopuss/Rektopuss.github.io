@@ -26,12 +26,13 @@ strong { font-weight:500; }
 .gauge { display:block; width:min(100%,370px); margin:0 auto; overflow:visible; }
 .gauge-track,.gauge-progress { fill:none; stroke-width:7; stroke-linecap:round; }
 .gauge-track { stroke:#2f3439; }
-.gauge-progress { stroke:url(#arc-color); transition:stroke-dasharray 1s cubic-bezier(.22,1,.36,1); }
+.gauge-progress { stroke:url(#arc-color); }
 .gauge-tick { stroke:#454a4b; stroke-width:1; }
 .gauge-tick.major { stroke:#7d8580; stroke-width:1.4; }
 .gauge-percent { fill:var(--text); text-anchor:middle; font:500 30px var(--heading); letter-spacing:-1px; }
 .gauge-edge { fill:#8f9895; font:10px var(--body); }
-#gauge-needle { transform-origin:200px 220px; transition:transform 1.2s cubic-bezier(.22,1,.36,1); }
+#gauge-needle { transform-origin:200px 220px; }
+.gauge-percent,.goal-money strong { font-variant-numeric:tabular-nums; }
 .goal-money { display:flex; justify-content:center; align-items:baseline; gap:8px; margin-top:5px; }
 .goal-money strong { font:500 32px/1.2 var(--heading); letter-spacing:-1px; }
 .goal-money>span { color:var(--muted); font-size:13px; }

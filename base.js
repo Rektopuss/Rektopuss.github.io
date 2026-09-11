@@ -9,13 +9,18 @@
   const storageKey = 'afterhours-donations-v1:' + rootURL.pathname + (new URLSearchParams(location.search).has('test') ? ':test' : '');
   const $ = id => document.getElementById(id);
   const esc = value => String(value).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
-  let state = M.demo(), connection = '', storageWarning = '', eventSource, backendPollTimer, backendConnecting = false;
+  let state = config.apiBaseUrl ? {
+    version: 1, source: 'custom', donations: [],
+    settings: { title: 'ASV TRIPS v2', subtitle: '', currency: 'EUR', goalCents: config.initialGoalCents || 1000000, startDate: new Date().toISOString(), milestones: [] }
+  } : M.demo();
+  let connection = '', storageWarning = '', eventSource, backendPollTimer, backendConnecting = false;
+  let gaugeDisplayed = 0, gaugeTarget, gaugeGoal, gaugeCurrency, gaugeFrame;
   let announcementQueue = [], announcementTimer = null;
   let missionPosition = 0.5, missionHasProgress = false;
   function decodeSnapshot(value) { return JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(value), c => c.charCodeAt(0)))); }
   function encodeSnapshot(value) { return btoa(Array.from(new TextEncoder().encode(JSON.stringify(value)), b => String.fromCharCode(b)).join('')); }
   try {
-    const saved = localStorage.getItem(storageKey);
+    const saved = !config.apiBaseUrl && localStorage.getItem(storageKey);
     if (saved) state = M.validateState(JSON.parse(saved));
   } catch (_) { storageWarning = 'Pārlūka krātuve nav pieejama vai saglabātie dati nav derīgi. Pirms aizvēršanas eksportē datus.'; }
   if (!overlay && !config.apiBaseUrl && config.localResetVersion && !new URLSearchParams(location.search).has('test')) {
@@ -48,7 +53,7 @@
   }
   if (overlay) {
     const params = new URLSearchParams(location.hash.slice(1));
-    if (params.has('data')) {
+    if (!config.apiBaseUrl && params.has('data')) {
       try { state = M.validateState(decodeSnapshot(params.get('data'))); }
       catch (_) { connection = 'Nederīga datu kopija'; storageWarning = 'Pārklājuma datu kopiju neizdevās ielādēt.'; state.donations = []; }
     }
@@ -71,10 +76,12 @@
   $('app').innerHTML = `
     <div class="shell">
       <main>
-        <header class="page-header"><a class="page-title" href="${esc(rootURL.href)}">ASV TRIPS v2</a></header>
+        <header class="page-header">${overlay ? `<a class="page-title" href="${esc(rootURL.href)}">ASV TRIPS v2</a>` : `
+          <a class="campaign-heading" href="${esc(rootURL.href)}"><span class="campaign-heading-kicker">ASV TRIPS v2</span><span class="campaign-heading-destination">FLORIDA</span></a>
+        `}</header>
         <div class="content-grid">
           <section class="goal-card" aria-labelledby="campaign-title"><h1 id="campaign-title" class="sr-only"></h1>${gauge()}<div class="goal-money"><strong id="goal-total"></strong><span>/ <span id="goal-target"></span></span></div><span id="goal-remaining" class="goal-remaining"></span><a class="tip-link goal-tip-link" href="${esc(publicDonateURL())}" target="_blank" rel="noopener noreferrer">Ziedot ${icon('arrow', 14)}</a></section>
-          <section class="card milestone-card"><div class="card-heading"><h2>Mērķi</h2><span class="muted small" id="milestone-count"></span></div><div class="mission-view" id="mission-view"><div class="mission-track" aria-hidden="true"></div><ol id="milestones" aria-label="Iepriekšējais, pašreizējais un nākamais mērķis"></ol><span class="mission-position" id="mission-position" aria-hidden="true"></span></div><p id="mission-empty" class="empty" hidden>Mērķi vēl nav pievienoti. Pievieno tos sadaļā “Pielāgot”.</p><details class="mission-details" id="mission-details"><summary><span>Skatīt visus mērķus</span><span class="mission-summary-icon" aria-hidden="true">⌄</span></summary><ol class="all-milestones" id="all-milestones" aria-label="Visi kampaņas mērķi"></ol></details></section>
+          ${overlay ? `<section class="card milestone-card"><div class="card-heading"><h2>Mērķi</h2><span class="muted small" id="milestone-count"></span></div><div class="mission-view" id="mission-view"><div class="mission-track" aria-hidden="true"></div><ol id="milestones" aria-label="Iepriekšējais, pašreizējais un nākamais mērķis"></ol><span class="mission-position" id="mission-position" aria-hidden="true"></span></div><p id="mission-empty" class="empty" hidden>Mērķi vēl nav pievienoti. Pievieno tos sadaļā “Pielāgot”.</p><details class="mission-details" id="mission-details"><summary><span>Skatīt visus mērķus</span><span class="mission-summary-icon" aria-hidden="true">⌄</span></summary><ol class="all-milestones" id="all-milestones" aria-label="Visi kampaņas mērķi"></ol></details></section>` : '<section id="campaign-secrets" class="campaign-secrets" aria-label="Florida noslēpumi"></section>'}
           <section class="card campaign-story" aria-labelledby="campaign-story-title">
             <div class="campaign-story-copy"><span class="eyebrow">KĀPĒC MĒS TO DARĀM</span><h2 id="campaign-story-title">ASV piedzīvojums turpinās</h2><p>Pagājušajā gadā aizbraucām tripā uz ASV un no tā sanāca veselas 10 video sērijas. Jums tās patika tik ļoti, ka pēc tam regulāri dzirdējām vienu un to pašu jautājumu: kad būs nākamais ASV trips?</p><p>Tāpēc šogad gribam to atkārtot, tikai citā Amerikas galā. Šoreiz dodamies uz Floridu, kur galvenais galamērķis būs Maiami, bet pa ceļam gribam izbraukāt arī citas vietas un paskatīties, kas vispār notiek ASV otrā krastā.</p><p>Plāns atkal ir uztaisīt 10 sēriju ceļojuma video sēriju, un šoreiz arī jūs varat palīdzēt tai tapt. Ja gribat piemest ceļojumam kādu eiro, visa saziedotā nauda aizies lidojumiem un citiem brauciena izdevumiem, kurus var redzēt mērķu līnijā.</p><p>Īsāk sakot, jūs palīdzat mums tikt uz Floridu, mēs pretī cenšamies uztaisīt vēl 10 ASV sērijas, kurās atkal notiek visādi sūdi.</p><a class="story-link" href="https://www.youtube.com/watch?v=18XlOwddXn0&amp;list=PLRgkqptx7JL82s0wQbKRxik07LcEeFxcH" target="_blank" rel="noopener noreferrer">Skatīties iepriekšējā ASV brauciena sēriju ${icon('arrow', 14)}</a></div>
             <a class="story-media" href="https://www.youtube.com/watch?v=18XlOwddXn0&amp;list=PLRgkqptx7JL82s0wQbKRxik07LcEeFxcH" target="_blank" rel="noopener noreferrer" aria-label="Skatīties iepriekšējā ASV brauciena video sēriju YouTube"><img src="${esc(new URL('assets/images/donations/asv-trips-previous.jpg', rootURL).href)}" alt="Iepriekšējā ASV brauciena video sērijas pirmā video titulattēls" loading="lazy"><span class="story-media-label"><i aria-hidden="true"></i>Iepriekšējais ASV brauciens</span></a>
@@ -104,50 +111,89 @@
     const characters = [...String(value)];
     return characters.length <= maxLength ? characters.join('') : characters.slice(0, maxLength - 3).join('') + '...';
   }
+  function animateGauge(total, goal) {
+    const currency = state.settings.currency;
+    if (total === gaugeTarget && goal === gaugeGoal && currency === gaugeCurrency) return;
+    cancelAnimationFrame(gaugeFrame);
+    gaugeTarget = total; gaugeGoal = goal; gaugeCurrency = currency;
+    const from = gaugeDisplayed;
+    const started = performance.now();
+    const duration = 2200;
+    const formatter = new Intl.NumberFormat('lv-LV', { style: 'currency', currency, maximumFractionDigits: 2, minimumFractionDigits: 2 });
+    const wholeFormatter = new Intl.NumberFormat('lv-LV', { style: 'currency', currency, maximumFractionDigits: 0 });
+    const format = cents => (cents % 100 ? formatter : wholeFormatter).format(cents / 100);
+    function paint(amount) {
+      gaugeDisplayed = amount;
+      const percent = amount / goal * 100;
+      const clamped = Math.max(0, Math.min(100, percent));
+      $('gauge-percent').textContent = Math.floor(percent) + '%';
+      $('gauge-progress').setAttribute('stroke-dasharray', clamped + ' 100');
+      $('gauge-needle').style.transform = 'rotate(' + (-90 + clamped * 1.8) + 'deg)';
+      $('goal-total').textContent = format(amount);
+      $('goal-remaining').textContent = percent >= 100 ? '+' + format(amount - goal) + ' virs mērķa' : 'Atlikuši ' + format(goal - amount);
+    }
+    if (from === total || matchMedia('(prefers-reduced-motion: reduce)').matches) { paint(total); return; }
+    paint(from);
+    function tick(now) {
+      const progress = Math.min(1, (now - started) / duration);
+      const eased = progress < .5 ? 4 * progress ** 3 : 1 - (-2 * progress + 2) ** 3 / 2;
+      paint(progress === 1 ? total : Math.round(from + (total - from) * eased));
+      if (progress < 1) gaugeFrame = requestAnimationFrame(tick);
+    }
+    gaugeFrame = requestAnimationFrame(tick);
+  }
   function render() {
     const s = state.settings, data = M.stats(state);
-    const percent = data.total / s.goalCents * 100, clamped = Math.min(100, percent);
-    const next = s.milestones.find(m => m.amountCents > data.total);
+    const percent = data.total / s.goalCents * 100;
     $('stat-count').textContent = data.count;
     $('campaign-title').textContent = s.title;
-    $('gauge-percent').textContent = Math.floor(percent) + '%'; $('gauge-max').textContent = money(s.goalCents, true);
+    $('gauge-max').textContent = money(s.goalCents, true);
     $('gauge-title').textContent = 'Savākti ' + money(data.total) + ' no ' + money(s.goalCents) + ', ' + Math.floor(percent) + ' procenti';
-    $('gauge-progress').setAttribute('stroke-dasharray', clamped + ' 100'); $('gauge-needle').style.transform = 'rotate(' + (-90 + clamped * 1.8) + 'deg)';
-    $('goal-total').textContent = money(data.total); $('goal-target').textContent = money(s.goalCents);
-    $('goal-remaining').textContent = percent >= 100 ? '+' + money(data.total - s.goalCents) + ' virs mērķa' : 'Atlikuši ' + money(s.goalCents - data.total);
-    const completedCount = s.milestones.filter(m => m.amountCents <= data.total).length;
-    const centeredIndex = Math.max(0, completedCount - 1);
-    $('milestone-count').textContent = completedCount + ' / ' + s.milestones.length;
-    const currentGoal = s.milestones[centeredIndex];
-    $('mission-view').hidden = !currentGoal;
-    $('mission-empty').hidden = Boolean(currentGoal);
-    const visibleGoalOffsets = overlay ? [0, 1] : [-1, 0, 1];
-    $('milestones').innerHTML = currentGoal ? visibleGoalOffsets.map(offset => {
-      const index = centeredIndex + offset, m = s.milestones[index];
-      if (!m) return '<li class="milestone mission-placeholder" aria-hidden="true"></li>';
-      const done = data.total >= m.amountCents, active = m === next;
-      return '<li class="milestone ' + (done ? 'done' : active ? 'active' : '') + (offset === 0 ? ' centered' : '') + '"' + (offset === 0 ? ' aria-current="step" data-center="true"' : '') + ' data-index="' + index + '"><span class="mission-dot" aria-hidden="true">' + (done ? icon('check', 10) : '') + '</span><div class="milestone-label"><strong>' + esc(m.label) + '</strong><span>' + esc(money(m.amountCents)) + '</span></div><small>' + (done ? 'Pabeigts' : active ? 'Nākamais · atlikuši ' + esc(money(m.amountCents - data.total)) : 'Gaidāms') + '</small></li>';
-    }).join('') : '';
-    missionHasProgress = data.total > 0 && Boolean(currentGoal);
-    // The website centers the current checkpoint. OBS fixes it at the left quarter.
-    const currentPosition = overlay ? 0.25 : 0.5;
-    const segmentWidth = overlay ? 0.5 : 1 / 3;
-    missionPosition = currentPosition;
-    if (currentGoal && data.total < currentGoal.amountCents) {
-      missionPosition = Math.max(0, currentPosition - segmentWidth) + Math.max(0, data.total / currentGoal.amountCents) * Math.min(segmentWidth, currentPosition);
-    } else if (currentGoal && s.milestones[centeredIndex + 1]) {
-      const upcoming = s.milestones[centeredIndex + 1];
-      missionPosition += Math.min(1, (data.total - currentGoal.amountCents) / (upcoming.amountCents - currentGoal.amountCents)) * segmentWidth;
+    $('goal-target').textContent = money(s.goalCents);
+    animateGauge(data.total, s.goalCents);
+    if (overlay) {
+      const secrets = window.DonationGoals.milestones(s.goalCents);
+      const overlayGoals = [{ amountCents: 0, label: 'Starts' }, ...secrets.map((goal, index) => ({
+        ...goal,
+        label: data.total >= goal.amountCents ? window.DonationGoals.reveal(index, secrets.length).title : goal.label
+      }))];
+      const next = overlayGoals.find(m => m.amountCents > data.total);
+      const completedCount = overlayGoals.filter(m => m.amountCents <= data.total).length;
+      const centeredIndex = Math.max(0, completedCount - 1);
+      $('milestone-count').textContent = (completedCount - 1) + ' / ' + secrets.length;
+      const currentGoal = overlayGoals[centeredIndex];
+      $('mission-view').hidden = !currentGoal;
+      $('mission-empty').hidden = Boolean(currentGoal);
+      const visibleGoalOffsets = overlay ? [0, 1] : [-1, 0, 1];
+      $('milestones').innerHTML = currentGoal ? visibleGoalOffsets.map(offset => {
+        const index = centeredIndex + offset, m = overlayGoals[index];
+        if (!m) return '<li class="milestone mission-placeholder" aria-hidden="true"></li>';
+        const done = data.total >= m.amountCents, active = m === next;
+        return '<li class="milestone ' + (done ? 'done' : active ? 'active' : '') + (offset === 0 ? ' centered' : '') + '"' + (offset === 0 ? ' aria-current="step" data-center="true"' : '') + ' data-index="' + index + '"><span class="mission-dot" aria-hidden="true">' + (done ? icon('check', 10) : '') + '</span><div class="milestone-label"><strong>' + esc(m.label) + '</strong><span>' + esc(money(m.amountCents)) + '</span></div><small>' + (done ? 'Pabeigts' : active ? 'Nākamais · atlikuši ' + esc(money(m.amountCents - data.total)) : 'Gaidāms') + '</small></li>';
+      }).join('') : '';
+      missionHasProgress = data.total > 0 && Boolean(currentGoal);
+      // The website centers the current checkpoint. OBS fixes it at the left quarter.
+      const currentPosition = overlay ? 0.25 : 0.5;
+      const segmentWidth = overlay ? 0.5 : 1 / 3;
+      missionPosition = currentPosition;
+      if (currentGoal && data.total < currentGoal.amountCents) {
+        missionPosition = Math.max(0, currentPosition - segmentWidth) + Math.max(0, data.total / currentGoal.amountCents) * Math.min(segmentWidth, currentPosition);
+      } else if (currentGoal && overlayGoals[centeredIndex + 1]) {
+        const upcoming = overlayGoals[centeredIndex + 1];
+        missionPosition += Math.min(1, (data.total - currentGoal.amountCents) / (upcoming.amountCents - currentGoal.amountCents)) * segmentWidth;
+      }
+      $('mission-position').hidden = !missionHasProgress || !currentGoal || data.total === currentGoal.amountCents || completedCount === overlayGoals.length;
+      $('mission-position').style.left = missionPosition * 100 + '%';
+      $('mission-details').hidden = false;
+      $('all-milestones').style.setProperty('--mission-list-rows', Math.ceil(overlayGoals.length / 2));
+      $('all-milestones').innerHTML = overlayGoals.map((m, index) => {
+        const done = data.total >= m.amountCents, active = m === next;
+        return '<li class="all-milestone ' + (done ? 'done' : active ? 'active' : '') + '"' + (active ? ' aria-current="step"' : '') + '><span class="all-milestone-marker" aria-hidden="true">' + (done ? icon('check', 10) : index + 1) + '</span><strong>' + esc(m.label) + '</strong><span>' + esc(money(m.amountCents)) + '</span></li>';
+      }).join('');
+      updateMissionTrack();
+    } else {
+      window.DonationSecrets.render(s, data.total);
     }
-    $('mission-position').hidden = !missionHasProgress || !currentGoal || data.total === currentGoal.amountCents || completedCount === s.milestones.length;
-    $('mission-position').style.left = missionPosition * 100 + '%';
-    $('mission-details').hidden = s.milestones.length === 0;
-    $('all-milestones').style.setProperty('--mission-list-rows', Math.ceil(s.milestones.length / 2));
-    $('all-milestones').innerHTML = s.milestones.map((m, index) => {
-      const done = data.total >= m.amountCents, active = m === next;
-      return '<li class="all-milestone ' + (done ? 'done' : active ? 'active' : '') + '"' + (active ? ' aria-current="step"' : '') + '><span class="all-milestone-marker" aria-hidden="true">' + (done ? icon('check', 10) : index + 1) + '</span><strong>' + esc(m.label) + '</strong><span>' + esc(money(m.amountCents)) + '</span></li>';
-    }).join('');
-    updateMissionTrack();
     const recentDonations = data.donations.slice(0, overlay ? 4 : 5);
     $('recent-list').innerHTML = recentDonations.map(d => overlay
       ? '<div class="donor-row overlay-donor-row"><strong class="overlay-donor-name" title="' + esc(d.name) + '">' + esc(truncatedName(d.name)) + '</strong><span class="donor-amount">+' + esc(money(d.amountCents)) + '</span></div>'
@@ -159,12 +205,13 @@
     $('support-button').disabled = Boolean(config.apiBaseUrl && !publicDonateURL());
   }
   function updateMissionTrack() {
+    if (!overlay) return;
     const view = $('mission-view');
     const pageWidth = overlay ? view.clientWidth : document.documentElement.clientWidth;
     view.style.setProperty('--page-width', pageWidth + 'px');
     view.style.setProperty('--progress-x', (missionHasProgress ? pageWidth / 2 + (missionPosition - 0.5) * view.clientWidth : 0) + 'px');
   }
-  new ResizeObserver(updateMissionTrack).observe($('mission-view'));
+  if (overlay) new ResizeObserver(updateMissionTrack).observe($('mission-view'));
   function toast(message) { $('toast').textContent = message; $('toast').classList.add('visible'); clearTimeout(toast.timer); toast.timer = setTimeout(() => $('toast').classList.remove('visible'), 5000); }
   function persist(next, donation) {
     const previousTotal = M.stats(state).total;
@@ -174,7 +221,8 @@
     if (donation) {
       announce(donation);
       const total = M.stats(state).total;
-      const unlocked = state.settings.milestones.filter(m => previousTotal < m.amountCents && total >= m.amountCents);
+      const milestones = window.DonationGoals.milestones(state.settings.goalCents);
+      const unlocked = milestones.filter(m => previousTotal < m.amountCents && total >= m.amountCents);
       if (unlocked.length) { celebrate(); toast('Sasniegts mērķis: ' + unlocked.map(m => m.label).join(' · ')); }
     }
   }
@@ -285,7 +333,7 @@
         eventSource.addEventListener('error', () => { connection = 'Atjauno savienojumu · pēdējie zināmie dati'; render(); });
       } else startBackendPolling(base);
     } catch (error) {
-      connection = 'Datu serveris nav pieejams · lokāls priekšskatījums'; storageWarning = error.message; render();
+      connection = 'Datu serveris nav pieejams · mēģinām vēlreiz'; storageWarning = error.message; render();
       setTimeout(connectBackend, 15000);
     } finally { backendConnecting = false; }
   }

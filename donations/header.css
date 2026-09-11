@@ -1,0 +1,23 @@
+.shell .page-header {
+  flex-direction:column;
+  margin-bottom:20px;
+  text-align:center;
+}
+
+.campaign-heading {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:3px;
+}
+
+.campaign-heading-kicker {
+  font:600 18px/1.3 'Barlow Condensed','Arial Narrow',sans-serif;
+  letter-spacing:2px;
+}
+
+.campaign-heading-destination {
+  font:italic 900 clamp(56px,9vw,76px)/1 'Barlow Condensed','Arial Narrow',sans-serif;
+  letter-spacing:1px;
+  text-shadow:0 2px 0 #aab0b733;
+}

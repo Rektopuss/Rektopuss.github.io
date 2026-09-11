@@ -12,6 +12,8 @@ window.DONO_CONFIG = {
   // The Node backend supports live SSE; the Cloudflare Worker uses reliable polling.
   apiTransport: isLocalPreview ? "sse" : "poll",
   apiPollSeconds: 15,
+  // Display the campaign target at zero while the first live snapshot loads.
+  initialGoalCents: 1000000,
   // Add your public Streamlabs tip-page URL, NOT an API token.
   donateUrl: "https://streamlabs.com/rektopuss_official/tip",
   // One-time local reset requested for this prototype. Applied once per browser;
