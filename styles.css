@@ -263,6 +263,21 @@ body[data-view=overlay] .done small { color:#8ce3c7; }
 body[data-view=overlay] .active small { color:#e4fa91; }
 body[data-view=overlay] .donation-alert { left:24px; bottom:24px; transform:translate(0,30px); }
 body[data-view=overlay] .donation-alert.visible { transform:translate(0,0); }
+body[data-view=overlay] .overlay-secret-reveal { display:none; }
+body[data-view=overlay][data-widget=full-reveal] .overlay-secret-reveal { display:grid; grid-column:1/-1; grid-row:3; grid-template-columns:220px minmax(0,1fr); align-items:center; gap:24px; min-height:132px; margin:6px 12px 2px; padding:9px 16px; border:1px solid #29475b; border-radius:8px; background:#07131d4d; }
+body[data-view=overlay] .overlay-secret-image { position:relative; height:105px; overflow:hidden; border:1px solid #29475b; border-radius:5px; }
+body[data-view=overlay] .overlay-secret-image img { display:block; width:100%; height:100%; object-fit:cover; }
+body[data-view=overlay] .overlay-secret-image span { position:absolute; inset:0; display:grid; place-items:center; padding-top:5px; color:#f3efff; font:600 62px/1 var(--heading); text-shadow:0 0 12px #a797ff,0 0 28px #7951ec; }
+body[data-view=overlay] .overlay-secret-copy { min-width:0; }
+body[data-view=overlay] .overlay-secret-copy h2 { margin:0 0 7px; color:#d6e1eb; font:600 18px/1.25 var(--heading); letter-spacing:.8px; text-transform:uppercase; }
+body[data-view=overlay] .overlay-secret-amount { display:flex; align-items:baseline; gap:10px; margin:0 0 10px; }
+body[data-view=overlay] .overlay-secret-amount strong { color:var(--lime); font:600 38px/1 var(--heading); font-variant-numeric:tabular-nums; }
+body[data-view=overlay] .overlay-secret-amount span { color:#eef3f7; font-size:17px; font-weight:500; }
+body[data-view=overlay] #overlay-secret-progress { display:block; appearance:none; width:100%; height:13px; overflow:hidden; border:1px solid #a1b3c0; border-radius:8px; background:#06111c; accent-color:var(--lime); }
+body[data-view=overlay] #overlay-secret-progress::-webkit-progress-bar { background:#06111c; border-radius:8px; }
+body[data-view=overlay] #overlay-secret-progress::-webkit-progress-value { background:linear-gradient(90deg,#d8f277,#a7ee69); border-radius:8px; }
+body[data-view=overlay] #overlay-secret-progress::-moz-progress-bar { background:linear-gradient(90deg,#d8f277,#a7ee69); border-radius:8px; }
+body[data-view=overlay] .overlay-secret-labels { display:flex; justify-content:space-between; gap:20px; margin-top:6px; color:#eef3f7; font:500 15px var(--heading); font-variant-numeric:tabular-nums; }
 body[data-view=overlay][data-widget=goal] .content-grid { display:block; width:100%; }
 body[data-view=overlay][data-widget=goal] .goal-card { width:380px; max-width:100%; margin:0 auto; }
 body[data-view=overlay][data-widget=goal] .milestone-card,body[data-view=overlay][data-widget=goal] .recent-card { display:none; }
