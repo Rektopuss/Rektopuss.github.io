@@ -92,36 +92,11 @@ sizeLogoLoop();
 const studioCarousel = document.querySelector('.studio-carousel');
 const studioDeck = studioCarousel.querySelector('.studio-deck');
 const studioCards = [...studioDeck.querySelectorAll('.studio-card')];
-const studioControls = studioCarousel.querySelector('.studio-controls');
-const studioPause = studioCarousel.querySelector('.studio-pause');
-const studioCount = studioCarousel.querySelector('.studio-count');
 const studioAnnouncement = studioCarousel.querySelector('.studio-announcement');
-const studioMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 let studioIndex = 0;
-let studioTimer;
-let studioPaused = false;
-let studioVisible = false;
-let studioHovered = false;
 let studioPointer = null;
 
-function scheduleStudio() {
-  clearTimeout(studioTimer);
-  if (studioCards.length < 2 || studioPaused || !studioVisible || studioHovered ||
-      studioPointer || studioMotion.matches || document.hidden ||
-      studioCarousel.contains(document.activeElement)) return;
-  studioTimer = setTimeout(() => showStudio(studioIndex + 1), 5200);
-}
-
-function pauseStudio(paused) {
-  studioPaused = paused;
-  const label = paused ? 'Turpināt attēlu maiņu' : 'Apturēt attēlu maiņu';
-  studioPause.setAttribute('aria-pressed', String(paused));
-  studioPause.setAttribute('aria-label', label);
-  studioPause.title = label;
-  scheduleStudio();
-}
-
-function showStudio(index, manual = false) {
+function showStudio(index, announce = false) {
   studioIndex = (index + studioCards.length) % studioCards.length;
   studioCards.forEach((card, i) => {
     const offset = (i - studioIndex + studioCards.length) % studioCards.length;
@@ -133,17 +108,13 @@ function showStudio(index, manual = false) {
     card.setAttribute('aria-roledescription', 'slaids');
     card.setAttribute('aria-label', `${i + 1} no ${studioCards.length}: ${card.dataset.title}`);
   });
-  studioCount.textContent = `${String(studioIndex + 1).padStart(2, '0')} / ${String(studioCards.length).padStart(2, '0')}`;
-  if (manual) {
-    pauseStudio(true);
+  if (announce) {
+
     studioAnnouncement.textContent = `${studioCards[studioIndex].dataset.title}. Attēls ${studioIndex + 1} no ${studioCards.length}.`;
   }
-  scheduleStudio();
+
 }
 
-studioCarousel.querySelector('.studio-prev').addEventListener('click', () => showStudio(studioIndex - 1, true));
-studioCarousel.querySelector('.studio-next').addEventListener('click', () => showStudio(studioIndex + 1, true));
-studioPause.addEventListener('click', () => pauseStudio(!studioPaused));
 studioCarousel.addEventListener('keydown', (event) => {
   const targets = { ArrowLeft: studioIndex - 1, ArrowRight: studioIndex + 1, Home: 0, End: studioCards.length - 1 };
   if (!(event.key in targets)) return;
@@ -156,7 +127,7 @@ studioDeck.addEventListener('pointerdown', (event) => {
   if (!event.isPrimary || event.button !== 0) return;
   studioPointer = { id: event.pointerId, x: event.clientX, y: event.clientY, card: event.target.closest('.studio-card') };
   studioDeck.setPointerCapture(event.pointerId);
-  scheduleStudio();
+
 });
 studioDeck.addEventListener('pointermove', (event) => {
   if (!studioPointer || studioPointer.id !== event.pointerId) return;
@@ -185,31 +156,13 @@ function releaseStudioPointer(event) {
       if (index !== studioIndex) showStudio(index, true);
     }
   }
-  scheduleStudio();
+
 }
 studioDeck.addEventListener('pointerup', releaseStudioPointer);
 studioDeck.addEventListener('pointercancel', releaseStudioPointer);
 studioDeck.addEventListener('lostpointercapture', releaseStudioPointer);
-studioCarousel.addEventListener('pointerenter', (event) => {
-  if (event.pointerType !== 'mouse') return;
-  studioHovered = true;
-  scheduleStudio();
-});
-studioCarousel.addEventListener('pointerleave', () => {
-  studioHovered = false;
-  scheduleStudio();
-});
-studioCarousel.addEventListener('focusin', scheduleStudio);
-studioCarousel.addEventListener('focusout', () => requestAnimationFrame(scheduleStudio));
-document.addEventListener('visibilitychange', scheduleStudio);
-studioMotion.addEventListener('change', scheduleStudio);
 
 if (studioCards.length) {
   studioCarousel.classList.add('is-ready');
-  studioControls.hidden = studioCards.length < 2;
   showStudio(0);
-  new IntersectionObserver(([entry]) => {
-    studioVisible = entry.isIntersecting && entry.intersectionRatio >= .25;
-    scheduleStudio();
-  }, { threshold: .25 }).observe(studioCarousel);
 }
