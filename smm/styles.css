@@ -162,14 +162,12 @@ h2 { font: 700 clamp(38px, 4vw, 54px)/1.05 var(--display); letter-spacing: .005e
 .equipment { display: flex; flex-wrap: wrap; gap: 10px 16px; padding: 0; margin: 18px 0 14px; list-style: none; max-width: 340px; }
 .equipment li { color: #c1bacd; font: 11px/1.6 var(--mono); }
 .equipment li::before { content: '+'; margin-right: 6px; color: var(--violet); }
-.contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 500px); align-items: start; gap: 48px; padding-block: 70px; }
+.contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 500px); align-items: start; gap: 48px; padding-block: 70px 32px; }
 .contact .eyebrow { display: flex; gap: 10px; align-items: center; margin-bottom: 12px; }
 .contact h2 { font-size: clamp(74px, 9vw, 122px); }
 .contact h2 > span { color: var(--violet); }
 .contact-intro > p:last-child { color: #aaaab4; font-size: 13px; line-height: 1.7; max-width: 330px; margin-top: 18px; }
 .contact-form { display: grid; gap: 18px; border-top: 1px solid var(--line); padding-top: 20px; }
-.contact-preview-warning:not([hidden]) { padding: 12px 14px; border: 1px solid var(--violet); color: #d6c7f4; font-size: 12px; line-height: 1.6; }
-.contact-form-footer .button:disabled { opacity: .5; cursor: not-allowed; }
 .contact-honey { display: none; }
 .contact-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 .contact-form label { display: grid; gap: 8px; color: #ddd7e9; font: 12px/1.4 var(--mono); letter-spacing: .04em; }
@@ -182,12 +180,15 @@ h2 { font: 700 clamp(38px, 4vw, 54px)/1.05 var(--display); letter-spacing: .005e
 .contact-form-footer p { color: var(--muted); font-size: 11px; line-height: 1.6; max-width: 270px; }
 .contact-form-footer p a { color: #c6b3e8; text-decoration: underline; text-underline-offset: 2px; }
 .contact-form-footer .button { min-width: 165px; border: 0; cursor: pointer; }
-.contact-alternatives { margin-top: 26px; padding-top: 18px; border-top: 1px solid var(--line); }
-.contact-alternatives > p { color: var(--muted); font-size: 11px; line-height: 1.5; }
-.contact-links { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 20px; margin-top: 10px; }
-.contact-links a { display: inline-flex; align-items: center; gap: 6px; padding-block: 6px; font-size: 11px; color: #b7adca; }
-.contact-links a:hover { color: var(--violet); }
-.contact-links .icon-arrow { width: 13px; height: 13px; color: var(--violet); }
+.contact-alternatives { margin-top: 26px; padding-top: 20px; border-top: 1px solid var(--line); }
+.contact-alternatives > p { color: var(--white); font-size: 12px; font-weight: 700; line-height: 1.5; }
+.contact-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
+.contact-links a { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-width: 0; min-height: 74px; padding: 13px 14px; border: 1px solid #504759; background: #141118; color: var(--white); transition: border-color .18s, background .18s; }
+.contact-links a:hover { border-color: var(--violet); background: #1b1525; }
+.contact-links a > span { display: grid; gap: 5px; min-width: 0; }
+.contact-links strong { font-size: 13px; }
+.contact-links small { color: #c0b7ce; font-size: 11px; line-height: 1.35; overflow-wrap: anywhere; }
+.contact-links .icon-arrow { width: 15px; height: 15px; color: var(--violet); }
 .thanks { min-height: 70vh; display: flex; flex-direction: column; align-items: start; justify-content: center; gap: 20px; padding-block: 70px; }
 .thanks h1 { font-size: clamp(50px, 7vw, 88px); }
 .thanks h1 span { color: var(--violet); }
@@ -314,7 +315,7 @@ h2 { font: 700 clamp(38px, 4vw, 54px)/1.05 var(--display); letter-spacing: .005e
   .studio-carousel { width: 100%; padding-block: 20px 28px; }
   .studio-carousel.is-ready .studio-deck { height: clamp(240px, 65vw, 350px); --card-spread: 16vw; }
   .studio-card figcaption { font-size: 16px; padding: 25px 12px 12px; }
-  .contact { padding-block: 42px; gap: 24px; }
+  .contact { padding-block: 42px 20px; gap: 24px; }
   .contact .eyebrow { font-size: 8px; margin-bottom: 10px; }
   .contact h2 { font-size: 84px; }
   .contact-action { width: 100%; }
@@ -322,6 +323,7 @@ h2 { font: 700 clamp(38px, 4vw, 54px)/1.05 var(--display); letter-spacing: .005e
   .contact-form-footer { align-items: start; flex-direction: column; gap: 14px; }
   .contact-form-footer p { max-width: 100%; }
   .contact-form-footer .button { min-width: 175px; }
+  .contact-links { grid-template-columns: 1fr; }
   .footer { flex-wrap: wrap; gap: 20px; padding-block: 21px; }
   .footer .brand { font-size: 10px; }
   .footer .brand img { width: 25px; height: 25px; }
