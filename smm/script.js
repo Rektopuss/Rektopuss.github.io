@@ -31,14 +31,9 @@ window.matchMedia('(min-width: 601px)').addEventListener('change', closeMenu);
 document.querySelector('#year').textContent = new Date().getFullYear();
 
 const contactForm = document.querySelector('.contact-form');
-if (contactForm) {
-  if (!/^https?:$/.test(window.location.protocol) || window.origin === 'null') {
-    contactForm.querySelector('.contact-preview-warning').hidden = false;
-    contactForm.querySelector('[type="submit"]').disabled = true;
-  } else {
-    contactForm.elements._url.value = window.location.origin + window.location.pathname;
-    contactForm.elements._next.value = new URL('paldies/', window.location.href).href;
-  }
+if (contactForm && /^https?:$/.test(window.location.protocol) && window.origin !== 'null') {
+  contactForm.elements._url.value = window.location.origin + window.location.pathname;
+  contactForm.elements._next.value = new URL('paldies/', window.location.href).href;
 }
 
 const headlineFirst = document.querySelector('.headline-line');
