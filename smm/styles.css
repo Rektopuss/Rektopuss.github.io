@@ -103,10 +103,11 @@ h2 { font: 700 clamp(38px, 4vw, 54px)/1.05 var(--display); letter-spacing: .005e
 .service[open]::before { opacity: 1; }
 .service summary { display: grid; grid-template-columns: 40px 1fr 240px 20px; gap: 15px; align-items: center; cursor: pointer; list-style: none; padding: 23px 16px 23px 22px; }
 .service summary::-webkit-details-marker { display: none; }
-.service-number { font: 10px var(--mono); color: #777180; }
+.service-marker { display: block; width: 12px; height: 2px; background: #777180; }
 .service h3 { font: 700 25px/1.1 var(--display); letter-spacing: .015em; }
 .service-short { font: 9px var(--mono); letter-spacing: .04em; color: var(--muted); }
-.service summary:hover h3, .service[open] .service-number { color: var(--violet); }
+.service summary:hover h3 { color: var(--violet); }
+.service[open] .service-marker { background: var(--violet); }
 .expand { width: 18px; height: 18px; position: relative; }
 .expand::before, .expand::after { content: ''; width: 10px; height: 1px; background: var(--muted); position: absolute; left: 4px; top: 9px; }
 .expand::after { transform: rotate(90deg); }
@@ -278,7 +279,6 @@ h2 { font: 700 clamp(38px, 4vw, 54px)/1.05 var(--display); letter-spacing: .005e
   h2 { font-size: 39px; }
   .section-heading > p { font-size: 10px; margin-top: 12px; }
   .service summary { grid-template-columns: 23px 1fr 18px; padding: 20px 8px 20px 12px; gap: 8px; }
-  .service-number { font-size: 8px; }
   .service h3 { font-size: 23px; }
   .service-short { display: none; }
   .service-body { padding: 0 23px 19px 43px; display: block; }
