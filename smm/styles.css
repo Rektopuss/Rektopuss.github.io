@@ -55,7 +55,7 @@ p, h1, h2, h3, figure { margin: 0; }
 h1 { font: 700 clamp(66px, 7.65vw, 110px)/1.03 var(--display); letter-spacing: -.018em; }
 .headline-line { display: block; width: max-content; white-space: nowrap; letter-spacing: -.018em; }
 .headline-second { color: var(--violet); font-size: var(--headline-second-size, .77em); }
-.hero-intro { color: #a7a7b3; font-size: 13px; line-height: 1.8; margin-top: 23px; }
+.hero-intro { color: #a7a7b3; font-size: 13px; line-height: 1.8; max-width: min(440px, 38vw); margin-top: 23px; }
 .hero-actions { display: flex; align-items: center; gap: 30px; margin-top: 26px; }
 .button { display: inline-flex; align-items: center; justify-content: space-between; gap: 40px; min-height: 45px; padding: 13px 19px; background: var(--violet); color: #100a1c; font-size: 11px; font-weight: 700; transition: background .18s, box-shadow .18s; }
 .button:hover { background: #c3a7ff; box-shadow: 0 0 30px #8853f533; }
@@ -204,7 +204,7 @@ h2 { font: 700 clamp(38px, 4vw, 54px)/1.05 var(--display); letter-spacing: .005e
   .hero-visual figcaption { font-size: 7px; left: 8%; bottom: 23px; }
   .visual-coordinate { font-size: 7px; right: 0; }
   .hero .eyebrow { font-size: 9px; }
-  .hero-intro { font-size: 12px; }
+  .hero-intro { font-size: 12px; max-width: min(100%, 620px); }
   .about { grid-template-columns: 1fr; gap: 24px; }
   .about-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 0 28px; align-items: end; }
   .about-intro .eyebrow { grid-column: 1 / -1; margin-bottom: 12px; }
