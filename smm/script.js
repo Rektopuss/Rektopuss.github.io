@@ -32,8 +32,7 @@ document.querySelector('#year').textContent = new Date().getFullYear();
 
 const contactForm = document.querySelector('.contact-form');
 if (contactForm && /^https?:$/.test(window.location.protocol) && window.origin !== 'null') {
-  contactForm.elements._url.value = window.location.origin + window.location.pathname;
-  contactForm.elements._next.value = new URL('paldies/', window.location.href).href;
+  contactForm.elements.redirect.value = new URL('paldies/', window.location.href).href;
 }
 
 const headlineFirst = document.querySelector('.headline-line');
