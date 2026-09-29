@@ -13,7 +13,7 @@ Keep the image treatment integrated: hero cutout, a slim logo strip with fading 
 ## Content still to confirm
 
 - Additional collaborations and any case-study details or results. The eight requested logos are present; no project outcomes are claimed.
-- Contact options are Instagram and the confirmed business email, `rektopuss.business@gmail.com`. The email link sits below the Instagram button and uses `mailto:`.
+- The contact form asks for a required email address and enquiry text, plus an optional phone number. It posts directly to FormSubmit for delivery to the confirmed business email, `rektopuss.business@gmail.com`. Instagram and the `mailto:` link remain available below the form.
 - Optional studio address and equipment models. Copy uses only confirmed equipment categories.
 
 ## Search and analytics
@@ -37,3 +37,5 @@ Native expandable service descriptions. Mobile navigation works without JavaScri
 The logo strip scrolls continuously right to left at 32 px/second. It pauses on hover, keyboard focus, or via the small pause button. Reduced-motion preferences disable the animation and provide a manually scrollable single list, as does the no-JavaScript fallback. Duplicate groups are hidden from assistive technology.
 
 The studio stack wraps in both directions and supports touch swipes, mouse drags, clicking the exposed neighboring cards, and Left/Right/Home/End keys. Navigation is manual, with no automatic rotation or visible control row. Without JavaScript, all photos remain available in a horizontally scrollable strip. Only the active slide is exposed to screen readers during enhanced navigation; changes are announced. Reduced-motion preferences disable transitions.
+
+The contact form uses a native HTML POST to `https://formsubmit.co/rektopuss.business@gmail.com`, so it works without JavaScript on a web server. The script sets `_url` and `_next` to the actual page origin for local previews; the HTML values provide production fallbacks without JavaScript. Direct `file://` and opaque-origin previews display a warning and disable submission when JavaScript is available, since FormSubmit does not support opening the page as an HTML file. FormSubmit requires the recipient to confirm the activation email after the first submission before enquiries can be delivered. Once active, successful submissions redirect to `/smm/paldies/`, which is excluded from search indexing. The form uses FormSubmit's default CAPTCHA and a hidden honeypot field, and links to its privacy policy beside the submit button. Live delivery cannot be confirmed from a local preview; after deployment, submit one enquiry and confirm the email sent to the business inbox. See [FormSubmit setup](https://formsubmit.co/help) and [form options](https://formsubmit.co/documentation).
