@@ -277,9 +277,9 @@ h2 { font: 700 clamp(38px, 4vw, 54px)/1.05 var(--display); letter-spacing: .005e
   .service-body .text-link { margin-top: 12px; }
   .partners { gap: 14px 10px; margin-bottom: 28px; padding-block: 12px; }
   .partners > h2 { font-size: 8px; }
-  .logo-group { gap: 28px; padding-right: 28px; }
-  .partner-logo { width: 110px; height: 45px; }
-  .partner-logo img { height: 34px; }
+  .logo-group { gap: 16px; padding-right: 16px; }
+  .partner-logo { width: 76px; height: 36px; }
+  .partner-logo img { height: 29px; }
   .studio-inner { display: flex; flex-direction: column; gap: 0; padding-top: 33px; }
   .studio-copy { order: -1; padding: 0; width: 100%; }
   .studio-copy .eyebrow { font-size: 8px; margin-bottom: 14px; }
