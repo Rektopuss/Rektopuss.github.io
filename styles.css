@@ -90,7 +90,20 @@ strong { font-weight:500; }
 .story-media-label { position:absolute; z-index:1; left:15px; bottom:13px; display:flex; align-items:center; gap:8px; font-size:11px; font-weight:600; }
 .story-media-label i { width:0; height:0; border-top:5px solid transparent; border-bottom:5px solid transparent; border-left:8px solid var(--lime); }
 .donor-row,.leader-row { display:flex; align-items:center; gap:10px; min-height:49px; padding:10px 0; border-bottom:1px solid #ffffff05; }
+.donor-prizes { grid-column:1/-1; display:flex; align-items:center; gap:16px; margin-bottom:24px; padding:18px; border:1px solid #d8f27738; border-radius:7px; background:linear-gradient(110deg,#d8f2770b,#0b1723); }
+.donor-prizes-badge { flex-shrink:0; display:flex; flex-direction:column; align-items:center; justify-content:center; width:54px; height:58px; border:1px solid #d8f27745; border-radius:6px; color:var(--lime); font-size:10px; letter-spacing:1px; }
+.donor-prizes-badge strong { font:600 27px/1.1 var(--heading); letter-spacing:0; }
+.donor-prizes h2 { margin-bottom:5px; color:var(--lime); }
+.donor-prizes p { color:#b5c5d7; font-size:12px; line-height:1.6; }
+.donor-prizes .donor-prizes-detail { margin-top:6px; font-size:11px; }
+.donor-prizes-detail strong { color:var(--lime); }
 .recent-card .donor-row,.leaders-card .leader-row { height:59px; }
+.leaders-card .leader-row { padding:8px 0; }
+.leader-prize { position:relative; flex:0 0 42px; width:42px; height:42px; overflow:hidden; border:1px solid #34445d; border-radius:6px; background:#06111a; }
+.leader-prize img { display:block; width:100%; height:100%; object-fit:cover; }
+.leader-prize.is-first { border-color:#d8f27770; }
+.leader-prize.is-mystery img { filter:brightness(.55) saturate(.7); }
+.leader-prize>span { position:absolute; inset:0; display:grid; place-items:center; color:#eee8ff; font:600 28px/1 var(--heading); text-shadow:0 0 8px #a797ff,0 0 15px #7951ec; }
 .donor-row:last-child,.leader-row:last-child { border-bottom:0; }
 .donor-info { flex:1; min-width:0; }
 .donor-info>strong { display:block; min-width:0; overflow:hidden; font-size:12px; text-overflow:ellipsis; white-space:nowrap; }

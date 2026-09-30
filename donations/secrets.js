@@ -138,8 +138,10 @@
       <ol class="secret-gallery secret-carousel-track" aria-label="Visi atklātie un slēgtie noslēpumi">
         ${data.goals.map((goal, index) => {
           const done = index < data.completed, content = done ? reveal(index) : null;
-          return `<li class="secret-card ${done ? 'is-unlocked' : 'is-locked'}"${goal === data.next ? ' aria-current="step"' : ''}>
-            <img src="${esc(done ? revealedImage : hiddenImage)}" width="1536" height="1024" loading="lazy" alt="" style="object-position:${30 + index % 4 * 15}% center">
+          const artwork = content?.image;
+          const image = artwork ? new URL(artwork.src, assetRoot).href : done ? revealedImage : hiddenImage;
+          return `<li class="secret-card ${done ? 'is-unlocked' : 'is-locked'}${artwork ? ' has-reveal-artwork' : ''}"${goal === data.next ? ' aria-current="step"' : ''}>
+            <img src="${esc(image)}" width="${artwork?.width || 1536}" height="${artwork?.height || 1024}" loading="lazy" alt="${esc(artwork?.alt || '')}"${artwork ? '' : ` style="object-position:${30 + index % 4 * 15}% center"`}>
             <span class="secret-card-icon">${icon(done ? 'check' : 'lock')}<span class="sr-only">${done ? 'Atklāts' : 'Slēgts'}</span></span>
             <div class="secret-card-copy"><h3>${esc(done ? content.title : goal.label)}</h3><p>${esc(done ? content.description : 'Drīzumā…')}</p><span>${esc(money(goal.amountCents))}</span></div>
           </li>`;

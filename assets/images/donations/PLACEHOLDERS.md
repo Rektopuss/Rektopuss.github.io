@@ -3,7 +3,8 @@
 Created with the built-in image-generation tool for the donations landing page. The generated PNG originals were exported to JPEG for the site. These are temporary themed images, not confirmed trip photography.
 
 - `secret-placeholder.jpg`: used for locked secrets and the next reveal.
-- `florida-placeholder.jpg`: used for unlocked placeholder cards.
+- `florida-placeholder.jpg`: used for unlocked placeholder cards and the completed campaign. The first milestone uses `team-reveal.jpg`; see `TEAM-REVEAL.md` for its generation prompt.
+- The second milestone uses `everglades-reveal.jpg` at €800; see `EVERGLADES-REVEAL.md` for its copy and generation prompts.
 
 Reveal titles and descriptions can be replaced in `donations/campaign-goals.js`, shared by the landing page and OBS overlays.
 

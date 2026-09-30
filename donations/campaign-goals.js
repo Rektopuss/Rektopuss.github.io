@@ -1,10 +1,28 @@
 (function () {
   'use strict';
   const stepCents = 40000;
-  // Shared placeholder reveal copy for the landing page and OBS overlays.
+  // Shared reveal content for the landing page and OBS overlays.
   const reveals = [
-    { title: 'Miami', description: 'Galvenā bāze.' },
-    { title: 'Vice City', description: 'Dažas vietas šķitīs ļoti pazīstamas…' }
+    {
+      title: 'Mūsu komanda',
+      description: 'Ingars, Mairis, Boriss, Kris Brand un Stasis',
+      image: {
+        src: 'team-reveal.jpg',
+        width: 1086,
+        height: 1448,
+        alt: 'Pieci ASV brauciena komandas dalībnieki Floridas saulrieta fonā.'
+      }
+    },
+    {
+      title: 'Everglades',
+      description: 'Dodamies meklēt krokodilus — cerams, izdosies tos arī nofilmēt!',
+      image: {
+        src: 'everglades-reveal.jpg',
+        width: 1086,
+        height: 1448,
+        alt: 'Krokodils Evergleidsas ūdeņos un laiva ar lielu propelleru zilgani violetā krēslā.'
+      }
+    }
   ];
   function milestones(goalCents) {
     const result = [];
