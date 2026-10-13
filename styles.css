@@ -21,6 +21,9 @@ strong { font-weight:500; }
 .tip-link { display:inline-flex; align-items:center; justify-content:center; gap:7px; color:var(--lime); font-size:12px; font-weight:600; padding:10px 19px; border:1px solid #d8f27770; border-radius:7px; background:transparent; box-shadow:0 0 16px #d8f2770d; transition:background .15s,border-color .15s,box-shadow .15s,transform .15s; }
 .tip-link:hover { background:#d8f2770b; border-color:#d8f277c0; box-shadow:0 0 20px #d8f2771c; transform:translateY(-1px); }
 .goal-tip-link { width:max-content; margin:14px auto 0; }
+/* Reuse the goal card's bottom spacing to keep the countdown near its original position. */
+.goal-bonus-link { display:block; width:fit-content; max-width:100%; margin:4px auto -16px; padding:3px 0; border:0; background:transparent; color:#b8c3d0; font-size:12px; line-height:18px; text-decoration:underline; text-underline-offset:3px; text-decoration-color:#b8c3d060; }
+.goal-bonus-link:hover { color:var(--lime); text-decoration-color:currentColor; }
 .content-grid { display:grid; grid-template-columns:1fr 1fr; column-gap:32px; align-items:start; }
 .goal-card { grid-column:1/-1; text-align:center; padding:0 0 32px; min-width:0; }
 .gauge { display:block; width:min(100%,370px); margin:0 auto; overflow:visible; }
@@ -138,6 +141,20 @@ strong { font-weight:500; }
 .eyebrow { color:var(--muted); font-size:9px; letter-spacing:1.5px; }
 dialog { background:#1b1f26; color:var(--text); border:1px solid #3b414a; border-radius:15px; width:min(520px,calc(100% - 28px)); padding:28px; max-height:90dvh; box-shadow:0 30px 100px #0008; }
 dialog::backdrop { background:#080a0dcc; backdrop-filter:blur(7px); }
+html:has(#support-bonuses-dialog[open]) { scrollbar-gutter:stable; }
+body:has(#support-bonuses-dialog[open]) { overflow:hidden; }
+#support-bonuses-dialog { background:var(--bg); border-color:#2b3c48; }
+#support-bonuses-dialog h2 { font-size:22px; }
+#support-bonuses-content p { line-height:1.7; margin-bottom:0; }
+.support-bonuses-steps { margin:0; padding-left:22px; color:#b8c3d0; line-height:1.7; }
+.support-bonuses-steps li { padding-left:5px; }
+.support-bonuses-steps li+li { margin-top:12px; }
+.support-bonuses-steps li::marker { color:var(--mint); font-weight:600; }
+.support-bonuses-steps strong { color:var(--text); font-weight:700; }
+.support-bonuses-register { display:flex; width:100%; margin-top:22px; font-size:14px; font-weight:600; }
+.support-bonuses-disclaimer { margin-top:12px; color:var(--muted); font-size:11px; line-height:1.6; }
+.support-bonuses-disclaimer a { color:var(--mint); text-decoration:underline; text-underline-offset:2px; }
+.support-bonuses-disclaimer a:hover { color:var(--lime); }
 .dialog-heading { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:17px; }
 .dialog-heading h2 { margin-top:5px; font-size:26px; }
 dialog p.muted { font-size:12px; margin-bottom:18px; }
