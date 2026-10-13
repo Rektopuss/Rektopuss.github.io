@@ -18,15 +18,17 @@
     return `<div class="secret-carousel-controls"><button type="button" id="${id}-previous" class="secret-carousel-arrow" data-direction="-1" aria-controls="${id}-viewport" aria-label="${label}: iepriekšējie">${icon('left')}</button><button type="button" id="${id}-next" class="secret-carousel-arrow" data-direction="1" aria-controls="${id}-viewport" aria-label="${label}: nākamie">${icon('right')}</button></div>`;
   }
 
-  function createCarousel(root, initialIndex) {
+  function createCarousel(root, initialIndex, followNextOnMobile = false) {
     const viewport = root.querySelector('.secret-carousel-viewport');
     const track = root.querySelector('.secret-carousel-track');
     const previous = root.querySelector('[data-direction="-1"]');
     const next = root.querySelector('[data-direction="1"]');
     const status = root.querySelector('.secret-carousel-status');
     const events = new AbortController();
-    let index = initialIndex, visible = 1, step = 0, drag = null;
-    const maxIndex = () => Math.max(0, track.children.length - visible);
+    const nextIndex = Array.from(track.children).findIndex(item => item.classList.contains('is-next'));
+    let index = initialIndex, visible = 1, step = 0, drag = null, mobile = false;
+    // Allow the final upcoming goal to sit on the left, even with fewer than three goals left.
+    const maxIndex = () => Math.max(0, track.children.length - (mobile && nextIndex >= 0 ? 1 : visible));
     const clamp = value => Math.min(maxIndex(), Math.max(0, value));
     function position(animate = true) {
       index = clamp(index);
@@ -38,6 +40,9 @@
       status.textContent = `${index + 1}–${Math.min(track.children.length, index + visible)} / ${track.children.length}`;
     }
     function measure() {
+      const wasMobile = mobile;
+      mobile = followNextOnMobile && matchMedia('(max-width:600px)').matches;
+      if (mobile && !wasMobile && nextIndex >= 0) index = nextIndex;
       visible = Math.max(1, Number(getComputedStyle(root).getPropertyValue('--carousel-visible')) || 1);
       step = track.children[0].getBoundingClientRect().width + (parseFloat(getComputedStyle(track).columnGap) || 0);
       drag = null;
@@ -150,7 +155,7 @@
       </div><span class="secret-carousel-status sr-only" aria-live="polite" aria-atomic="true"></span>
       </div>`;
     carousels = [
-      createCarousel(host.querySelector('.secret-goals-carousel'), positions[0] ?? Math.max(0, data.completed - 1)),
+      createCarousel(host.querySelector('.secret-goals-carousel'), positions[0] ?? Math.max(0, data.completed - 1), true),
       createCarousel(host.querySelector('.secret-plans-carousel'), positions[1] ?? 0)
     ];
     if (focusedId) document.getElementById(focusedId)?.focus({ preventScroll: true });

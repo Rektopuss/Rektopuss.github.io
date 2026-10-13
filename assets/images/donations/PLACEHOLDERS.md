@@ -5,6 +5,7 @@ Created with the built-in image-generation tool for the donations landing page. 
 - `secret-placeholder.jpg`: used for locked secrets and the next reveal.
 - `florida-placeholder.jpg`: used for unlocked placeholder cards and the completed campaign. The first milestone uses `team-reveal.jpg`; see `TEAM-REVEAL.md` for its generation prompt.
 - The second milestone uses `everglades-reveal.jpg` at €800; see `EVERGLADES-REVEAL.md` for its copy and generation prompts.
+- The third milestone uses `spacex-launch-reveal.jpg` at €1,200; see `SPACEX-LAUNCH-REVEAL.md` for its copy and generation prompt.
 
 Reveal titles and descriptions can be replaced in `donations/campaign-goals.js`, shared by the landing page and OBS overlays.
 

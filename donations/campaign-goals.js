@@ -22,6 +22,16 @@
         height: 1448,
         alt: 'Krokodils Evergleidsas ūdeņos un laiva ar lielu propelleru zilgani violetā krēslā.'
       }
+    },
+    {
+      title: 'SpaceX Launch',
+      description: 'Centīsimies nofilmēt SpaceX falcon 9 launch, ja laikapstākļi nepatraucēs',
+      image: {
+        src: 'spacex-launch-reveal.jpg',
+        width: 1086,
+        height: 1448,
+        alt: 'SpaceX Falcon 9 raķetes starts Floridā zilgani violetā krēslā.'
+      }
     }
   ];
   function milestones(goalCents) {
