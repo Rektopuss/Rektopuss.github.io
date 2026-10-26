@@ -18,7 +18,7 @@ Keep the image treatment integrated: hero cutout, a slim logo strip with fading 
 
 ## Search and analytics
 
-Canonical URL: `https://rektopussmedia.com/smm/`. The root sitemap includes this URL, and the homepage links to it under services for businesses. `robots.txt` already allows crawling and points to the sitemap.
+Canonical URL: `https://rektopussmedia.com/smm/`. While this page is a work in progress, it is excluded from the root sitemap and has no homepage link. `robots.txt` still allows crawling, so the page remains accessible directly by URL.
 
 The page includes a service-specific Latvian title and description, Open Graph and Twitter preview metadata using the existing brand banner, and JSON-LD for the organization, page, and six services in an offer catalog. Keep visible service descriptions and structured data consistent. Only confirmed business details are included; add an address, service area, prices, or customer results when those details are approved. Placeholder gallery content uses `data-nosnippet`; remove that attribute when the placeholders are replaced with real content suitable for search snippets.
 
