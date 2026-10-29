@@ -26,7 +26,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <title>Rektopuss bonusi un atlaides</title>
+  <title>Bonusi un atlaides | Rektopuss Media</title>
   <style>
     :root { --ink:#f8f7fc; --muted:#918c9d; --panel:rgba(23,22,31,.8); --line:rgba(255,255,255,.075); --purple:#9a55ff; }
     * { box-sizing:border-box; }
@@ -74,12 +74,14 @@
     footer p + p { margin-top:2px; }
     @media (max-width:390px) { .page { width:min(100% - 24px,520px); } .offer-title { font-size:13px; } .offer-subtitle { font-size:11px; } }
   </style>
+  <link rel="stylesheet" href="../assets/css/privacy.css">
+  <script src="../assets/js/privacy-content.js"></script>
   <script src="../assets/js/analytics.js"></script>
 </head>
 <body>
   <main class="page">
     <section class="hero" aria-labelledby="page-title">
-      <a class="home-link" href="../index.html" aria-label="Uz Rektopuss Media sākumlapu">
+      <a class="home-link" href="../index.html" aria-label="Uz Rektopuss Media sākumlapu" data-analytics-action="home">
         <img class="logo" src="../assets/images/branding/rektopuss.png" alt="">
         <span class="brand">REKTOPUSS MEDIA</span>
       </a>
@@ -88,15 +90,15 @@
     </section>
 
     <nav class="offers" aria-label="Partneru piedāvājumi">
-      <a class="offer" href="https://www.ekocope.lv" target="_blank" rel="noopener noreferrer">
+      <a class="offer" href="https://www.ekocope.lv" target="_blank" rel="noopener noreferrer" data-analytics-action="offer_ekocope">
         <img class="partner-logo" src="../assets/images/partners/ekocope.png" alt="Ekocope">
         <span><span class="offer-title">EKOCOPE.LV | Copes Veikals</span><span class="offer-subtitle">5% atlaide ar kodu <em>“REKTOPUSS5”</em></span></span><span class="arrow" aria-hidden="true">›</span>
       </a>
-      <a class="offer offer-watchmewin" href="https://m.affs.com/redirect.aspx?mid=1142&amp;sid=13537&amp;cid=&amp;pid=&amp;affid=9650" target="_blank" rel="noopener noreferrer">
+      <a class="offer offer-watchmewin" href="https://m.affs.com/redirect.aspx?mid=1142&amp;sid=13537&amp;cid=&amp;pid=&amp;affid=9650" target="_blank" rel="noopener noreferrer" data-analytics-action="offer_watchmewin">
         <img class="partner-logo" src="../assets/images/partners/watchmewin.png" alt="WatchMeWin">
         <span><span class="offer-title">275 SPINS + 100% DEPOZĪTA BONUSS LĪDZ 777€</span><span class="offer-subtitle">Ekskluzīvs piedāvājums</span></span><span class="arrow" aria-hidden="true">›</span>
       </a>
-      <a class="offer" href="https://temu.to/k/eygghwbtl99" target="_blank" rel="noopener noreferrer">
+      <a class="offer" href="https://temu.to/k/eygghwbtl99" target="_blank" rel="noopener noreferrer" data-analytics-action="offer_temu">
         <span class="temu-logo" aria-hidden="true">Temu</span>
         <span><span class="offer-title">100 € Temu atlaides kupons</span><span class="offer-subtitle">Partneru piedāvājums</span></span><span class="arrow" aria-hidden="true">›</span>
       </a>
@@ -114,7 +116,7 @@
         <span>100% līdz €777</span><span>275 griezieni</span><span>40x apgrozījums</span><span>7 dienas</span><span>€5 max. likme</span><span>18+</span>
       </div>
       <details class="bonus-rules">
-        <summary>Pilnie bonusa noteikumi</summary>
+        <summary data-analytics-action="bonus_details">Pilnie bonusa noteikumi</summary>
         <div class="bonus-rules-content">
           <p>Piedāvājums ir pieejams jaunajiem spēlētājiem no 18 gadu vecuma, kuri ir reģistrējuši kontu WatchMeWin kazino. Lai saņemtu bonusu, tas manuāli jāaktivizē depozīta lapā pirms pirmās iemaksas. Minimālā iemaksa ir €20.</p>
           <p>Pirmajai iemaksai tiek piešķirts 100% depozīta bonuss līdz €777 un 275 bezmaksas griezieni spēlē Big Bass Vegas Double Down Deluxe. Bonuss jāaktivizē un jāizmanto 7 dienu laikā pēc piešķiršanas.</p>
@@ -127,12 +129,19 @@
             <li>Viens bonuss ir atļauts vienai personai, mājsaimniecībai, IP adresei, e-pasta adresei, maksājuma metodei vai koplietotai ierīcei.</li>
           </ul>
           <p>WatchMeWin var anulēt bonusus vai laimestus bonusu ļaunprātīgas izmantošanas, krāpnieciskas rīcības vai noteikumu pārkāpumu gadījumā, tostarp izmantojot VPN atrašanās vietas slēpšanai. Pretrunu gadījumā noteicoša ir angļu valodas versija.</p>
-          <p><a href="https://watchmewin9.casino/lv/info/terms-conditions" target="_blank" rel="noopener noreferrer">WatchMeWin vispārīgie noteikumi</a><br><a href="https://watchmewin9.casino/lv/promo/bonuses-terms-wmw" target="_blank" rel="noopener noreferrer">WatchMeWin akciju un bonusu noteikumi</a></p>
+          <p><a href="https://watchmewin9.casino/lv/info/terms-conditions" target="_blank" rel="noopener noreferrer" data-analytics-action="watchmewin_terms">WatchMeWin vispārīgie noteikumi</a><br><a href="https://watchmewin9.casino/lv/promo/bonuses-terms-wmw" target="_blank" rel="noopener noreferrer" data-analytics-action="watchmewin_bonus_terms">WatchMeWin akciju un bonusu noteikumi</a></p>
         </div>
       </details>
     </section>
 
-    <footer><p>18+ | <a href="https://azartaatkariba.lv/" target="_blank" rel="noopener noreferrer">Spēlē atbildīgi.</a></p><p>© Rektopuss Media</p></footer>
+    <footer><p>18+ | <a href="https://azartaatkariba.lv/" target="_blank" rel="noopener noreferrer" data-analytics-action="responsible_gambling">Spēlē atbildīgi.</a></p><p>© Rektopuss Media</p></footer>
   </main>
+
+  <nav class="privacy-links" aria-label="Privātums un sīkdatnes" lang="lv">
+    <button type="button" data-privacy-policy="privacy" hidden>Privātuma politika</button>
+    <button type="button" data-privacy-policy="cookies" hidden>Sīkdatņu politika</button>
+    <button type="button" data-privacy-settings hidden>Sīkdatņu iestatījumi</button>
+    <noscript>Analītika ir izslēgta. Datu pārzinis: SIA REKTOPUSS, reģ. Nr. 40203403950, Krasta iela 13–43, Dobele, LV-3701. Privātuma jautājumiem un tiesību īstenošanai: <a href="mailto:rektopuss.business@gmail.com">rektopuss.business@gmail.com</a>.</noscript>
+  </nav>
 </body>
 </html>

@@ -9,7 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <title>Rektopuss Media</title>
+  <title>Sākumlapa | Rektopuss Media</title>
+  <link rel="canonical" href="https://rektopussmedia.com/">
   <style>
     :root { --ink:#f8f7fc; --muted:#9993a1; --line:rgba(255,255,255,.075); }
     * { box-sizing:border-box; }
@@ -25,6 +26,15 @@
     .bonus-link { display:grid; grid-template-columns:54px minmax(0,1fr) 20px; align-items:center; gap:14px; min-height:72px; margin-top:32px; padding:9px 18px 9px 9px; border:1px solid rgba(163,85,239,.35); border-radius:11px; color:var(--ink); background:linear-gradient(105deg,rgba(43,28,62,.9),rgba(24,19,35,.8)); box-shadow:0 8px 18px rgba(0,0,0,.13); text-align:left; text-decoration:none; transition:transform .18s ease,background .18s ease,border-color .18s ease; animation:bonus-glow 3.8s ease-in-out infinite; }
     .bonus-link:hover,.bonus-link:focus-visible,.social:hover,.social:focus-visible { border-color:rgba(181,111,255,.7); background:rgba(49,34,68,.94); outline:0; transform:translateY(-2px); }
     .bonus-mark { display:grid; place-items:center; width:54px; height:54px; border-radius:8px; background:linear-gradient(145deg,#b770ff,#722ee0); font:800 34px/.8 "Barlow Condensed",sans-serif; }
+    .crowdfunding-link { margin-top:12px; border-color:rgba(143,162,193,.18); color:#e8eaf0; background:linear-gradient(105deg,#1b2030,#18151f); box-shadow:none; animation:none; }
+    .crowdfunding-link:hover,.crowdfunding-link:focus-visible { border-color:rgba(143,162,193,.4); background:linear-gradient(105deg,#22293a,#211c29); }
+    .crowdfunding-link:focus-visible { outline:2px solid #8b9fbe; outline-offset:3px; }
+    .crowdfunding-link .bonus-mark { position:relative; color:#fff; background:#002868; box-shadow:inset 0 0 0 1px rgba(255,255,255,.35); font-size:24px; }
+    .crowdfunding-link .bonus-mark::before,.crowdfunding-link .bonus-mark::after { position:absolute; left:0; width:100%; content:'★ ★ ★'; color:#fff; font:9px/1 Arial,sans-serif; text-align:center; }
+    .crowdfunding-link .bonus-mark::before { top:5px; }
+    .crowdfunding-link .bonus-mark::after { bottom:5px; }
+    .crowdfunding-link .card-subtitle { color:#9ba3b4; }
+    .crowdfunding-link .arrow { color:#8c95a8; }
     .card-title { display:block; font-size:14px; font-weight:800; line-height:1.28; letter-spacing:-.035em; }
     .card-subtitle { display:block; margin-top:4px; color:#aaa0b4; font-size:12px; }
     .arrow { color:#aaa5b3; font-size:28px; font-weight:300; line-height:1; }
@@ -41,6 +51,8 @@
     @media (prefers-reduced-motion:reduce) { .bonus-link { animation:none; } }
     @media (max-width:390px) { .page { width:min(100% - 24px,520px); } .card-title { font-size:13px; } .card-subtitle { font-size:11px; } .social span { font-size:12px; } }
   </style>
+  <link rel="stylesheet" href="assets/css/privacy.css">
+  <script src="assets/js/privacy-content.js"></script>
   <script src="assets/js/analytics.js"></script>
 </head>
 <body>
@@ -52,24 +64,36 @@
       <p class="lead">Tiešraides, jaunumi un īpašie piedāvājumi vienuviet.</p>
     </section>
 
-    <a class="bonus-link" href="bonusi/index.html">
+    <a class="bonus-link" href="bonusi/index.html" data-analytics-action="open_bonuses">
       <span class="bonus-mark" aria-hidden="true">%</span>
       <span><span class="card-title">Bonusi un atlaides</span><span class="card-subtitle">Īpašie piedāvājumi mūsu skatītājiem</span></span><span class="arrow" aria-hidden="true">›</span>
     </a>
 
+    <a class="bonus-link crowdfunding-link" href="https://www.rektopussmedia.com/asv" data-analytics-action="open_usa_campaign">
+      <span class="bonus-mark" aria-hidden="true">ASV</span>
+      <span><span class="card-title">ASV TRIPS v2</span><span class="card-subtitle">Atbalsti, nopelni balvas un 10 jaunus video</span></span><span class="arrow" aria-hidden="true">›</span>
+    </a>
+
     <p class="section-title">Seko Rektopuss Media</p>
     <nav class="socials" aria-label="Rektopuss Media sociālie tīkli">
-      <a class="social" href="https://t.me/rektopuss" target="_blank" rel="noopener noreferrer"><img src="assets/icons/brand-telegram.svg" alt=""><span>Telegram</span></a>
-      <a class="social" href="https://www.youtube.com/@RektopussMedia" target="_blank" rel="noopener noreferrer"><img src="assets/icons/brand-youtube.svg" alt=""><span>YouTube</span></a>
-      <a class="social" href="https://www.tiktok.com/@rektopussMedia" target="_blank" rel="noopener noreferrer"><img src="assets/icons/brand-tiktok.svg" alt=""><span>TikTok</span></a>
-      <a class="social" href="https://www.twitch.tv/rektopuss_official" target="_blank" rel="noopener noreferrer"><img src="assets/icons/brand-twitch.svg" alt=""><span>Twitch</span></a>
-      <a class="social" href="https://kick.com/rektopuss" target="_blank" rel="noopener noreferrer"><img src="assets/icons/brand-kick.svg" alt=""><span>Kick</span></a>
-      <a class="social" href="https://www.instagram.com/rektopussmedia" target="_blank" rel="noopener noreferrer"><img src="assets/icons/brand-instagram.svg" alt=""><span>Instagram</span></a>
-      <a class="social" href="https://www.facebook.com/RektopussMedia" target="_blank" rel="noopener noreferrer"><img src="assets/icons/brand-facebook.svg" alt=""><span>Facebook</span></a>
-      <a class="social" href="https://lv.wikipedia.org/wiki/Rektopuss" target="_blank" rel="noopener noreferrer"><img src="assets/icons/brand-wikipedia.svg" alt=""><span>Vikipēdija</span></a>
+      <a class="social" href="https://t.me/rektopuss" target="_blank" rel="noopener noreferrer" data-analytics-action="social_telegram"><img src="assets/icons/brand-telegram.svg" alt=""><span>Telegram</span></a>
+      <a class="social" href="https://www.youtube.com/@RektopussMedia" target="_blank" rel="noopener noreferrer" data-analytics-action="social_youtube"><img src="assets/icons/brand-youtube.svg" alt=""><span>YouTube</span></a>
+      <a class="social" href="https://www.tiktok.com/@rektopussMedia" target="_blank" rel="noopener noreferrer" data-analytics-action="social_tiktok"><img src="assets/icons/brand-tiktok.svg" alt=""><span>TikTok</span></a>
+      <a class="social" href="https://www.twitch.tv/rektopuss_official" target="_blank" rel="noopener noreferrer" data-analytics-action="social_twitch"><img src="assets/icons/brand-twitch.svg" alt=""><span>Twitch</span></a>
+      <a class="social" href="https://kick.com/rektopuss" target="_blank" rel="noopener noreferrer" data-analytics-action="social_kick"><img src="assets/icons/brand-kick.svg" alt=""><span>Kick</span></a>
+      <a class="social" href="https://www.instagram.com/rektopussmedia" target="_blank" rel="noopener noreferrer" data-analytics-action="social_instagram"><img src="assets/icons/brand-instagram.svg" alt=""><span>Instagram</span></a>
+      <a class="social" href="https://www.facebook.com/RektopussMedia" target="_blank" rel="noopener noreferrer" data-analytics-action="social_facebook"><img src="assets/icons/brand-facebook.svg" alt=""><span>Facebook</span></a>
+      <a class="social" href="https://lv.wikipedia.org/wiki/Rektopuss" target="_blank" rel="noopener noreferrer" data-analytics-action="social_wikipedia"><img src="assets/icons/brand-wikipedia.svg" alt=""><span>Vikipēdija</span></a>
     </nav>
 
-    <footer><p>© Rektopuss Media</p><p>18+ | <a href="https://azartaatkariba.lv/" target="_blank" rel="noopener noreferrer">Spēlē atbildīgi.</a></p></footer>
+    <footer><p>© Rektopuss Media</p><p>18+ | <a href="https://azartaatkariba.lv/" target="_blank" rel="noopener noreferrer" data-analytics-action="responsible_gambling">Spēlē atbildīgi.</a></p></footer>
   </main>
+
+  <nav class="privacy-links" aria-label="Privātums un sīkdatnes" lang="lv">
+    <button type="button" data-privacy-policy="privacy" hidden>Privātuma politika</button>
+    <button type="button" data-privacy-policy="cookies" hidden>Sīkdatņu politika</button>
+    <button type="button" data-privacy-settings hidden>Sīkdatņu iestatījumi</button>
+    <noscript>Analītika ir izslēgta. Datu pārzinis: SIA REKTOPUSS, reģ. Nr. 40203403950, Krasta iela 13–43, Dobele, LV-3701. Privātuma jautājumiem un tiesību īstenošanai: <a href="mailto:rektopuss.business@gmail.com">rektopuss.business@gmail.com</a>.</noscript>
+  </nav>
 </body>
 </html>

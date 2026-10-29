@@ -26,7 +26,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
-  <title>WatchMeWin | Rektopuss Media</title>
+  <title>WatchMeWin — Pāreja uz partnera lapu | Rektopuss Media</title>
   <style>
     :root { --ink:#f8f7fc; --muted:#a19ba9; --lime:#d6ff16; }
     * { box-sizing:border-box; }
@@ -47,6 +47,8 @@
     @media (prefers-reduced-motion:reduce) { .spinner { animation:none; } }
     @media (max-width:390px) { .page { width:min(100% - 24px,520px); } }
   </style>
+  <link rel="stylesheet" href="../assets/css/privacy.css">
+  <script src="../assets/js/privacy-content.js"></script>
   <script src="../assets/js/analytics.js"></script>
 </head>
 <body>
@@ -56,8 +58,15 @@
       <span class="brand">REKTOPUSS MEDIA</span>
       <h1 id="page-title">JŪS TIEKAT <span>PĀRVIRZĪTS UZ PARTNERA LAPU</span></h1>
       <p class="status"><span class="spinner" aria-hidden="true"></span> Lūdzu, uzgaidiet...</p>
-      <a class="fallback" href="https://m.affs.com/redirect.aspx?mid=1142&amp;sid=13537&amp;cid=&amp;pid=&amp;affid=9650">Turpināt uz WatchMeWin manuāli</a>
+      <a class="fallback" href="https://m.affs.com/redirect.aspx?mid=1142&amp;sid=13537&amp;cid=&amp;pid=&amp;affid=9650" data-analytics-action="partner_redirect">Turpināt uz WatchMeWin manuāli</a>
     </section>
   </main>
+
+  <nav class="privacy-links" aria-label="Privātums un sīkdatnes" lang="lv">
+    <button type="button" data-privacy-policy="privacy" hidden>Privātuma politika</button>
+    <button type="button" data-privacy-policy="cookies" hidden>Sīkdatņu politika</button>
+    <button type="button" data-privacy-settings hidden>Sīkdatņu iestatījumi</button>
+    <noscript>Analītika ir izslēgta. Datu pārzinis: SIA REKTOPUSS, reģ. Nr. 40203403950, Krasta iela 13–43, Dobele, LV-3701. Privātuma jautājumiem un tiesību īstenošanai: <a href="mailto:rektopuss.business@gmail.com">rektopuss.business@gmail.com</a>.</noscript>
+  </nav>
 </body>
 </html>
