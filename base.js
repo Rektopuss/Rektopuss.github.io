@@ -16,6 +16,7 @@
   let connection = '', storageWarning = '', eventSource, backendPollTimer, backendConnecting = false;
   let gaugeDisplayed = 0, gaugeTarget, gaugeGoal, gaugeCurrency, gaugeFrame;
   let announcementQueue = [], announcementTimer = null;
+  let initialProgressShown = false;
   let missionPosition = 0.5, missionHasProgress = false;
   function decodeSnapshot(value) { return JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(value), c => c.charCodeAt(0)))); }
   function encodeSnapshot(value) { return btoa(Array.from(new TextEncoder().encode(JSON.stringify(value)), b => String.fromCharCode(b)).join('')); }
@@ -249,13 +250,33 @@
       if (unlocked.length) { celebrate(); toast('Sasniegts mērķis: ' + unlocked.map(m => m.label).join(' · ')); }
     }
   }
-  function announce(d) { announcementQueue.push(d); if (!announcementTimer) showNextAnnouncement(); }
+  function announce(d) { announcementQueue.push({ donation: d }); if (!announcementTimer) showNextAnnouncement(); }
+  function announceInitialProgress() {
+    if (overlay || initialProgressShown) return;
+    initialProgressShown = true;
+    const total = M.stats(state).total;
+    const progress = window.DonationGoals.progress(state.settings.goalCents, total);
+    announcementQueue.push({ progress });
+    if (!announcementTimer) showNextAnnouncement();
+  }
   function showNextAnnouncement() {
-    const d = announcementQueue.shift();
-    if (!d) { announcementTimer = null; return; }
-    const el = $('donation-alert'); el.innerHTML = '<span class="alert-heart">' + icon('heart', 26) + '</span><div><small>SAŅEMTS JAUNS ZIEDOJUMS</small><strong>' + esc(d.name) + ' <span>+' + esc(money(d.amountCents)) + '</span></strong><p>' + esc(d.message || 'Paldies, ka esi kopā ar mums!') + '</p></div>';
+    const entry = announcementQueue.shift();
+    if (!entry) { announcementTimer = null; return; }
+    const el = $('donation-alert');
+    el.classList.toggle('is-progress', Boolean(entry.progress));
+    if (entry.progress) {
+      const progress = entry.progress;
+      const image = new URL('assets/images/donations/' + (progress.next ? 'secret-placeholder.jpg' : 'florida-placeholder.jpg'), rootURL).href;
+      el.innerHTML = '<span class="alert-secret-image" aria-hidden="true"><img src="' + esc(image) + '" width="72" height="72" alt="">' + (progress.next ? '<span>?</span>' : '') + '</span><div><small>ASV TRIPS v2 · MĒRĶU PROGRESS</small>' +
+        (progress.next
+          ? '<strong>' + (progress.completed + 1) + '. solis: <span>' + esc(money(progress.collected)) + '</span> / ' + esc(money(progress.target)) + '</strong><progress class="alert-step-progress" max="' + progress.target + '" value="' + progress.collected + '" aria-label="Pašreizējā soļa progress"></progress><p>Līdz nākamajam atklājumam vēl ' + esc(money(progress.remaining)) + '.</p>'
+          : '<strong>Brauciena mērķis sasniegts!</strong><p>Visi ' + progress.completed + ' mērķi atklāti. Paldies par atbalstu!</p>') + '</div>';
+    } else {
+      const d = entry.donation;
+      el.innerHTML = '<span class="alert-heart">' + icon('heart', 26) + '</span><div><small>SAŅEMTS JAUNS ZIEDOJUMS</small><strong>' + esc(d.name) + ' <span>+' + esc(money(d.amountCents)) + '</span></strong><p>' + esc(d.message || 'Paldies, ka esi kopā ar mums!') + '</p></div>';
+    }
     el.classList.add('visible');
-    announcementTimer = setTimeout(() => { el.classList.remove('visible'); announcementTimer = setTimeout(showNextAnnouncement, 400); }, 4200);
+    announcementTimer = setTimeout(() => { el.classList.remove('visible'); announcementTimer = setTimeout(showNextAnnouncement, 400); }, entry.progress ? 3600 : 4200);
   }
   function celebrate() {
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -310,6 +331,7 @@
   render(); setInterval(render, 60000);
   if (storageWarning) toast(storageWarning);
   if (config.apiBaseUrl) connectBackend();
+  else announceInitialProgress();
 
   async function fetchBackendSnapshot(base, announceFresh) {
     const response = await fetch(base + '/api/dashboard', { signal: AbortSignal.timeout(10000), cache: 'no-store' });
@@ -318,6 +340,7 @@
     const next = M.validateState(await response.json());
     const fresh = next.donations.filter(d => !previous.has(d.id));
     state = next; connection = 'Datu serveris savienots'; storageWarning = ''; render();
+    announceInitialProgress();
     if (announceFresh && fresh.length === 1) announce(fresh[0]);
   }
 

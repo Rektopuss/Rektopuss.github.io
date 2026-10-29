@@ -184,6 +184,18 @@ input::file-selector-button { border:0; background:#323b28; color:var(--lime); p
 .donation-alert strong { font:500 20px var(--heading); display:block; margin:5px 0; overflow-wrap:anywhere; }
 .donation-alert strong span { color:var(--lime); }
 .donation-alert p { font-size:11px; color:#a4ae9e; overflow-wrap:anywhere; }
+.donation-alert.is-progress { top:auto; bottom:28px; width:min(470px,calc(100% - 32px)); gap:14px; padding:16px; }
+.donation-alert.is-progress>div { flex:1; }
+.donation-alert.is-progress strong { font-size:18px; }
+.alert-secret-image { position:relative; flex:0 0 72px; width:72px; height:72px; overflow:hidden; border:1px solid #526746; border-radius:8px; }
+.alert-secret-image img { display:block; width:100%; height:100%; object-fit:cover; }
+.alert-secret-image>span { position:absolute; inset:0; display:grid; place-items:center; color:#f0efff; font:600 42px/1 'Barlow Condensed',sans-serif; text-shadow:0 0 10px #a797ff,0 0 20px #7951ec; }
+@media(max-width:420px) { .alert-secret-image { flex-basis:60px; width:60px; height:68px; } .donation-alert.is-progress { gap:10px; padding:12px; } }
+.alert-step-progress { display:block; width:100%; height:5px; margin:8px 0; border:0; border-radius:10px; overflow:hidden; appearance:none; background:#ffffff15; accent-color:var(--lime); }
+.alert-step-progress::-webkit-progress-bar { background:#ffffff15; }
+.alert-step-progress::-webkit-progress-value { background:var(--lime); border-radius:10px; }
+.alert-step-progress::-moz-progress-bar { background:var(--lime); border-radius:10px; }
+@media(prefers-reduced-motion:reduce) { .donation-alert.is-progress { transform:translate(-50%,0); transition:opacity .2s; } }
 .toast { position:fixed; z-index:20; top:20px; left:50%; transform:translate(-50%,-20px); opacity:0; pointer-events:none; background:#e3efc9; color:#27311d; padding:12px 19px; border-radius:8px; font-size:12px; width:max-content; max-width:calc(100% - 32px); box-shadow:0 5px 35px #0005; transition:.25s; }
 .toast.visible { opacity:1; transform:translate(-50%,0); }
 .confetti { position:fixed; left:var(--x); top:-20px; width:7px; height:12px; z-index:30; pointer-events:none; animation:fall 2.8s var(--delay) ease-in both; }
