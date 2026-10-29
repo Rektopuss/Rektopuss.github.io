@@ -210,10 +210,10 @@
 
   function closeBanner() {
     banner.hidden = true;
-    if (returnFocus && returnFocus.isConnected) returnFocus.focus();
+    if (returnFocus && returnFocus.isConnected) returnFocus.focus({ preventScroll: true });
     else {
       const settings = document.querySelector('[data-privacy-settings]');
-      if (settings && banner.contains(document.activeElement)) settings.focus();
+      if (settings && banner.contains(document.activeElement)) settings.focus({ preventScroll: true });
     }
   }
 
@@ -243,7 +243,7 @@
     if (policyDialog.contains(returnFocus)) returnFocus = document.querySelector('.privacy-links [data-privacy-settings]');
     applyConsent();
     banner.hidden = false;
-    banner.querySelector('h2').focus();
+    banner.querySelector('h2').focus({ preventScroll: true });
   }
 
   function syncConsent() {
@@ -265,7 +265,7 @@
     content.innerHTML = policy.html;
     content.scrollTop = 0;
     if (!policyDialog.open) policyDialog.showModal();
-    policyDialog.querySelector('[data-policy-close]').focus();
+    policyDialog.querySelector('[data-policy-close]').focus({ preventScroll: true });
   }
 
   function initUI() {
@@ -298,7 +298,7 @@
     document.body.appendChild(policyDialog);
     policyDialog.querySelector('[data-policy-close]').addEventListener('click', () => policyDialog.close());
     policyDialog.addEventListener('close', () => {
-      if (policyFocus && policyFocus.isConnected) policyFocus.focus();
+      if (policyFocus && policyFocus.isConnected) policyFocus.focus({ preventScroll: true });
     });
     policyDialog.addEventListener('click', event => {
       if (event.target !== policyDialog) return;

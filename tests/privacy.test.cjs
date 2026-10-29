@@ -430,3 +430,23 @@ test('redirect page suppresses the automatic banner and still respects saved con
     f.dom.window.close();
   }
 });
+
+test('accepting or rejecting consent restores keyboard focus without scrolling to the footer', () => {
+  for (const reopen of [false, true]) {
+    for (const action of ['[data-privacy-accept]', '[data-privacy-reject]']) {
+      const f = fixture(reopen ? { choice: currentChoice(false) } : {});
+      const settings = f.document.querySelector('[data-privacy-settings]');
+      const nativeFocus = settings.focus.bind(settings);
+      const calls = [];
+      settings.focus = options => { calls.push(options); nativeFocus(options); };
+      if (reopen) settings.click();
+      f.document.querySelector(action).focus();
+      f.click(action);
+      assert.equal(f.document.querySelector('.privacy-consent').hidden, true);
+      assert.equal(f.document.activeElement, settings);
+      assert.equal(calls.length, 1);
+      assert.equal(calls[0].preventScroll, true);
+      f.dom.window.close();
+    }
+  }
+});
