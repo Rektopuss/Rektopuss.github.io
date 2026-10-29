@@ -54,6 +54,7 @@
   };
   const trackingEnabled = document.currentScript.dataset.analytics !== 'off' && Boolean(page) &&
     !new URLSearchParams(window.location.search).has('test');
+  const promptConsent = document.currentScript.dataset.consentBanner !== 'off';
   const production = ['rektopussmedia.com', 'www.rektopussmedia.com'].includes(window.location.hostname);
   const cookieDomain = production ? '; Domain=rektopussmedia.com' : '';
   const cookieSecurity = window.location.protocol === 'https:' ? '; Secure' : '';
@@ -252,7 +253,7 @@
     consent = next;
     memoryOnly = false;
     applyConsent();
-    if (banner) banner.hidden = Boolean(consent) || !trackingEnabled;
+    if (banner) banner.hidden = Boolean(consent) || !trackingEnabled || !promptConsent;
   }
 
   function openPolicy(name, trigger) {
@@ -276,7 +277,7 @@
     banner.className = 'privacy-consent';
     banner.setAttribute('aria-labelledby', 'privacy-consent-title');
     banner.setAttribute('lang', 'lv');
-    banner.hidden = Boolean(consent) || !trackingEnabled;
+    banner.hidden = Boolean(consent) || !trackingEnabled || !promptConsent;
     banner.innerHTML = '<div class="privacy-consent-copy"><h2 id="privacy-consent-title" tabindex="-1">Sīkdatnes</h2>' +
       '<p>Ar jūsu atļauju izmantojam Google Analytics apmeklējumu statistikai.</p>' +
       '<p class="privacy-current" data-privacy-current></p>' +

@@ -47,6 +47,6 @@ Run `node --test tests/privacy.test.cjs` with `jsdom` available. Tests cover eve
 
 These changes apply to future collection after deployment. Previously recorded titles/URLs are not rewritten. The live dashboard, Enhanced Measurement settings, key events, filters and any account-level event transformations were not accessible during this source review. Validate the deployed changes in GA DebugView/Realtime with consent granted.
 
-WatchMeWin immediately redirects externally, so a page-view request can be lost during navigation; it must not be treated as a guaranteed partner conversion. Retention settings are also controlled in the Analytics account.
+WatchMeWin immediately redirects externally and suppresses the automatic consent banner. It only collects Analytics when the visitor has already accepted on this site; a missing or rejected choice leaves tracking disabled. A page-view request can be lost during navigation; it must not be treated as a guaranteed partner conversion. Retention settings are also controlled in the Analytics account.
 
 References: [Google's page-view guide](https://developers.google.com/analytics/devguides/collection/ga4/views), [configuration fields](https://developers.google.com/analytics/devguides/collection/ga4/reference/config).

@@ -11,7 +11,7 @@ const policies = fs.readFileSync(path.join(root, 'assets/js/privacy-content.js')
 const consentKey = 'rektopuss_consent';
 const disableKey = 'ga-disable-G-7VD1EYD8FM';
 
-function fixture({ url = 'https://rektopussmedia.com/', choice, blocked = false, off = false, jar, storage, referrer = '' } = {}) {
+function fixture({ url = 'https://rektopussmedia.com/', choice, blocked = false, off = false, jar, storage, referrer = '', prompt = true } = {}) {
   const dom = new JSDOM(`<html><head></head><body>
     <nav class="privacy-links"><button data-privacy-policy="privacy" hidden>Privacy</button>
     <button data-privacy-policy="cookies" hidden>Cookies</button>
@@ -29,6 +29,7 @@ function fixture({ url = 'https://rektopussmedia.com/', choice, blocked = false,
   const script = document.createElement('script');
   script.src = new URL('/assets/js/analytics.js', url).href;
   if (off) script.dataset.analytics = 'off';
+  if (!prompt) script.dataset.consentBanner = 'off';
   Object.defineProperty(document, 'currentScript', { value: script });
   Object.defineProperty(document, 'readyState', { value: 'complete' });
   // jsdom has no modal-dialog implementation; emulate only that browser API.
@@ -410,4 +411,22 @@ test('every annotated action has an approved readable label', () => {
     assert.ok(buttonEvents(f).at(-1)[2].button_label.length > 0, action);
   }
   f.dom.window.close();
+});
+
+test('redirect page suppresses the automatic banner and still respects saved consent', () => {
+  const html = fs.readFileSync(path.join(root, 'watchmewin/index.html'), 'utf8');
+  const doc = new JSDOM(html);
+  assert.equal(doc.window.document.querySelector('script[src$="assets/js/analytics.js"]').dataset.consentBanner, 'off');
+  doc.window.close();
+  for (const analytics of [undefined, false, true]) {
+    const f = fixture({ url: 'https://rektopussmedia.com/watchmewin/', prompt: false,
+      ...(analytics === undefined ? {} : { choice: currentChoice(analytics) }) });
+    assert.equal(f.document.querySelector('.privacy-consent').hidden, true);
+    assert.equal(f.scripts().length, analytics === true ? 1 : 0);
+    f.document.cookie = consentKey + '=; Max-Age=0; Path=/';
+    f.tick();
+    assert.equal(f.document.querySelector('.privacy-consent').hidden, true);
+    assert.equal(f.window[disableKey], true);
+    f.dom.window.close();
+  }
 });
