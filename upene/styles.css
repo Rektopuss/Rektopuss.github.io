@@ -52,3 +52,40 @@ button{font:inherit;color:inherit}button:not(:disabled){cursor:pointer}button:fo
 .alcohol-notice .privacy-links{max-width:1128px;justify-content:center;margin:12px auto 0;padding:0;border:0;background:none;color:#ccc;font-size:11px}
 .alcohol-notice .privacy-links a:focus-visible,.alcohol-notice .privacy-links button:focus-visible{outline-color:#fff}
 @media(max-width:640px){.alcohol-notice{padding:16px 20px}.alcohol-notice p{font-size:12px}}
+
+/* Fill tall screens while allowing longer pages to scroll naturally. */
+body{display:flex;flex-direction:column;min-height:100vh;min-height:100svh}
+.page{display:flex;flex:1 0 auto;flex-direction:column;width:100%;margin:0 auto}
+.page>main{display:flex;flex:1 0 auto;align-items:center}
+.experience{width:100%}
+.masthead,.page>footer,.alcohol-notice{flex-shrink:0}
+
+/* Give the product and locator more presence on large, tall displays. */
+@media(min-width:1440px) and (min-height:900px){
+  .page{width:90%;max-width:1840px;padding:0 clamp(32px,3vw,72px)}
+  .masthead{padding:24px 0}
+  .wordmark{font-size:clamp(36px,2.2vw,52px)}
+  .wordmark span{font-size:11px}
+  .edition{font-size:12px}
+  .experience{gap:clamp(48px,4vw,96px);padding:32px 0}
+  .bottle-stage{height:clamp(500px,calc(65svh - 180px),900px);margin-top:22px}
+  .halo{width:clamp(360px,25vw,560px);height:clamp(360px,25vw,560px)}
+  .product-note{font-size:12px}
+  .product-caption{font-size:clamp(24px,1.4vw,32px);margin-top:24px}
+  .product-caption span{font-size:13px;margin-top:12px}
+  .seal{width:112px;height:112px;bottom:12%;font-size:22px}
+  .seal span{font-size:11px}
+  h1{font-size:clamp(48px,2.7vw,76px)}
+  .intro{max-width:600px;font-size:clamp(15px,.9vw,19px);margin:18px 0 24px}
+  .store-map{height:clamp(300px,calc(50svh - 220px),650px)}
+  .store-top{padding:16px 22px}
+  .store-top h2{font-size:16px}
+  .store-top>span,.store-top button{font-size:12px}
+  .store-list{--store-row-height:clamp(70px,4svh,96px);padding:0 22px}
+  .store-select{gap:16px}
+  .store-select strong{font-size:16px}
+  .store-address,.directions{font-size:14px}
+  .store-number{width:34px;height:34px;font-size:12px}
+  .store-bottom{padding:16px 22px;font-size:12px}
+  .page>footer{padding:22px 0;font-size:12px}
+}
