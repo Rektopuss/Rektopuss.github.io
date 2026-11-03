@@ -31,6 +31,10 @@ Leaflet 1.9.4 CSS/JS load from unpkg with integrity hashes. Map tiles load from 
 
 The previous video files (`videos.js` and `script.js`) are preserved but no longer loaded by the page.
 
+## Creator logos
+
+The “Radīts kopā” section highlights the two product creators with links to their websites. Rektopuss Media uses the existing repository asset `../assets/images/branding/rektopuss.png`. Dvoretsky Distillery uses `assets/dvoretsky-logo.png`, downloaded from the [official website's logo asset](https://dvoretsky.eu/wp-content/uploads/2019/12/dvoretsky-full-b.png). Both logos are displayed in monochrome to fit the page's light background; the original image files are preserved. The section adapts to mobile and the large-screen layout.
+
 ## Product image
 
 The included `assets/product.png` is a transparent bottle cutout generated using the supplied product photograph as its reference. The generation instructions are saved in `assets/product-prompt.md`. It is referenced directly by `#product-image` in `index.html`.

@@ -63,6 +63,22 @@ body{display:flex;flex-direction:column;min-height:100vh;min-height:100svh}
 .edition>span{white-space:nowrap}
 .directions{display:inline-flex;align-items:center;gap:5px}
 .link-icon{display:block;flex-shrink:0;width:1em;height:1em}
+
+/* Product creators, presented with equal visual weight. */
+.creators{flex-shrink:0;padding:12px 0 14px;border-top:1px solid var(--line);text-align:center}
+.creators h2{margin:0 0 8px;color:var(--muted);font:normal 10px/1.5 Arial,Helvetica,sans-serif;letter-spacing:.2em;text-transform:uppercase}
+.creator-logos{display:grid;grid-template-columns:minmax(0,170px) 1px minmax(0,170px);justify-content:center;align-items:center;gap:32px}
+.creator-link{display:flex;min-width:0;flex-direction:column;align-items:center;gap:10px;text-decoration:none}
+.creator-logo{display:flex;height:74px;width:100%;align-items:center;justify-content:center}
+.creator-logo img{display:block;max-width:100%;height:auto;object-fit:contain;filter:brightness(0);opacity:.8;transition:opacity .18s ease}
+.creator-logo-rektopuss{width:52px}
+.creator-logo-dvoretsky{width:100px}
+.creator-logo-lockup{flex-direction:column;gap:4px}
+.creator-wordmark{display:block;color:var(--ink);font:800 12px/1.4 Manrope,Arial,sans-serif;letter-spacing:-.055em;white-space:nowrap}
+.creator-divider{height:54px;background:var(--line)}
+.creator-link:hover img,.creator-link:focus-visible img{opacity:1}
+@media(max-width:640px){.creators{padding:12px 0}.creator-logos{gap:20px}.creator-logo{height:68px}.creator-logo-rektopuss{width:46px}.creator-logo-dvoretsky{width:92px}}
+@media(min-width:1440px) and (min-height:900px){.creators{padding:14px 0 16px}.creators h2{font-size:12px}.creator-logos{grid-template-columns:minmax(0,210px) 1px minmax(0,210px);gap:48px}.creator-logo{height:84px}.creator-logo-rektopuss{width:56px}.creator-logo-dvoretsky{width:112px}.creator-wordmark{font-size:15px}}
 @media(max-width:640px){
   .edition{display:flex;flex-shrink:0;flex-direction:column;align-items:flex-end;max-width:none;line-height:1.7}
   .edition .edition-separator{display:none}
