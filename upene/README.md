@@ -1,14 +1,35 @@
-# U-PENE QR landing page
+# U-PENE store locator
 
 QR destination: https://rektopussmedia.com/upene/
 
-This static page works on GitHub Pages without a backend. Each page opening or refresh independently chooses one of exactly five slots with equal probability; repeat selections are possible. Only that selected video is displayed. There is no video list, next button, or other in-page control for selecting a different slot; reopen or refresh the page to get a new draw. Nothing is stored on the visitor's device. Videos require a tap to play and do not autoplay.
+This static page works on GitHub Pages without a backend or a map API key. It displays nine locations: all eight locations in the Spirits & Wine directory plus Hidden Bottles in Old Riga, on a Leaflet map with OpenStreetMap tiles, plus a permanent address list and Google Maps directions links. The bottle image and original branding are retained.
 
-Selection uses the browser's cryptographic random generator when available, with a `Math.random` fallback. The other four videos are hidden from the page interface, but the five IDs are public in `videos.js`. This is an interface restriction, not access control; a static page cannot keep those IDs secret or prevent visitors from opening them directly on YouTube.
+Selecting a store in the list zooms to its custom teardrop marker and opens its address popup. The pin uses an outlined serif U inspired by the bottle label, saved in `assets/store-pin.svg`. The list shows three complete rows at a time and scrolls to additional stores; it also supports keyboard scrolling. “Rādīt visus” restores the view of all stores. Mouse-wheel zoom is disabled so the map does not interrupt page scrolling. The addresses and directions work without JavaScript and if the map provider is unavailable. No visitor location is requested and nothing is stored on the visitor's device.
 
-## Add the five videos
+## Store data
 
-Edit `videos.js` and replace each empty `id` with the YouTube video ID (11 characters, e.g. the value after `v=` in a YouTube URL). Set each `title` to its display title. Use videos that allow embedding. Empty or invalid IDs show the coming-soon placeholder. All five slots participate in selection, so fill all five before launching if every visitor should receive a playable video.
+The `.store-list` in `index.html` is the source of store data. Each list item holds `data-lat` and `data-lng`, the branch name, address, and directions link. `store-map.js` builds markers and popups from those entries. To add a location, copy a list item and update its coordinates, labels, visible number, and directions destination; also update the count in `.store-top`.
+
+Set `data-retailer` on each list item so the marker title and popup use the correct shop name. Without this attribute, only the displayed shop name is used; no retailer is assumed.
+
+Branches and addresses were checked on 2026-11-03 against the [official retailer directory](https://www.spiritsandwine.lv/lv/contacts):
+
+- Andrejosta — Andrejostas iela 5, Rīga.
+- Spice Life — Jaunmoku iela 13, Rīga.
+- Domina — Ieriķu iela 3, Rīga.
+- Teika Plaza — Brīvības gatve 201, Rīga.
+- Sāga — Biķeru iela 4, Ulbroka.
+- Via Jurmala Outlet — Jaunā iela 12, Piņķi.
+- A7 — Džutas, Krustkalni, Ķekavas pagasts.
+- Internetveikals — Buļļu iela 47A, Rīga.
+
+Hidden Bottles (formerly Kolekcija Dzērieni) was added at Jēkaba iela 3/5, Vecrīga, Rīga. Address verified against the [shop's own website](https://www.kolekcijadzerieni.lv/news/params/post/5198255/lectures--tastings-of-latvian-spirits), with the current name confirmed by its [business listing](https://www.tripadvisor.com/Attraction_Review-g274967-d34667283-Reviews-The_Hidden_Bottles-Riga_Riga_Region.html). Building coordinates come from the [Jēkaba iela 3/5 address directory](https://www.lursoft.lv/adrese/jekaba-iela-3/5-riga-lv-1050/uznemumi).
+
+Buļļu iela 47A is explicitly labeled as the internet store. All locations, including branches outside Riga, are included. Pins indicate the store building or shopping centre, not an exact entrance. Building coordinates were cross-checked using [Andrejosta](https://lv.near-place.com/spiritswine-andrejostas-iela-5-riga/da), [Spice Life](https://yandex.com/maps/11474/riga/house/Zk0YdgRpSkEPQFtsfXVycH9jbA%3D%3D/), [Domina](https://lv.geoview.info/domina_shopping%2C20037953112w), [Teika Plaza](https://postmapia.com/en/latvia/riga/riga/klientu-centrs-teika-plaza), [Sāga shopping centre](https://nsking.lv/amlocator/index/ajax/), [Via Jurmala Outlet](https://latvia.worldplaces.me/review/94690466-via-jurmala-outlet-village.html), [A7](https://mapcarta.com/W220039366), and [Buļļu iela 47A](https://www.lursoft.lv/adrese/bullu-iela-47a-riga-lv-1067). Directions use the store name and street address. Product stock and opening hours are not live; the page links to the retailer's contacts to check availability.
+
+Leaflet 1.9.4 CSS/JS load from unpkg with integrity hashes. Map tiles load from OpenStreetMap with visible attribution. Keep that attribution and review the [tile usage policy](https://operations.osmfoundation.org/policies/tiles/) if traffic grows substantially.
+
+The previous video files (`videos.js` and `script.js`) are preserved but no longer loaded by the page.
 
 ## Product image
 

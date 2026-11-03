@@ -4,26 +4,27 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f6f1e8">
-  <meta name="description" content="U-PENE Pure — viegls upeņu liķieris. Atklāj savu U-PENE video.">
+  <meta name="description" content="U-PENE Pure — viegls upeņu liķieris. Atrodi savu tuvāko tirdzniecības vietu: Spirits &amp; Wine un Hidden Bottles.">
   <link rel="canonical" href="https://rektopussmedia.com/upene/">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
   <link rel="stylesheet" href="./styles.css">
   <title>U-PENE — Tavs upeņu mirklis | Rektopuss Media</title>
   <meta name="twitter:title" content="U-PENE — Tavs upeņu mirklis | Rektopuss Media">
   <meta property="og:title" content="U-PENE — Tavs upeņu mirklis | Rektopuss Media">
   <link rel="icon" type="image/x-icon" href="../assets/icons/rektopuss.ico">
-  <script defer src="./videos.js"></script>
-  <script defer src="./script.js"></script>
+  <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script defer src="./store-map.js?v=2"></script>
   <link rel="stylesheet" href="../assets/css/privacy.css">
   <script src="../assets/js/privacy-content.js" defer></script>
   <script src="../assets/js/analytics.js" data-analytics="off" defer></script>
 </head>
 <body>
   <div class="page">
-    <header class="masthead"><a class="wordmark" href="./" aria-label="U-PENE sākumlapa">U-PENE<span>PURE</span></a><span class="edition">UPEŅU LIĶIERIS · EST. 2021</span></header>
+    <header class="masthead"><a class="wordmark" href="./" aria-label="U-PENE sākumlapa">U-PENE<span>PURE</span></a><span class="edition">UPEŅU LIĶIERIS · EST. 2026</span></header>
     <main>
       <section class="experience" aria-labelledby="page-title">
         <div class="product">
-          <span class="product-note">MAZA PUDELE. SAVS STĀSTS.</span>
+          <span class="product-note">MAZA PUDELE. MILZĪGA BAUDA</span>
           <div class="bottle-stage">
             <div class="halo" aria-hidden="true"></div>
             <img id="product-image" src="./assets/product.png" alt="U-PENE Pure upeņu liķieris, 250 ml" width="941" height="1672">
@@ -32,33 +33,68 @@
           <p class="product-caption">Viegls upeņu liķieris<span>12% alc./vol. <i>·</i> 250 ml <i>·</i> Pasniedz atdzesētu</span></p>
         </div>
         <div class="story">
-          <p class="eyebrow"><span></span> TAVS U-PENE MIRKLIS</p>
-          <h1 id="page-title">Mazliet upeņu.<br>Mazliet <em>negaidītā.</em></h1>
-          <p class="intro">Tu noskenēji. Mēs izvēlējāmies vienu no pieciem stāstiem. Šis ir tavējais.</p>
-          <section class="video-card" aria-labelledby="video-heading">
-            <div class="video-top"><h2 id="video-heading">Tavs video</h2><span id="video-number">01 / 05</span></div>
-            <div class="player" id="player">
-              <div class="placeholder" id="placeholder">
-                <span class="play-mark" aria-hidden="true">▶</span>
-                <p id="placeholder-title">Stāsts vēl top</p>
-                <span>Tavs U-PENE video drīzumā būs šeit.</span>
-              </div>
+          <h1 id="page-title">ATRODI SAVU <em>U-PENI</em></h1>
+          <p class="intro">Meklē U-PENE veikalos Spirits &amp; Wine un "Hidden Bottles" Vecrīgā. Drīzumā būsim pieejami arī citur Latvijā!</p>
+          <section class="store-card" aria-labelledby="store-heading">
+            <div class="store-top"><h2 id="store-heading">Kur iegādāties</h2><span>9 VIETAS</span><button id="show-all-stores" type="button" hidden>Rādīt visus</button></div>
+            <div class="store-map" id="store-map" role="region" aria-label="U-PENE tirdzniecības vietu karte">
+              <p class="map-message" id="map-message" role="status">Karte ielādējas. Veikalu adreses un maršruti pieejami sarakstā zemāk.</p>
             </div>
-            <div class="video-bottom"><span id="video-caption" aria-live="polite">Viens no pieciem. Izvēlēts tev.</span><a id="youtube-link" hidden target="_blank" rel="noopener noreferrer">Atvērt YouTube ↗</a></div>
+            <ul class="store-list" tabindex="0" aria-label="U-PENE tirdzniecības vietas. Ritiniet, lai redzētu visas vietas.">
+              <li data-lat="56.96583" data-lng="24.095495" data-retailer="Spirits &amp; Wine">
+                <button class="store-select" type="button" disabled aria-label="Rādīt kartē: Andrejosta"><span class="store-number" aria-hidden="true">01</span><span><strong>Andrejosta</strong><span class="store-address">Andrejostas iela 5, Rīga</span></span></button>
+                <a class="directions" href="https://www.google.com/maps/dir/?api=1&amp;destination=Spirits%20%26%20Wine%2C%20Andrejostas%20iela%205%2C%20Riga" target="_blank" rel="noopener noreferrer" aria-label="Maršruts uz Spirits &amp; Wine Andrejostā">Maršruts ↗</a>
+              </li>
+              <li data-lat="56.931309" data-lng="24.039348" data-retailer="Spirits &amp; Wine">
+                <button class="store-select" type="button" disabled aria-label="Rādīt kartē: Spice Life"><span class="store-number" aria-hidden="true">02</span><span><strong>Spice Life</strong><span class="store-address">Jaunmoku iela 13, Rīga</span></span></button>
+                <a class="directions" href="https://www.google.com/maps/dir/?api=1&amp;destination=Spirits%20%26%20Wine%2C%20Jaunmoku%20iela%2013%2C%20Riga" target="_blank" rel="noopener noreferrer" aria-label="Maršruts uz Spirits &amp; Wine Spice Life">Maršruts ↗</a>
+              </li>
+              <li data-lat="56.96658" data-lng="24.16275" data-retailer="Spirits &amp; Wine">
+                <button class="store-select" type="button" disabled aria-label="Rādīt kartē: Domina"><span class="store-number" aria-hidden="true">03</span><span><strong>Domina</strong><span class="store-address">Ieriķu iela 3, Rīga</span></span></button>
+                <a class="directions" href="https://www.google.com/maps/dir/?api=1&amp;destination=Spirits%20%26%20Wine%2C%20Ieriku%20iela%203%2C%20Riga" target="_blank" rel="noopener noreferrer" aria-label="Maršruts uz Spirits &amp; Wine Dominā">Maršruts ↗</a>
+              </li>
+              <li data-lat="56.97442" data-lng="24.16201" data-retailer="Spirits &amp; Wine">
+                <button class="store-select" type="button" disabled aria-label="Rādīt kartē: Teika Plaza"><span class="store-number" aria-hidden="true">04</span><span><strong>Teika Plaza</strong><span class="store-address">Brīvības gatve 201, Rīga</span></span></button>
+                <a class="directions" href="https://www.google.com/maps/dir/?api=1&amp;destination=Spirits%20%26%20Wine%2C%20Brivibas%20gatve%20201%2C%20Riga" target="_blank" rel="noopener noreferrer" aria-label="Maršruts uz Spirits &amp; Wine Teika Plaza">Maršruts ↗</a>
+              </li>
+              <li data-lat="56.950625" data-lng="24.25328" data-retailer="Spirits &amp; Wine">
+                <button class="store-select" type="button" disabled aria-label="Rādīt kartē: Sāga"><span class="store-number" aria-hidden="true">05</span><span><strong>Sāga</strong><span class="store-address">Biķeru iela 4, Ulbroka</span></span></button>
+                <a class="directions" href="https://www.google.com/maps/dir/?api=1&amp;destination=Spirits%20%26%20Wine%2C%20Bikeru%20iela%204%2C%20Ulbroka" target="_blank" rel="noopener noreferrer" aria-label="Maršruts uz Spirits &amp; Wine Sāgā">Maršruts ↗</a>
+              </li>
+              <li data-lat="56.95445" data-lng="23.90958" data-retailer="Spirits &amp; Wine">
+                <button class="store-select" type="button" disabled aria-label="Rādīt kartē: Via Jurmala Outlet"><span class="store-number" aria-hidden="true">06</span><span><strong>Via Jurmala Outlet</strong><span class="store-address">Jaunā iela 12, Piņķi</span></span></button>
+                <a class="directions" href="https://www.google.com/maps/dir/?api=1&amp;destination=Spirits%20%26%20Wine%2C%20Jauna%20iela%2012%2C%20Pinki" target="_blank" rel="noopener noreferrer" aria-label="Maršruts uz Spirits &amp; Wine Via Jurmala Outlet">Maršruts ↗</a>
+              </li>
+              <li data-lat="56.89604" data-lng="24.13868" data-retailer="Spirits &amp; Wine">
+                <button class="store-select" type="button" disabled aria-label="Rādīt kartē: A7"><span class="store-number" aria-hidden="true">07</span><span><strong>A7</strong><span class="store-address">Džutas, Krustkalni, Ķekavas pag.</span></span></button>
+                <a class="directions" href="https://www.google.com/maps/dir/?api=1&amp;destination=Spirits%20%26%20Wine%2C%20TC%20A7%2C%20Dzutas%2C%20Krustkalni" target="_blank" rel="noopener noreferrer" aria-label="Maršruts uz Spirits &amp; Wine A7">Maršruts ↗</a>
+              </li>
+              <li data-lat="56.974909" data-lng="24.044132" data-retailer="Spirits &amp; Wine">
+                <button class="store-select" type="button" disabled aria-label="Rādīt kartē: Internetveikals"><span class="store-number" aria-hidden="true">08</span><span><strong>Internetveikals</strong><span class="store-address">Buļļu iela 47A, Rīga</span></span></button>
+                <a class="directions" href="https://www.google.com/maps/dir/?api=1&amp;destination=Spirits%20%26%20Wine%2C%20Bullu%20iela%2047A%2C%20Riga" target="_blank" rel="noopener noreferrer" aria-label="Maršruts uz Spirits &amp; Wine internetveikalu">Maršruts ↗</a>
+              </li>
+              <li data-lat="56.950413" data-lng="24.105112" data-retailer="Hidden Bottles">
+                <button class="store-select" type="button" disabled aria-label="Rādīt kartē: Hidden Bottles"><span class="store-number" aria-hidden="true">09</span><span><strong>Hidden Bottles</strong><span class="store-address">Jēkaba iela 3/5, Vecrīga, Rīga</span></span></button>
+                <a class="directions" href="https://www.google.com/maps/dir/?api=1&amp;destination=Hidden%20Bottles%2C%20Jekaba%20iela%203%2F5%2C%20Riga" target="_blank" rel="noopener noreferrer" aria-label="Maršruts uz Hidden Bottles">Maršruts ↗</a>
+              </li>
+            </ul>
+            <div class="store-bottom"><span>Pieejamību negarantējam — pieprasījums ir milzīgs, un U-PENE veikalos bieži izpērk pilnībā. Pirms došanās iesakām pārliecināties, vai pudeles vēl ir plauktā!</span></div>
           </section>
-          <p class="afterword">Katrs mirklis ar savu garšu.</p>
-          <noscript><p class="no-script">Lai redzētu savu video, ieslēdz JavaScript pārlūka iestatījumos.</p></noscript>
+          <noscript><p class="no-script">Interaktīvajai kartei nepieciešams JavaScript. Visas adreses un maršrutu saites pieejamas sarakstā.</p></noscript>
         </div>
       </section>
     </main>
     <footer><span>U-PENE PURE <i>·</i> BLACK CURRANT</span><p>Baudi atbildīgi. Tikai personām no 18 gadu vecuma.</p></footer>
   </div>
 
-  <nav class="privacy-links" aria-label="Privātums un sīkdatnes" lang="lv">
-    <button type="button" data-privacy-policy="privacy" hidden>Privātuma politika</button>
-    <button type="button" data-privacy-policy="cookies" hidden>Sīkdatņu politika</button>
-    <button type="button" data-privacy-settings hidden>Sīkdatņu iestatījumi</button>
-    <noscript>Analītika ir izslēgta. Datu pārzinis: SIA REKTOPUSS, reģ. Nr. 40203403950, Krasta iela 13–43, Dobele, LV-3701. Privātuma jautājumiem un tiesību īstenošanai: <a href="mailto:rektopuss.business@gmail.com">rektopuss.business@gmail.com</a>.</noscript>
-  </nav>
+  <aside class="alcohol-notice" aria-label="Brīdinājums par alkohola lietošanu">
+    <p>Alkohola lietošanai ir negatīva ietekme uz jūsu veselību. Alkoholisko dzērienu pārdošana, iegādāšanās un nodošana nepilngadīgām personām ir aizliegta.</p>
+    <nav class="privacy-links" aria-label="Privātums un sīkdatnes" lang="lv">
+      <button type="button" data-privacy-policy="privacy" hidden>Privātuma politika</button>
+      <button type="button" data-privacy-policy="cookies" hidden>Sīkdatņu politika</button>
+      <button type="button" data-privacy-settings hidden>Sīkdatņu iestatījumi</button>
+      <noscript>Analītika ir izslēgta. Datu pārzinis: SIA REKTOPUSS, reģ. Nr. 40203403950, Krasta iela 13–43, Dobele, LV-3701. Privātuma jautājumiem un tiesību īstenošanai: <a href="mailto:rektopuss.business@gmail.com">rektopuss.business@gmail.com</a>.</noscript>
+    </nav>
+  </aside>
 </body>
 </html>
