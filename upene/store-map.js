@@ -1,5 +1,11 @@
-(() => {
+(function initializeStoreMap() {
   'use strict';
+
+  // Leaflet needs a visible container to calculate the map size correctly.
+  if (document.getElementById('age-content')?.hidden) {
+    document.addEventListener('upene:age-confirmed', initializeStoreMap, { once: true });
+    return;
+  }
 
   const container = document.getElementById('store-map');
   const message = document.getElementById('map-message');

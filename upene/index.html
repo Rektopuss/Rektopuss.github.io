@@ -16,13 +16,26 @@
   <meta property="og:title" content="U-PENE — Tavs upeņu mirklis | Rektopuss Media">
   <link rel="icon" type="image/x-icon" href="../assets/icons/rektopuss.ico">
   <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  <script defer src="./store-map.js?v=2"></script>
+  <script defer src="./age-gate.js"></script>
+  <script defer src="./store-map.js?v=3"></script>
   <link rel="stylesheet" href="../assets/css/privacy.css">
   <script src="../assets/js/privacy-content.js" defer></script>
   <script src="../assets/js/analytics.js" data-analytics="off" defer></script>
 </head>
 <body>
-  <div class="page">
+  <dialog class="age-gate" id="age-gate" aria-labelledby="age-heading" aria-describedby="age-description" open>
+    <div class="age-card">
+      <span class="age-label" aria-hidden="true">18+</span>
+      <h2 id="age-heading" tabindex="-1">Vai esi sasniedzis 18 gadu vecumu?</h2>
+      <p id="age-description">Šī vietne ir paredzēta tikai personām no 18 gadu vecuma.</p>
+      <div class="age-actions" id="age-actions">
+        <button id="age-yes" type="button" disabled>Jā</button>
+        <button id="age-no" type="button" disabled>Nē</button>
+      </div>
+      <noscript><p>Lai apstiprinātu savu vecumu un piekļūtu vietnei, ieslēdz JavaScript.</p></noscript>
+    </div>
+  </dialog>
+  <div class="page" id="age-content" hidden>
     <header class="masthead"><a class="wordmark" href="./" aria-label="U-PENE sākumlapa">U-PENE<span>PURE</span></a><span class="edition"><span>UPEŅU LIĶIERIS</span><span class="edition-separator" aria-hidden="true"> · </span><span>EST. 2026</span></span></header>
     <main>
       <section class="experience" aria-labelledby="page-title">
@@ -102,7 +115,7 @@
     <footer><span>U-PENE PURE <i>·</i> BLACK CURRANT</span><p>Baudi atbildīgi. Tikai personām no 18 gadu vecuma.</p></footer>
   </div>
 
-  <aside class="alcohol-notice" aria-label="Brīdinājums par alkohola lietošanu">
+  <aside class="alcohol-notice" id="age-notice" aria-label="Brīdinājums par alkohola lietošanu" hidden>
     <p>Alkohola lietošanai ir negatīva ietekme uz jūsu veselību. Alkoholisko dzērienu pārdošana, iegādāšanās un nodošana nepilngadīgām personām ir aizliegta.</p>
     <nav class="privacy-links" aria-label="Privātums un sīkdatnes" lang="lv">
       <button type="button" data-privacy-policy="privacy" hidden>Privātuma politika</button>
