@@ -43,10 +43,12 @@
     .offers { display:grid; gap:10px; margin-top:20px; }
     .offer { display:grid; grid-template-columns:54px minmax(0,1fr) 20px; align-items:center; gap:14px; min-height:70px; padding:8px 18px 8px 9px; border:1px solid var(--line); border-radius:11px; color:var(--ink); background:linear-gradient(105deg,rgba(31,30,40,.92),rgba(20,19,29,.78)); box-shadow:0 8px 18px rgba(0,0,0,.13); text-align:left; text-decoration:none; transition:transform .18s ease,background .18s ease,border-color .18s ease; }
     .offer:hover,.offer:focus-visible { border-color:rgba(170,102,255,.42); background:rgba(43,32,59,.94); outline:0; transform:translateY(-2px); }
-    .offer-watchmewin { border-color:rgba(207,255,0,.26); }
-    .offer-watchmewin:hover,.offer-watchmewin:focus-visible { border-color:rgba(207,255,0,.48); }
-    .partner-logo,.temu-logo { display:grid; place-items:center; width:54px; height:54px; border-radius:8px; object-fit:cover; }
-    .temu-logo { background:#ff5d18; color:white; font-size:14px; font-weight:800; letter-spacing:-.07em; }
+    .offer-watchmewin { min-height:88px; border-color:rgba(207,255,0,.55); background:linear-gradient(105deg,rgba(207,255,0,.12),rgba(20,19,29,.92)); box-shadow:0 0 20px rgba(207,255,0,.07); }
+    .offer-watchmewin:hover,.offer-watchmewin:focus-visible { border-color:#cfff00; background:linear-gradient(105deg,rgba(207,255,0,.18),rgba(20,19,29,.96)); }
+    .offer-badge { display:inline-block; margin-top:6px; padding:3px 6px; border-radius:4px; color:#171d00; background:#cfff00; font-size:9px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; }
+    .offer-watchmewin .arrow { color:#cfff00; }
+    .partner-logo,.saily-logo { display:grid; place-items:center; width:54px; height:54px; border-radius:8px; object-fit:cover; }
+    .saily-logo { padding:7px; background:#fff000; object-fit:contain; }
     .offer-title { display:block; font-size:14px; font-weight:800; line-height:1.28; letter-spacing:-.035em; }
     .offer-subtitle { display:block; margin-top:4px; color:#9993a1; font-size:12px; font-weight:500; line-height:1.2; }
     .offer-subtitle em { color:#a355ef; font-style:normal; font-weight:800; }
@@ -96,11 +98,11 @@
       </a>
       <a class="offer offer-watchmewin" href="https://m.affs.com/redirect.aspx?mid=1142&amp;sid=13537&amp;cid=&amp;pid=&amp;affid=9650" target="_blank" rel="noopener noreferrer" data-analytics-action="offer_watchmewin">
         <img class="partner-logo" src="../assets/images/partners/watchmewin.png" alt="WatchMeWin">
-        <span><span class="offer-title">275 SPINS + 100% DEPOZĪTA BONUSS LĪDZ 777€</span><span class="offer-subtitle">Ekskluzīvs piedāvājums</span></span><span class="arrow" aria-hidden="true">›</span>
+        <span><span class="offer-title">275 SPINS + 100% DEPOZĪTA BONUSS LĪDZ 777€</span><span class="offer-badge">ĪPAŠAIS REKTOPUSS PIEDĀVĀJUMS</span></span><span class="arrow" aria-hidden="true">›</span>
       </a>
-      <a class="offer" href="https://temu.to/k/eygghwbtl99" target="_blank" rel="noopener noreferrer" data-analytics-action="offer_temu">
-        <span class="temu-logo" aria-hidden="true">Temu</span>
-        <span><span class="offer-title">100 € Temu atlaides kupons</span><span class="offer-subtitle">Partneru piedāvājums</span></span><span class="arrow" aria-hidden="true">›</span>
+      <a class="offer" href="https://saily.com/all-destinations/?coupon=REKTOPUSS" target="_blank" rel="noopener noreferrer" data-analytics-action="offer_saily">
+        <img class="saily-logo" src="../assets/images/partners/saily-icon.svg" alt="Saily" width="54" height="54">
+        <span><span class="offer-title">Saily | 5 € atlaide eSIM</span><span class="offer-subtitle">Saņem 5 € atlaidi, iegādājoties eSIM ar kodu <em>“REKTOPUSS”</em>.</span></span><span class="arrow" aria-hidden="true">›</span>
       </a>
     </nav>
 

@@ -35,7 +35,7 @@
     social_twitch: 'Twitch', social_kick: 'Kick', social_instagram: 'Instagram',
     social_facebook: 'Facebook', social_wikipedia: 'Vikipēdija',
     offer_ekocope: 'EKOCOPE piedāvājums', offer_watchmewin: 'WatchMeWin piedāvājums',
-    offer_temu: 'Temu piedāvājums', watchmewin_terms: 'WatchMeWin vispārīgie noteikumi',
+    offer_saily: 'Saily piedāvājums', watchmewin_terms: 'WatchMeWin vispārīgie noteikumi',
     watchmewin_bonus_terms: 'WatchMeWin bonusu noteikumi', bonus_details: 'Skatīt bonusa noteikumus',
     responsible_gambling: 'Atbildīgas spēles informācija',
     donate: 'Atvērt ziedošanu Streamlabs', donation_alternative: 'Skatīt alternatīvu atbalsta veidu',
