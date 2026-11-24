@@ -28,21 +28,18 @@
     .bonus-link { display:grid; grid-template-columns:54px minmax(0,1fr) 20px; align-items:center; gap:14px; min-height:72px; margin-top:32px; padding:9px 18px 9px 9px; border:1px solid rgba(163,85,239,.35); border-radius:11px; color:var(--ink); background:linear-gradient(105deg,rgba(43,28,62,.9),rgba(24,19,35,.8)); box-shadow:0 8px 18px rgba(0,0,0,.13); text-align:left; text-decoration:none; transition:transform .18s ease,background .18s ease,border-color .18s ease; animation:bonus-glow 3.8s ease-in-out infinite; }
     .bonus-link:hover,.bonus-link:focus-visible { border-color:rgba(181,111,255,.7); background:rgba(49,34,68,.94); outline:0; transform:translateY(-2px); }
     .bonus-mark { display:grid; place-items:center; width:54px; height:54px; border-radius:8px; background:linear-gradient(145deg,#b770ff,#722ee0); font:800 34px/.8 "Barlow Condensed",sans-serif; }
-    .secondary-link { grid-template-columns:44px minmax(0,1fr) 20px; min-height:62px; margin-top:10px; border-color:var(--line); color:#d1cdd8; background:rgba(25,23,33,.75); box-shadow:none; animation:none; }
+    .secondary-link { width:96%; margin-inline:auto; grid-template-columns:44px minmax(0,1fr) 20px; min-height:62px; margin-top:10px; border-color:var(--line); color:#d1cdd8; background:rgba(25,23,33,.75); box-shadow:none; animation:none; }
     .secondary-link:hover,.secondary-link:focus-visible { border-color:rgba(255,255,255,.22); background:#24212e; transform:translateY(-1px); }
     .secondary-link:focus-visible { outline:2px solid #aaa5b3; outline-offset:3px; }
     .secondary-link .bonus-mark { width:44px; height:44px; color:#b7b0c2; background:#2b2735; }
     .secondary-link .card-title { font-weight:700; }
     .secondary-link .card-subtitle { color:#a39cae; }
     .secondary-link .arrow { color:#81798d; }
-    .crowdfunding-link .bonus-mark { position:relative; color:#fff; background:#002868; box-shadow:inset 0 0 0 1px rgba(255,255,255,.35); font-size:20px; }
-    .crowdfunding-link .bonus-mark::before,.crowdfunding-link .bonus-mark::after { position:absolute; left:0; width:100%; content:'★ ★ ★'; color:#fff; font:7px/1 Arial,sans-serif; text-align:center; }
-    .crowdfunding-link .bonus-mark::before { top:5px; }
-    .crowdfunding-link .bonus-mark::after { bottom:5px; }
-    .waze-link .bonus-mark { background:#6edaee; }
+    .crowdfunding-link .bonus-mark,.waze-link .bonus-mark { background:#fff; }
+    .crowdfunding-link .bonus-mark img { display:block; width:38px; height:38px; }
     .waze-link .bonus-mark img { display:block; width:28px; height:28px; }
-    .upene-link .bonus-mark { background:#f6f1e8; }
-    .upene-link .bonus-mark img { display:block; width:23px; height:40px; object-fit:contain; }
+    .upene-link .bonus-mark { overflow:hidden; }
+    .upene-link .bonus-mark img { display:block; width:44px; height:44px; }
     .card-title { display:block; font-size:14px; font-weight:800; line-height:1.28; letter-spacing:-.035em; }
     .card-subtitle { display:block; margin-top:4px; color:#aaa0b4; font-size:12px; }
     .arrow { color:#aaa5b3; font-size:28px; font-weight:300; line-height:1; }
@@ -80,7 +77,7 @@
     </a>
 
     <a class="bonus-link secondary-link crowdfunding-link" href="https://www.rektopussmedia.com/asv" data-analytics-action="open_usa_campaign">
-      <span class="bonus-mark" aria-hidden="true">ASV</span>
+      <span class="bonus-mark" aria-hidden="true"><img src="assets/icons/usa-flag.svg" alt="" width="38" height="38"></span>
       <span><span class="card-title">ASV TRIPS v2</span><span class="card-subtitle">Atbalsti, nopelni balvas un 10 jaunus video</span></span><span class="arrow" aria-hidden="true">›</span>
     </a>
 
@@ -90,7 +87,7 @@
     </a>
 
     <a class="bonus-link secondary-link upene-link" href="https://rektopussmedia.com/upene" data-analytics-action="open_upene">
-      <span class="bonus-mark" aria-hidden="true"><img src="upene/assets/product.png" alt="" width="28" height="48"></span>
+      <span class="bonus-mark" aria-hidden="true"><img src="assets/icons/upene-bottle.png" alt="" width="44" height="44"></span>
       <span><span class="card-title">U-PENE</span><span class="card-subtitle">Atrodi tuvāko tirdzniecības vietu</span></span><span class="arrow" aria-hidden="true">›</span>
     </a>
 
