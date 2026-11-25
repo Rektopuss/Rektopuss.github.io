@@ -55,7 +55,7 @@ window.RektopussPolicies = {
   cookies: {
     title: 'Sīkdatņu politika',
     html: `
-      <p class="privacy-policy-date">Atjaunināta: 2026. gada 25. novembrī</p>
+      <p class="privacy-policy-date">Atjaunināta: 2026. gada 29. oktobrī</p>
       <p>Sīkdatnes ir nelieli ieraksti pārlūkā. Tālāk aprakstām šīs vietnes sīkdatnes, lokālo krātuvi un to pārvaldību. Pārzinis ir SIA REKTOPUSS, reģ. Nr. 40203403950; saziņai: <a href="mailto:rektopuss.business@gmail.com">rektopuss.business@gmail.com</a>.</p>
       <h3>Jūsu izvēle</h3>
       <p>Google Analytics ir izslēgts, kamēr izvēlaties “Atļaut”. Poga “Tikai nepieciešamās” noraida analītiku. Abos gadījumos vietni varat turpināt lietot. Lapas pārlūkošana vai šīs politikas atvēršana nav piekrišana.</p>
@@ -76,7 +76,6 @@ window.RektopussPolicies = {
       <p>Izvēle ir kopīga šīs vietnes www un pamata domēnam, bet attiecas tikai uz izmantoto pārlūku un ierīci. Pēc 180 dienām, izvēles sīkdatnes dzēšanas vai būtiskām paziņojuma izmaiņām lūgsim izvēlēties vēlreiz. Lokālā priekšskatījumā izvēli var saglabāt arī pārlūka lokālajā krātuvē ar atslēgu <code>rektopuss_consent</code>, ievērojot to pašu 180 dienu termiņu; lokālie apmeklējumi netiek nosūtīti Analytics. Ja pārlūks neļauj izmantot nevienu pieejamo saglabāšanas veidu, izvēle darbojas tikai pašreizējā atvērtajā lapā. Noraidīšanas gadījumā analītika netiek ielādēta.</p>
       <p>Varat arī dzēst sīkdatnes pārlūka iestatījumos. Piekrišanas atsaukšanai tas nav nepieciešams — izmantojiet mūsu pogu “Sīkdatņu iestatījumi”. Analītikas izslēgšana neizdzēš Google serveros jau saņemtos datus.</p>
       <h3>Lokālā krātuve un ārējais saturs</h3>
-      <p>U-PENE lapā pēc pogas “Jā” nospiešanas lokālajā krātuvē ar atslēgu <code>upene-age-confirmation</code> saglabājam vecuma apstiprināšanas laiku un ieraksta versiju. Apstiprinājums ir derīgs 24 stundas, lai šajā pārlūkā atkārtoti nerādītu vecuma jautājumu. Tas netiek izmantots Analytics un nedod piekrišanu analītikai. Pēc termiņa beigām lūdzam apstiprināt vecumu vēlreiz.</p>
       <p>Ziedojumu paneļa lokālā priekšskatījuma režīms pēc tā izmantošanas var saglabāt pārlūkā paneļa datus un iestatījumus ar atslēgu <code>afterhours-donations-v1:*</code>. Tie ir vajadzīgi šī priekšskatījuma saglabāšanai, netiek izmantoti Analytics un paliek līdz lokālo datu dzēšanai. Parastais pieslēgums ziedojumu serverim šo priekšskatījuma krātuvi neizmanto.</p>
       <p>Google Fonts ielāde, Google Forms reģistrācijas forma, YouTube video un ārējās saites darbojas atbilstoši attiecīgo pakalpojumu noteikumiem. Iegultu ārējo saturu un tā sīkdatnes nepārvalda Analytics atļauja. Pirms ārēja satura ielādes vai ārēja pakalpojuma izmantošanas ņemiet vērā attiecīgā pakalpojuma privātuma informāciju.</p>
       <p>Vairāk par datu apstrādi, saņēmējiem un jūsu tiesībām lasiet <button type="button" class="privacy-text-button" data-privacy-policy="privacy">Privātuma politikā</button>. Jautājumiem: <a href="mailto:rektopuss.business@gmail.com">rektopuss.business@gmail.com</a>.</p>`

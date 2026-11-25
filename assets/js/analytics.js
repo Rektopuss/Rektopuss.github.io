@@ -14,7 +14,7 @@
     '/asv/': { title: 'ASV TRIPS v2 — Ziedojumi | Rektopuss Media', group: 'Ziedojumi' },
     '/smm/': { title: 'Sociālo tīklu pārvaldība un video saturs | Rektopuss Media', group: 'Pakalpojumi' },
     '/smm/paldies/': { title: 'Paldies par ziņu | Rektopuss Media', group: 'Pakalpojumi' },
-    '/upene/': { title: 'U-PENE — Tavs upeņu mirklis | Rektopuss Media', group: 'Produkti' },
+    '/3x3/': { title: '3x3 hokeja turnīrs — Pieteikšanās | Rektopuss Media', group: 'Turnīri' },
     '/turnirs/': { title: '3x3 hokeja turnīrs — Rezultāti | Rektopuss Media', group: 'Turnīri' },
     '/turnirs/schedule.html': { title: '3x3 hokeja turnīrs — Spēļu grafiks | Rektopuss Media', group: 'Turnīri' },
     '/giveaway/': { title: 'Skaties un laimē — Balvas | Rektopuss Media', group: 'Piedāvājumi' },
@@ -30,7 +30,6 @@
   // Curated labels only: never derive Analytics values from user-entered text or URLs.
   const clickActions = {
     open_bonuses: 'Bonusi un atlaides', open_usa_campaign: 'Atvērt ASV ziedojumu kampaņu',
-    open_upene: 'Atvērt U-PENE tirdzniecības vietas', open_didars_waze: 'Atvērt Didars maršrutu Waze',
     home: 'Atgriezties sākumlapā',
     social_telegram: 'Telegram', social_youtube: 'YouTube', social_tiktok: 'TikTok',
     social_twitch: 'Twitch', social_kick: 'Kick', social_instagram: 'Instagram',
@@ -195,12 +194,6 @@
   }
 
   function applyConsent() {
-    if (analyticsStarted && typeof window.gtag === 'function') {
-      window.gtag('consent', 'update', {
-        analytics_storage: consent && consent.analytics ? 'granted' : 'denied',
-        ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied'
-      });
-    }
     if (consent && consent.analytics) startAnalytics();
     else {
       // Google's opt-out flag also blocks subsequent measurement on loaded pages.

@@ -9,7 +9,7 @@ The shared `assets/js/analytics.js` sends page views to `G-7VD1EYD8FM` only afte
 | `/asv/` | ASV TRIPS v2 — Ziedojumi | Ziedojumi |
 | `/smm/` | Sociālo tīklu pārvaldība un video saturs | Pakalpojumi |
 | `/smm/paldies/` | Paldies par ziņu | Pakalpojumi |
-| `/upene/` | U-PENE — Tavs upeņu mirklis | Produkti |
+| `/3x3/` | 3x3 hokeja turnīrs — Pieteikšanās | Turnīri |
 | `/turnirs/` | 3x3 hokeja turnīrs — Rezultāti | Turnīri |
 | `/turnirs/schedule.html` | 3x3 hokeja turnīrs — Spēļu grafiks | Turnīri |
 | `/giveaway/` | Skaties un laimē — Balvas | Piedāvājumi |
@@ -19,9 +19,7 @@ The shared `assets/js/analytics.js` sends page views to `G-7VD1EYD8FM` only afte
 
 Known internal referrers preserve their normalized page path. External referrers retain the origin only. Page URLs exclude queries and fragments. Standard UTM labels are passed separately using Google's `campaign_*` fields, with source/medium lowercased; arbitrary parameters are excluded. Use campaign labels, never personal information, in UTM values.
 
-All 11 public HTML documents are tracked after analytics consent, with 10 reporting identities because `/donations/` shares `/asv/`. U-PENE uses the same site-wide consent choice and shows the cookie banner when no valid choice exists. Local previews, `?test` campaign previews, OBS overlays and the tournament admin are untracked. Unknown routes require a deliberate entry in the reporting map. The former `/3x3/` registration page is no longer present in this checkout.
-
-No Google Analytics script or measurement queue is created before an explicit acceptance or a valid saved acceptance. Rejection, withdrawal and expiry disable tracking, update an already-loaded Google tag to denied consent, and remove accessible analytics cookies. Reacceptance restores consent without injecting another Google script or issuing another initialization page view.
+Local previews, `?test` campaign previews, OBS overlays, the tournament admin and U-PENE are untracked. U-PENE already had Analytics disabled; this change does not enable it. Unknown routes require a deliberate entry in the reporting map.
 
 There is one automatic page view per tag initialization, with no additional manual page-view call. Policy dialogs and consent controls do not generate page views. Google's automatically collected/enhanced-measurement event names are managed by Google and the property's settings. No new lead, purchase or donation-completion events are asserted: a thank-you page visit or an outbound payment click alone does not verify a transaction.
 
