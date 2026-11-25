@@ -39,7 +39,7 @@
   rows.forEach((row, index) => {
     const name = row.querySelector('strong').textContent;
     const retailer = row.dataset.retailer;
-    const storeTitle = retailer && retailer !== name ? `${retailer} · ${name}` : name;
+    const storeTitle = retailer && retailer !== name && !name.startsWith(`${retailer} `) ? `${retailer} · ${name}` : name;
     const select = row.querySelector('.store-select');
     const popup = document.createElement('div');
     const title = document.createElement('strong');

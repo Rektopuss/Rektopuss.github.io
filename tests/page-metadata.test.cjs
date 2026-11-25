@@ -8,7 +8,7 @@ const root = path.resolve(__dirname, '..');
 
 test('every page has a descriptive branded title, matching share titles and a valid local favicon', () => {
   const files = fs.readdirSync(root, { recursive: true }).filter(file => file.endsWith('.html') && !file.startsWith('.git'));
-  assert.equal(files.length, 14);
+  assert.equal(files.length, 13);
   for (const file of files) {
     const dom = new JSDOM(fs.readFileSync(path.join(root, file), 'utf8'));
     const doc = dom.window.document;

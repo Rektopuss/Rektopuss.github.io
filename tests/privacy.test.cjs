@@ -11,8 +11,8 @@ const policies = fs.readFileSync(path.join(root, 'assets/js/privacy-content.js')
 const consentKey = 'rektopuss_consent';
 const disableKey = 'ga-disable-G-7VD1EYD8FM';
 
-function fixture({ url = 'https://rektopussmedia.com/', choice, blocked = false, off = false, jar, storage, referrer = '', prompt = true } = {}) {
-  const dom = new JSDOM(`<html><head></head><body>
+function fixture({ url = 'https://rektopussmedia.com/', choice, blocked = false, off = false, jar, storage, referrer = '', prompt = true, html } = {}) {
+  const dom = new JSDOM(html || `<html><head></head><body>
     <nav class="privacy-links"><button data-privacy-policy="privacy" hidden>Privacy</button>
     <button data-privacy-policy="cookies" hidden>Cookies</button>
     <button data-privacy-settings hidden>Settings</button></nav>
@@ -225,7 +225,7 @@ test('policy switching and settings stay in-place and expose both notice bodies'
 
 test('every HTML page has correctly ordered shared assets, UTF-8 controls and no direct Google Ads script', () => {
   const pages = fs.readdirSync(root, { recursive: true }).filter(file => file.endsWith('.html') && !file.startsWith('.git'));
-  assert.equal(pages.length, 14);
+  assert.equal(pages.length, 13);
   for (const file of pages) {
     const html = fs.readFileSync(path.join(root, file), 'utf8');
     const dom = new JSDOM(html);
@@ -268,7 +268,7 @@ test('all tracked documents send their descriptive title, content group and cano
   assert.equal(reports.size, 10, 'Only the donations alias shares a reporting identity');
   assert.match(reports.get('https://rektopussmedia.com/turnirs/'), /Rezultāti/);
   assert.match(reports.get('https://rektopussmedia.com/turnirs/schedule.html'), /Spēļu grafiks/);
-  assert.match(reports.get('https://rektopussmedia.com/3x3/'), /Pieteikšanās/);
+  assert.match(reports.get('https://rektopussmedia.com/upene/'), /U-PENE/);
   assert.match(reports.get('https://rektopussmedia.com/watchmewin/'), /Pāreja uz partnera lapu/);
 });
 
@@ -280,6 +280,96 @@ test('directory, index.html, www and campaign aliases do not split page reports'
     assert.equal(config.content_group, 'Ziedojumi');
     f.dom.window.close();
   }
+});
+
+test('every public page requires consent and supports rejection, acceptance and withdrawal', () => {
+  const files = fs.readdirSync(root, { recursive: true }).filter(file => file.endsWith('.html') && !file.startsWith('.git'));
+  let checked = 0;
+  for (const file of files) {
+    const html = fs.readFileSync(path.join(root, file), 'utf8');
+    const source = new JSDOM(html);
+    const tag = source.window.document.querySelector('script[src$="assets/js/analytics.js"]');
+    if (tag.dataset.analytics === 'off') { source.window.close(); continue; }
+    const f = fixture({ html, url: 'https://rektopussmedia.com/' + file.replaceAll('\\', '/'), prompt: tag.dataset.consentBanner !== 'off' });
+    checked++;
+    assert.equal(f.scripts().length, 0, file);
+    assert.equal(f.window.dataLayer, undefined, file);
+    assert.equal(f.document.cookie, '', file);
+    assert.equal(f.window[disableKey], true, file);
+    f.click('.privacy-links [data-privacy-settings]');
+    f.click('[data-privacy-reject]');
+    assert.equal(f.scripts().length, 0, file);
+    assert.equal(f.window.dataLayer, undefined, file);
+    assert.equal(f.read().analytics, false, file);
+    f.click('.privacy-links [data-privacy-settings]');
+    f.click('[data-privacy-accept]');
+    assert.equal(f.scripts().length, 1, file);
+    assert.equal(f.window[disableKey], false, file);
+    assert.equal(f.window.dataLayer.filter(args => args[0] === 'config').length, 1, file);
+    f.document.cookie = '_ga=test; Path=/';
+    f.click('.privacy-links [data-privacy-settings]');
+    f.click('[data-privacy-reject]');
+    assert.equal(f.window[disableKey], true, file);
+    assert.doesNotMatch(f.document.cookie, /(?:^|; )_ga=/, file);
+    const withdrawal = f.window.dataLayer.at(-1);
+    assert.equal(withdrawal[0], 'consent', file);
+    assert.equal(withdrawal[1], 'update', file);
+    assert.equal(withdrawal[2].analytics_storage, 'denied', file);
+    assert.equal(withdrawal[2].ad_storage, 'denied', file);
+    f.click('.privacy-links [data-privacy-settings]');
+    f.click('[data-privacy-accept]');
+    assert.equal(f.window.dataLayer.at(-1)[2].analytics_storage, 'granted', file);
+    assert.equal(f.window.dataLayer.filter(args => args[0] === 'config').length, 1, file);
+    assert.equal(f.scripts().length, 1, file);
+    f.dom.window.close(); source.window.close();
+  }
+  assert.equal(checked, 11);
+});
+
+test('all public routes respect saved rejection, invalid consent, expiry and cross-domain acceptance', () => {
+  const files = fs.readdirSync(root, { recursive: true }).filter(file => file.endsWith('.html') && !file.startsWith('.git'));
+  for (const file of files) {
+    const source = new JSDOM(fs.readFileSync(path.join(root, file), 'utf8'));
+    const tag = source.window.document.querySelector('script[src$="assets/js/analytics.js"]');
+    if (tag.dataset.analytics === 'off') { source.window.close(); continue; }
+    const route = file.replaceAll('\\', '/');
+    for (const choice of [currentChoice(false), { ...currentChoice(true), savedAt: Date.now() - 181 * 86400000 }, { ...currentChoice(true), version: 0 }, { ...currentChoice(true), savedAt: Date.now() + 60000 }]) {
+      const f = fixture({ url: 'https://rektopussmedia.com/' + route, choice });
+      assert.equal(f.scripts().length, 0, file);
+      assert.equal(f.window.dataLayer, undefined, file);
+      f.dom.window.close();
+    }
+    const jar = new CookieJar();
+    const accepted = fixture({ jar });
+    accepted.click('[data-privacy-accept]');
+    const returning = fixture({ jar, url: 'https://www.rektopussmedia.com/' + route });
+    assert.equal(returning.scripts().length, 1, file);
+    assert.equal(returning.document.querySelector('.privacy-consent').hidden, true, file);
+    accepted.click('[data-privacy-settings]'); accepted.click('[data-privacy-reject]'); returning.tick();
+    assert.equal(returning.window[disableKey], true, file);
+    assert.equal(returning.window.dataLayer.at(-1)[2].analytics_storage, 'denied', file);
+    returning.dom.window.close(); accepted.dom.window.close(); source.window.close();
+  }
+});
+
+test('U-PENE URL variants share a reporting identity', () => {
+  for (const pathname of ['/upene', '/upene/', '/upene/index.html']) {
+    const f = fixture({ url: 'https://www.rektopussmedia.com' + pathname, choice: currentChoice(true) });
+    const config = f.window.dataLayer.find(args => args[0] === 'config')[2];
+    assert.equal(config.page_location, 'https://rektopussmedia.com/upene/');
+    assert.equal(config.content_group, 'Produkti');
+    f.dom.window.close();
+  }
+});
+
+test('acceptance expires during an open page and explicitly revokes Google consent', () => {
+  const f = fixture({ choice: currentChoice(true) });
+  f.window.Date.now = () => Date.now() + 181 * 86400000;
+  f.tick();
+  assert.equal(f.window[disableKey], true);
+  assert.equal(f.window.dataLayer.at(-1)[2].analytics_storage, 'denied');
+  assert.equal(f.document.querySelector('.privacy-consent').hidden, false);
+  f.dom.window.close();
 });
 
 test('internal referral paths are useful while private query/hash data stay excluded', () => {
@@ -315,7 +405,7 @@ test('standard campaign labels survive URL cleanup without fragmenting page path
 });
 
 test('production test mode and utility pages cannot inflate visitor reports', () => {
-  for (const pathname of ['/asv/?test=1', '/donations/?test', '/donations/overlay/', '/turnirs/admin.html', '/upene/', '/unknown/']) {
+  for (const pathname of ['/asv/?test=1', '/donations/?test', '/donations/overlay/', '/turnirs/admin.html', '/unknown/']) {
     const f = fixture({ url: 'https://rektopussmedia.com' + pathname, choice: currentChoice(true) });
     assert.equal(f.scripts().length, 0, pathname);
     f.dom.window.close();
